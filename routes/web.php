@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -47,6 +48,9 @@ Route::get('/google-callback', function () {
         return redirect('/')->with('error', 'Error al iniciar sesión con Google.');
     }
 });
+Route::get('/profile/overview', function () {
+    return view('profile.overview');
+})->name('profile.overview');
 
 Route::middleware([
     'auth:sanctum',

@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Listeners\SendLoginNotification;
+use App\Listeners\sendMessegeRegisterNotification;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
 
@@ -15,6 +19,15 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
+    protected $listen = [
+
+        Login::class => [
+            SendLoginNotification::class,
+        ],
+        Registered::class=> [
+            sendMessegeRegisterNotification::class
+        ]
+    ];
     /**
      * Bootstrap any application services.
      */
