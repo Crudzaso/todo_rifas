@@ -27,7 +27,7 @@
 					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 						<!--begin::Container-->
 						<div class="container-xxl" id="kt_content_container">
-							
+
 						</div>
 						<!--end::Container-->
 					</div>
@@ -67,7 +67,7 @@
 		<!--end::Root-->
 
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
-		<script src="{{asset('assets/js/plugins.bundle.js')}}"></script>
+		<script src="{{asset('assets/js/plugins.min.js')}}"></script>
 		<script src="{{asset('assets/js/scripts.bundle.js')}}"></script>
 		<!--end::Global Javascript Bundle-->
 

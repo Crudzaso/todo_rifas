@@ -1,0 +1,15 @@
+.btn-google {
+    display: flex;
+    align-items: center;
+    background-color: #4285F4; /* Color de fondo de Google */
+    color: white; /* Color del texto */
+    padding: 10px 15px; /* Espaciado del botón */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Esquinas redondeadas */
+    text-decoration: none; /* Sin subrayado */
+}
+
+.btn-google img {
+    height: 20px; /* Altura del logo */
+    margin-right: 8px; /* Espacio entre logo y texto */
+}
