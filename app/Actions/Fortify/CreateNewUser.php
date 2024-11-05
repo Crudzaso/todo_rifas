@@ -36,6 +36,7 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Hash::make($input['password']),
             'date_of_birth' => $input['date_of_birth'],
         ]);
+        /* si el usuario no proporciona un rol se le asigna el de cliente*/
         $user->assignRole($input['role'] ?? 'client');
         return $user;
 

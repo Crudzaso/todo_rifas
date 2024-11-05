@@ -42,10 +42,10 @@ class DiscordWebhookService
     {
         if ($this->shouldNotifyUser($user->id, 'registration')) {
             $message = [
-                'username' => 'Todo Rifas', // Nombre que aparecerá en Discord
+                'username' => 'Todo Rifas',
                 'embeds' => [[
                     'description' => $this->formatMessage('Registro de usuario',$user),
-                    'color' => 3066993 // Color hexadecimal para el mensaje (rojo)
+                    'color' => 3066993
                 ]]
             ];
 
@@ -59,7 +59,7 @@ class DiscordWebhookService
         $roles = $user->getRoleNames()->implode(', ');
         return
             "🏆🎴 **TODO RIFAS - ¡La suerte en tus manos!**\n\n" .
-            "**{$eventType}:**\n" . // Cambia según el evento
+            "**{$eventType}:**\n" .
             "🔑 **ID de usuario:** `{$user->id}`\n" .
             "👤 **Nombre de usuario:** `{$user->name}`\n" .
             "👥 **Rol:** `{$roles}`\n" .

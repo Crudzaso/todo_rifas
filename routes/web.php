@@ -18,16 +18,23 @@ Route::get('/google-callback', function () {
     try {
         $user = Socialite::driver('google')->user();
 
-        // Verificar si el usuario ya existe
+        /*verificar si el usuario existe usando
+        el id del proveedor de google y el external auth
+        */
+
         $userExist = User::where('provider_id', $user->id)
             ->where('external_auth', 'google')
-            ->first(); // Cambia 'exist' por 'first' para obtener el usuario
+            ->first();
 
         if ($userExist) {
-            // Si el usuario ya existe, inicie sesión
+
             Auth::login($userExist);
         } else {
-            // Si no existe, crear uno nuevo
+       /* Si no existe
+        * se crea un nuevo
+        *  usuario en la base de datos
+        *
+        *  */
             $userNew = User::create([
                 'name' => $user->name,
                 'email' => $user->email,
@@ -36,20 +43,23 @@ Route::get('/google-callback', function () {
                 'external_auth' => 'google',
             ]);
 
+            /* Se le Asigna un rol
+            * de cliente por defecto
+            */
             $userNew->assignRole('client');
             Auth::login($userNew);
         }
 
-        // Redirigir a la página de dashboard
+       /*  Redirigir a la página de dashboard*/
         return redirect('/dashboard');
     } catch (Exception $e) {
-        // Manejar el error
-        // Puedes registrar el error o mostrar un mensaje al usuario
+        /*Se maneja el error de autenticación con google */
         \Log::error('Error en la autenticación: ' . $e->getMessage());
 
         return redirect('/')->with('error', 'Error al iniciar sesión con Google.');
     }
 });
+
 Route::get('/profile/overview', function () {
     return view('profile.overview');
 })->name('profile.overview');
