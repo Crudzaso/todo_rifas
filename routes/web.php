@@ -35,6 +35,8 @@ Route::get('/google-callback', function () {
                 'provider_id' => $user->id,
                 'external_auth' => 'google',
             ]);
+
+            $userNew->assignRole('client');
             Auth::login($userNew);
         }
 

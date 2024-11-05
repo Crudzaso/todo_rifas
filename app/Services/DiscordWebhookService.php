@@ -15,7 +15,7 @@ class DiscordWebhookService
      */
 {
     protected $webhookUrl;
-    protected $cacheTimeout = 5; // Tiempo en minutos
+    protected $cacheTimeout = 5;
 
     public function __construct()
     {
@@ -25,11 +25,13 @@ class DiscordWebhookService
     public function logLogin(User $user)
     {
         if ($this->shouldNotifyUser($user->id, 'login')) {
-            $message = [
-                'content' => $this->formatMessage('NUEVO INICIO DE SESIÓN', $user),
-                'username' => 'TODO RIFAS Bot',
-                'avatar_url' => asset('images/todo_rifas_pet.png')
-            ];
+
+                $message = [
+                    'embeds' => [[
+                        'description' => $this->formatMessage('Inicio de sesion',$user),
+                        'color' => 3066993 //
+                    ]]
+                ];
 
             $this->sendToDiscord($message);
             $this->markUserNotified($user->id, 'login');
@@ -40,9 +42,11 @@ class DiscordWebhookService
     {
         if ($this->shouldNotifyUser($user->id, 'registration')) {
             $message = [
-                'content' => $this->formatMessage('NUEVO REGISTRO DE USUARIO', $user),
-                'username' => 'TODO RIFAS Bot',
-                'avatar_url' => asset('images/todo_rifas_pet.png')
+                'username' => 'Todo Rifas', // Nombre que aparecerá en Discord
+                'embeds' => [[
+                    'description' => $this->formatMessage('Registro de usuario',$user),
+                    'color' => 3066993 // Color hexadecimal para el mensaje (rojo)
+                ]]
             ];
 
             $this->sendToDiscord($message);
@@ -50,14 +54,17 @@ class DiscordWebhookService
         }
     }
 
-    private function formatMessage($type, User $user): string
+    private function formatMessage( string $eventType, User $user): string
     {
+        $roles = $user->getRoleNames()->implode(', ');
         return
-            "**🏆 {$type}:**\n" . // Trofeo para el tipo
-            "**ID de usuario:** {$user->id}\n" .
-            "**Nombre de usuario:** {$user->name} 🥇\n" . // Medalla para el nombre
-            "**Correo Electrónico:** {$user->email} 📧\n" . // Icono de correo
-            "**Fecha:** " . now()->format('d-m-Y H:i') . " ⏰";
+            "🏆🎴 **TODO RIFAS - ¡La suerte en tus manos!**\n\n" .
+            "**{$eventType}:**\n" . // Cambia según el evento
+            "🔑 **ID de usuario:** `{$user->id}`\n" .
+            "👤 **Nombre de usuario:** `{$user->name}`\n" .
+            "👥 **Rol:** `{$roles}`\n" .
+            "📧 **Correo Electrónico:** `{$user->email}`\n" .
+            "🗓️ **Fecha:** `". now()->format('d-m-Y H:i') . "`\n";
     }
 
     private function sendToDiscord(array $data): void
@@ -67,6 +74,7 @@ class DiscordWebhookService
                 Log::error('Discord webhook URL no está configurada');
                 return;
             }
+            $data['username'] = 'TODO RIFAS';
 
             $response = Http::post($this->webhookUrl, $data);
 

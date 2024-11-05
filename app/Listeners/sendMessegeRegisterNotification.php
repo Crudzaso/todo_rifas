@@ -22,6 +22,7 @@ class sendMessegeRegisterNotification
     public function handle(Registered $event)
     {
         $this->discordWebhook->logRegistration($event->user);
+        session(['just_registered' => true]);
     }
 
 }
