@@ -20,6 +20,23 @@
             </div>
 
             <div class="mt-4">
+                <x-label for="date_of_birth" value="{{ __('Fecha de nacimiento') }}" />
+                <x-input id="date_of_birth" class="block mt-1 w-full" type="date" name="date_of_birth" :value="old('date_of_birth')"  placeholder="AAAA-MM-DD" required autocomplete="dateofbirth" />
+            </div>
+
+
+
+            <div class="mt-4">
+                <x-label for="role" value="{{ __('Tipo de Role') }}" />
+                <select id="role" name="role"  class="block mt-1 w-full">
+                    <option value="">Selecciona un rol (opcional)</option>
+                    <option value="client">Cliente</option>
+                    <option value="organizer">Organizador</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+
+            <div class="mt-4">
                 <x-label for="password" value="{{ __('Contraseña') }}" />
                 <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
             </div>

@@ -39,13 +39,14 @@
                             </ul>
                             <!--end::Tabs-->
                         </div>
+
                         <!--end::Heading-->
                         <!--begin::Tab content-->
                         <div class="tab-content">
                             <!--begin::View more-->
                                 <div class="py-3 text-center border-top">
                                     <a href="pages/user-profile/activity.html" class="btn btn-color-gray-600 btn-active-color-primary">View All
-                                    
+
                                     </a>
                                 </div>
                                 <!--end::View more-->
@@ -89,7 +90,7 @@
                 <div class="d-flex align-items-center me-3">
                     <!--begin::Menu toggle-->
                     <a href="#" class="btn btn-icon btn-custom btn-active-color-primary" data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-                        
+
                     </a>
                     <!--begin::Menu toggle-->
                     <!--begin::Menu-->
@@ -110,7 +111,7 @@
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-3 my-0">
-                            <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="system">      
+                            <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="system">
                                 <span class="menu-title">System</span>
                             </a>
                         </div>
@@ -148,7 +149,7 @@
                         <!--end::Menu separator-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-5">
-                            <a href="account/overview.html" class="menu-link px-5">Mi perfil</a>
+                            <a href="{{ route('profile.overview') }}" class="menu-link px-5">Mi perfil</a>
                         </div>
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
@@ -171,18 +172,23 @@
                         <!--end::Menu separator-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-5 my-1">
-                            <a href="account/settings.html" class="menu-link px-5">Configuración de la cuenta</a>
+                            <a href={{route('profile.show')}} class="menu-link px-5">Configuración de la cuenta</a>
                         </div>
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-5">
-                            <a href="authentication/layouts/corporate/sign-in.html" class="menu-link px-5">Salir</a>
+                            <form method="POST" action="{{ route('logout') }}" class="inline">
+                                @csrf
+                                <button type="submit" class="menu-link px-5">
+                                    Salir
+                                </button>
+                            </form>
                         </div>
                         <!--end::Menu item-->
                     </div>
                     <!--end::User account menu-->
                 </div>
-                <!--end::Item-->                
+                <!--end::Item-->
             </div>
             <!--end::Action-->
         </div>
