@@ -13,22 +13,15 @@
 			<!--begin::Page-->
 			<div class="page d-flex flex-row flex-column-fluid">
 				<!--begin::Sidebar-->
-                <x-sidebar>
-					<div>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus non rerum quas error eos, totam voluptas ullam assumenda ea quis nisi, numquam saepe laborum eum!
-					</div>
-					<div>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur odio accusamus eligendi quam dolore excepturi voluptatum blanditiis omnis itaque nemo molestiae, corporis nesciunt, autem asperiores.
-					</div>
-				</x-sidebar>
+                <x-sidebar></x-sidebar>
 				<!--end::Sidebar-->
 				<!--begin::Wrapper-->
 				<div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
 					<!--begin::Header tablet and mobile-->
-					@include('layouts.partials.header_mobile')
+					<x-header_mobile></x-header_mobile>
 					<!--end::Header tablet and mobile-->
 					<!--begin::Header-->
-					@include('layouts.partials.header')
+					<x-dashboard_header></x-dashboard_header>
 					<!--end::Header-->
 					<!--begin::Content-->
 					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
