@@ -3,15 +3,15 @@
 @section('title', 'Admin')
 
 @section('sidebar')
-    @include('layouts.partials.sidebar')
+    @include('components.sidebar')
 @endsection
 
 @section('headerMobile')
-    @include('layouts.partials.header_mobile')
+    @include('components.header_mobile')
 @endsection
 
 @section('header')
-    @include('layouts.partials.header')
+    @include('components.dashboard_header')
 @stop
 
 @section('content')

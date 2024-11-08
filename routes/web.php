@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\RolerController;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -24,7 +25,21 @@ Route::get('admin/roles/{roleId}/permissions', [RolerController::class, 'getRole
 Route::post('/roles/{role}/add-permissions', [RolerController::class, 'addPermissions'])->name('admin.roles.addPermissions');
 
 
+/**
+ * raffle routes
+*/
+Route::get('/',function (){
+    $response = Http::get('https://api-resultadosloterias.com/api/results');
+    $data = $response->json();
 
+   foreach ($data['data'] as $lottery){
+       echo 'Lotería: ' . $lottery['lottery'] . ' | Resultado: ' . $lottery['result'] . ' | Fecha: ' . $lottery['date'];
+       echo "<br>";
+
+   }
+
+
+});
 
 
 Route::middleware([

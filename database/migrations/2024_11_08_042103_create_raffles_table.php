@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('raffles', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('description');
+            $table->string('description');
+            $table->boolean('active');
+            $table->timestamps('created_at');
+            $table->timestamps('update_at');
+            $table->enum('type', ['ticket', 'bets']);
+
+
             $table->timestamps();
         });
     }

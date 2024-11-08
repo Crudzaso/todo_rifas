@@ -1,18 +1,19 @@
 @extends('layouts.appTodoRifas')
 
-@section('title', 'Editar Permisos del Rol')
+@section('title', 'Admin')
 
 @section('sidebar')
-    @include('layouts.partials.sidebar')
+    @include('components.sidebar')
 @endsection
 
 @section('headerMobile')
-    @include('layouts.partials.header_mobile')
+    @include('components.header_mobile')
 @endsection
 
 @section('header')
-    @include('layouts.partials.header')
+    @include('components.dashboard_header')
 @stop
+
 
 @section('content')
     <h1>Editar Permisos del Rol: {{ $role->name }}</h1>
