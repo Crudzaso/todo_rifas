@@ -3,7 +3,7 @@
 <html lang="en">
 <!--begin::Head-->
 <head>
-    <title>Metronic - The World's #1 Selling Tailwind CSS & Bootstrap Admin Template by KeenThemes</title>
+    <title>TODO RIFAS</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
