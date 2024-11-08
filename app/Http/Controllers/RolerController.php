@@ -52,37 +52,6 @@ class RolerController extends Controller
     }
 
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Role $role)
-    {
-        return view('Roles.show', compact('role'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-
-
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Role $role)
-    {// Validar la entrada del formulario
-        $request->validate([
-            'name' => 'required|string|max:255|unique:roles,name,' . $role->id,
-        ]);
-
-        // Actualizar el rol
-        $role->update([
-            'name' => $request->name,
-        ]);
-
-        return redirect()->route('admin.roles.index')->with('success', 'Rol actualizado correctamente');
-    }
-
     public function edit($roleId)
     {
 

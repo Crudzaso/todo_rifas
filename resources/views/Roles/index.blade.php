@@ -40,12 +40,6 @@
                         <td>{{ $role->id }}</td>
                         <td>{{ $role->name }}</td>
                         <td width="10px">
-                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editRoleModal"
-                                    data-id="{{ $role->id }}" data-name="{{ $role->name }}">
-                                Editar
-                            </button>
-                        </td>
-                        <td width="10px">
                             <a class="btn btn-sm btn-warning" href="{{ route('admin.roles.edit', $role->id) }}">
                                 Ver Permisos
                             </a>
