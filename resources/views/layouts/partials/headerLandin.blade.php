@@ -15,8 +15,8 @@
                 <!--end::Mobile menu toggle-->
                 <!--begin::Logo image-->
                 <a href="landing.html">
-                    <img alt="Logo" src="{{asset('images/todo_rifas v2.png')}}" class="logo-default h-25px h-lg-30px" />
-                    <img alt="Logo" src="{{asset('images/todo_rifas_pet.png')}}" class="logo-sticky h-20px h-lg-25px" />
+                    <img alt="Logo" src="{{asset('assets/media/images/todo_rifas v2.png')}}" class="logo-default h-25px h-lg-30px" />
+                    <img alt="Logo" src="{{asset('assets/media/images/todo_rifas_pet.png')}}" class="logo-sticky h-20px h-lg-25px" />
                 </a>
                 <!--end::Logo image-->
             </div>
@@ -74,14 +74,10 @@
 
         <!--end::Wrapper-->
     </div>
-    <div class="flex justify-center space-x-4 mt-4">
+    <div class="flex justify-center space-x-4 mt-4 mr-70">
         <a href="{{ url('login-google') }}" class="btn btn-google btn-sm">
-            <img src="{{ asset('images/icono-google.png') }}" alt="Google Logo" class="h-4 mr-2">
+            <img src="{{ asset('assets/media/images/icono-google.png') }}" alt="Google Logo" class="h-4 mr-2">
             Entrar con Google
-        </a>
-        <a href="{{ url('login-facebook') }}" class="btn btn-facebook btn-sm">
-            <img src="{{ asset('images/icono-facebook.png') }}" alt="" class="h-4 mr-2">
-            Entrar con Facebook
         </a>
     </div>
     <!--end::Container-->

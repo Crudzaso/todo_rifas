@@ -2,9 +2,8 @@
     <!--begin::Logo-->
     <div class="aside-logo flex-column-auto pt-10 pt-lg-7" id="kt_aside_logo">
         <a href="index.html">
-            <img alt="Logo" src="{{asset('images/todo_rifas v2.png')}}" class="h-40px" />
+            <img alt="Logo" src="{{asset('assets/media/images/todo_rifas v2.png')}}" class="h-40px" />
         </a>
     </div>
     <!--end::Logo-->
-</div>
 </div>
