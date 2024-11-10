@@ -23,7 +23,7 @@
                     <!--begin:Menu link-->
 
                     <span class="menu-icon me-0">
-                        <a class="menu-link btn btn-sm btn-success p-0 w-50" style="" href="{{route('admin.roles.index')}}">Usuarios</a>
+                        <a class="menu-link btn btn-sm btn-success p-0 w-50" style="" href="{{route('raffles.index')}}">Rifas</a>
                     </span>
                     <!--end:Menu item-->
                 </div>

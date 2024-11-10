@@ -15,10 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->string('description');
+            $table->string('lottery');
             $table->boolean('active');
-            $table->timestamps('created_at');
-            $table->timestamps('update_at');
             $table->enum('type', ['ticket', 'bets']);
 
 
