@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RequestRaffle;
 use App\Models\Raffle;
 
+use App\Models\RaffleEntries;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
@@ -73,6 +74,8 @@ class RaffleController extends Controller
                 'ticket_price' => $validatedData['type'] === 'ticket' ? $validatedData['ticket_price'] : null
             ];
 
+
+
             DB::transaction(function() use ($raffleData) {
                 Raffle::create($raffleData);
             });
@@ -91,7 +94,13 @@ class RaffleController extends Controller
 
     public function show(Raffle $raffle)
     {
-        return view('raffleEntries.show', compact('raffle'));
+        $totalBetPool = 0;
+        if ($raffle->type == 'bet') {
+            // Sumar todas las apuestas realizadas
+            $totalBetPool = RaffleEntries::where('raffle_id', $raffle->id)
+                ->sum('bet_amount');
+        }
+        return view('raffleEntries.show', compact('raffle', 'totalBetPool'));
     }
 
     public function edit(Raffle $raffle)

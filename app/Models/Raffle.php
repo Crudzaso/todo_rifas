@@ -16,9 +16,10 @@ class Raffle extends Model
         'lottery',
         'active',
         'type',
-        'raffle_date'=>'datetime',
+        'raffle_date',
         'tickets_count',
         'ticket_price',
+        'total_bet_pool',
 
     ];
 

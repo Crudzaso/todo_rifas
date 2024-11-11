@@ -161,151 +161,102 @@
 @endsection
 
 @section('content')
-    <div class="main-container">
-        <div class="raffle-container">
-            <form action="{{ route('raffleEntries.store', $raffle->id) }}" method="POST">
-                @csrf
 
-                <h1 class="raffle-title">{{ $raffle->name }}</h1>
 
-                <div class="lottery-details">
-                    <p><strong>Tipo de Rifa:</strong> {{ $raffle->type == 'bet' ? 'Apuesta' : 'Ticket' }}</p>
-                    <p><strong>Lotería:</strong> {{ $raffle->lottery }}</p>
-                    <p><strong>Fecha del Sorteo:</strong> {{ $raffle->raffle_date }}</p>
-                </div>
+    @extends('layouts.boletos')
 
-                @if($raffle->type == 'bet')
-                    <div class="total-pool">
-                        <p>Premio Acumulado</p>
-                        <h2>${{ number_format($totalBetPool, 2) }}</h2>
-                        <small>*El premio final será la suma total de todas las apuestas</small>
-                    </div>
+    @section('styles')
+        <style>
+            .bet-amount-btn {
+                padding: 10px;
+                margin: 5px;
+                border: 1px solid #ccc;
+                cursor: pointer;
+            }
 
-                    <div class="potential-earnings">
-                        <h3>Ganancia Potencial</h3>
-                        <div class="amount" id="potentialEarnings">$0.00</div>
-                        <small>*Basado en el premio acumulado actual</small>
-                    </div>
-                @else
-                    <div class="prize-info">
-                        <h3>Información del Premio</h3>
-                        <p><strong>Premio:</strong> {{ $raffle->description }}</p>
-                        <p><strong>Valor del Premio:</strong> ${{ number_format($raffle->ticket_price, 2) }}</p>
-                    </div>
-                @endif
+            .bet-amount-btn.selected {
+                background-color: #4CAF50;
+                color: white;
+            }
+        </style>
+    @endsection
 
-                <div class="form-group">
-                    <label for="id">Número del Ticket (3-4 dígitos):</label>
-                    <input
-                        type="number"
-                        id="id"
-                        name="id"
-                        min="100"
-                        max="9999"
-                        placeholder="Ingrese un número de ticket"
-                        required
-                    >
-                    <small>* Para jugar, elija un número entre 100 y 999</small>
-                </div>
+    @section('content')
+        <div class="main-container">
+            <div class="raffle-container">
+                <h1 class="raffle-title">{{ $raffle->name }}</h1> <!-- Nombre de la rifa -->
+                <p class="lottery-details">{{ $raffle->description }}</p> <!-- Descripción de la rifa -->
 
-                @if($raffle->type == 'bet')
+                <form action="{{ route('raffleEntries.store') }}" method="POST">
+                    @csrf
+
+                    <input type="hidden" name="raffle_id" value="{{ $raffle->id }}">
+
                     <div class="form-group">
-                        <label>Seleccione el monto de su apuesta:</label>
-                        <div class="bet-buttons">
-                            <button type="button" class="bet-amount-btn" data-amount="1000">$1,000</button>
-                            <button type="button" class="bet-amount-btn" data-amount="5000">$5,000</button>
-                            <button type="button" class="bet-amount-btn" data-amount="10000">$10,000</button>
-                        </div>
-                        <input type="hidden" name="bet_amount" id="bet_amount" required>
+                        <label for="id">Número del Ticket (3-4 dígitos):</label>
+                        <input
+                            type="number"
+                            id="id"
+                            name="id"
+                            min="100"
+                            max="9999"
+                            placeholder="Ingrese un número de ticket"
+                            value="{{ old('id') }}"
+                            required
+                        >
+                        @error('id')
+                        <div class="text-red-500">{{ $message }}</div>
+                        @enderror
                     </div>
-                @endif
 
-                <div class="button-group">
-                    <button type="button" class="btn-secondary" onclick="generateRandomTicket()">
-                        Generar Número
-                    </button>
-                    <button type="submit" class="btn-primary">
-                        Confirmar Compra
-                    </button>
-                </div>
-            </form>
+                    @if($raffle->type === 'ticket')
+                        <div class="form-group">
+                            <label for="ticket_price">Precio del Ticket:</label>
+                            <input
+                                type="number"
+                                id="ticket_price"
+                                name="ticket_price"
+                                value="{{ $raffle->ticket_price }}"
+                                readonly
+                                required
+                            >
+                        </div>
+                    @endif
+
+                    @if($raffle->type === 'bet')
+                        <div class="form-group">
+                            <label>Seleccione el monto de su apuesta:</label>
+                            <div class="bet-buttons">
+                                <button type="button" class="bet-amount-btn" data-value="1000">1000</button>
+                                <button type="button" class="bet-amount-btn" data-value="5000">5000</button>
+                                <button type="button" class="bet-amount-btn" data-value="10000">10000</button>
+                            </div>
+                            <input type="hidden" name="bet_amount" id="bet_amount" required>
+                            @error('bet_amount')
+                            <div class="text-red-500">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    @endif
+
+                    <div class="button-group">
+                        <button type="submit" class="btn-primary">
+                            Confirmar Compra
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-@endsection
 
-@section('scripts')
-    <script>
-        function generateRandomTicket() {
-            const min = 100;
-            const max = 9999;
-            const randomTicket = Math.floor(Math.random() * (max - min + 1)) + min;
-            document.getElementById('id').value = randomTicket;
-        }
-
-        // Código para manejar los botones de apuesta
-        const betButtons = document.querySelectorAll('.bet-amount-btn');
-        const betAmountInput = document.getElementById('bet_amount');
-        const totalPool = {{ $totalBetPool ?? 0 }};
-
-
-
-        betButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                // Remover la clase selected de todos los botones
-                betButtons.forEach(btn => btn.classList.remove('selected'));
-                // Añadir la clase selected al botón clickeado
-                this.classList.add('selected');
-
-                // Establecer el valor en el input
-                const amount = this.dataset.amount;
-                betAmountInput.value = amount;
-
-                // Calcular y mostrar la ganancia potencial
-                updatePotentialEarnings(amount);
+        <script>
+            document.querySelectorAll('.bet-amount-btn').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.bet-amount-btn').forEach(function(btn) {
+                        btn.classList.remove('selected');
+                    });
+                    const betAmount = this.getAttribute('data-value');
+                    document.getElementById('bet_amount').value = betAmount;
+                    this.classList.add('selected');
+                });
             });
-        });
-
-        function updatePotentialEarnings(betAmount) {
-            const potentialEarningsElement = document.getElementById('potentialEarnings');
-            if (potentialEarningsElement && betAmount > 0) {
-                // Calcula la ganancia potencial (premio total actual + apuesta actual)
-                const potentialWinnings = totalPool + parseInt(betAmount);
-                potentialEarningsElement.textContent = '$' + numberFormat(potentialWinnings);
-            }
-        }
-
-        function numberFormat(number) {
-            return new Intl.NumberFormat('es-MX', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }).format(number);
-        }
-
-        document.querySelector('form').addEventListener('submit', function(e) {
-            const ticketNumber = document.getElementById('id').value;
-
-            if (ticketNumber < 100 || ticketNumber > 9999) {
-                e.preventDefault();
-                alert('Por favor ingrese un número válido entre 100 y 9999');
-                return;
-            }
-
-            @if($raffle->type == 'bet')
-            const betAmount = document.getElementById('bet_amount').value;
-            if (betAmount < {{ $raffle->minimum_bet }}) {
-                e.preventDefault();
-                alert('La apuesta mínima es de ${{ number_format($raffle->minimum_bet, 2) }}');
-                return;
-            }
-
-            if (!confirm(`¿Está seguro de apostar $${numberFormat(betAmount)} al número ${ticketNumber}?`)) {
-                e.preventDefault();
-            }
-            @else
-            if (!confirm('¿Está seguro de comprar el ticket con el número ' + ticketNumber + '?')) {
-                e.preventDefault();
-            }
-            @endif
-        });
-    </script>
-@endsection
+        </script>
+    @endsection

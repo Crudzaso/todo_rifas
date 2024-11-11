@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\SocialAuthController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RaffleController;
 use App\Http\Controllers\RaffleEntrieController;
 use App\Http\Controllers\RolerController;
@@ -22,7 +23,7 @@ Route::resource('raffles', RaffleController::class);
 //Route::get('/raffles', [RaffleController::class, 'create'])->name('raffles.create');
 
 Route::resource('raffleEntries',RaffleEntrieController::class);
-
+Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
 
 
 

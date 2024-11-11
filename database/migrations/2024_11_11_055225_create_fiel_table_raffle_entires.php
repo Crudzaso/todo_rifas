@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('raffle_entries', function (Blueprint $table) {
-            $table->string('status'); // Estado: 'reserved', 'paid', o 'canceled'
             $table->timestamp('reservation_expires_at')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 

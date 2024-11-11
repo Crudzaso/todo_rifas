@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Raffle;
 use App\Models\RaffleEntries;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -54,60 +55,65 @@ class RaffleEntrieController extends Controller
         return $randomNumber;
     }
 
-    public function store(Request $request, Raffle $raffle)
+    public function store(Request $request)
     {
+        $raffle = Raffle::findOrFail($request->input('raffle_id'));
+
+
         try {
-            // Validar la solicitud, sin requerir 'id' inmediatamente
             $validated = $request->validate([
-                'id' => 'nullable|integer|min:100|max:999', // Hacer 'id' opcional y entre 100 y 999
-                'bet_amount' => $raffle->type === 'bet' ? 'required|numeric|min:' . $raffle->minimum_bet : 'nullable',
+                'id' => 'required|integer|min:100|max:9999',
+                'bet_amount' => $raffle->type === 'bet' ? 'required|numeric' : 'nullable',
             ]);
 
-            // Verificar si se proporcionó 'id', si no, generar un número aleatorio de 3 cifras
-            $ticketNumber = $validated['number'] ?? $this->generateUniqueTicketNumber($raffle);
-
-            // Verificar si el número de ticket ya está reservado o pagado
             $existingTicket = RaffleEntries::where('raffle_id', $raffle->id)
-                ->where('number', $ticketNumber)
+                ->where('number', (int) $validated['id'])
                 ->whereIn('status', ['reserved', 'paid'])
                 ->first();
 
             if ($existingTicket) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Este número de ticket ya está reservado'
-                ], 422);
+                return redirect()
+                    ->back()
+                    ->withErrors('Este número de ticket ya está reservado')
+                    ->withInput();
             }
 
-            // Iniciar la transacción en la base de datos
             DB::beginTransaction();
 
-            try {
-                // Crear una reserva temporal de ticket
-                $entry = RaffleEntries::create([
-                    'raffle_id' => $raffle->id,
-                    'user_id' => auth()->id(),
-                    'number' => $ticketNumber,
-                    'bet_amount' => $raffle->type === 'bet' ? $validated['bet_amount'] : $raffle->ticket_price,
-                    'status' => 'reserved',
-                    'reservation_expires_at' => now()->addMinutes(15), // Dar 15 minutos para completar el pago
-                ]);
+            $entryData = [
+                'raffle_id' => $raffle->id,
+                'number' => $validated['id'],
+                'status' => 'reserved',
+                'type' => $raffle->type,
+                'reservation_expires_at' => now()->addMinutes(15),
+            ];
 
-                // Actualizar el total de la bolsa de apuestas si es una rifa de tipo apuesta
-                if ($raffle->type === 'bet') {
-                    $raffle->increment('total_bet_pool', $validated['bet_amount']);
-                }
 
-                DB::commit();
 
-                // Redirigir al portal de pago
-                return $this->redirectToPaymentGateway($entry);
-
-            } catch (Exception $e) {
-                DB::rollBack();
-                throw $e;
+            if ($raffle->type === 'bet') {
+                // Para rifas de tipo 'bet'
+                $entryData['bet_amount'] = $validated['bet_amount'];
             }
+            if ($raffle->tickets_count > 0) {
+                $raffle->decrement('tickets_count', 1);
+            }
+
+
+            else {
+                // Para rifas de tipo 'ticket'
+                $entryData['price'] = $raffle->ticket_price;
+                $raffle->decrement('tickets_count', 1);
+            }
+
+            $entry = RaffleEntries::create($entryData);
+
+
+            DB::commit();
+
+            return $this->redirectToPaymentGateway($entry);
+
         } catch (Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'success' => false,
                 'message' => 'Error al procesar la solicitud: ' . $e->getMessage()
@@ -115,57 +121,20 @@ class RaffleEntrieController extends Controller
         }
     }
 
-    private function processBetEntry(Raffle $raffle, Request $request, $ticketNumber)
-    {
-        $betAmount = $request->input('bet_amount');
 
-        if (!$betAmount || $betAmount < $raffle->minimum_bet) {
-            return redirect()->back()
-                ->with('error', "La apuesta mínima es de $" . number_format($raffle->minimum_bet, 2));
+
+    public function cleanupExpiredReservations()
+    {
+        $expiredEntries = RaffleEntries::where('status', 'reserved')
+            ->where('reservation_expires_at', '<', now())
+            ->get();
+
+        foreach ($expiredEntries as $entry) {
+            if ($entry->raffle->type === 'bet') {
+                $entry->raffle->decrement('total_bet_pool', $entry->bet_amount);
+            }
+            $entry->update(['status' => 'expired']);
         }
-
-        $entry = RaffleEntries::create([
-            'raffle_id' => $raffle->id,
-            'user_id' => auth()->id(),
-            'ticket_number' => $ticketNumber,
-            'type' => 'bet',
-            'price' => $betAmount,
-            'status' => 'pending',
-            'payment_method' => null,
-            'payment_status' => 'pending',
-        ]);
-
-        $raffle->increment('total_bet_pool', $betAmount);
-
-        return $this->redirectToPayment($entry);
-    }
-
-    private function processTicketEntry(Raffle $raffle, $ticketNumber)
-    {
-        $entry = RaffleEntries::create([
-            'raffle_id' => $raffle->id,
-            'user_id' => auth()->id(),
-            'ticket_number' => $ticketNumber,
-            'type' => 'ticket',
-            'price' => $raffle->ticket_price,
-            'status' => 'pending',
-            'payment_method' => null,
-            'payment_status' => 'pending',
-        ]);
-
-        $raffle->increment('total_tickets_sold');
-
-        return $this->redirectToPayment($entry);
-    }
-
-    private function redirectToPayment($entry)
-    {
-        return redirect()->route('payments.process', [
-            'entry' => $entry->id,
-            'amount' => $entry->price,
-            'type' => $entry->type,
-        ])->with('success', 'Por favor complete el pago para confirmar su ' .
-            ($entry->type === 'bet' ? 'apuesta' : 'boleto'));
     }
 
     public function index(Raffle $raffle)

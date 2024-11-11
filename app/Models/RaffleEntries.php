@@ -11,9 +11,16 @@ class RaffleEntries extends Model
 
     protected $fillable = [
         'raffle_id',
-        'type',
+        'number',
         'price',
-        'min_bet'
+        'type',
+        'bet_amount',
+        'status',
+        'reservation_expires_at',
+    ];
+
+    protected $dates = [
+        'reservation_expires_at',
     ];
 
 
