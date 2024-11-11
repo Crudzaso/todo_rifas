@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\SocialAuthController;
+use App\Http\Controllers\RolerController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -10,59 +10,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login-google', function () {
-    return Socialite::driver('google')->redirect();
-});
-
-Route::get('/google-callback', function () {
-    try {
-        $user = Socialite::driver('google')->user();
-
-        /*verificar si el usuario existe usando
-        el id del proveedor de google y el external auth
-        */
-
-        $userExist = User::where('provider_id', $user->id)
-            ->where('external_auth', 'google')
-            ->first();
-
-        if ($userExist) {
-
-            Auth::login($userExist);
-        } else {
-       /* Si no existe
-        * se crea un nuevo
-        *  usuario en la base de datos
-        *
-        *  */
-            $userNew = User::create([
-                'name' => $user->name,
-                'email' => $user->email,
-                'avatar' => $user->avatar,
-                'provider_id' => $user->id,
-                'external_auth' => 'google',
-            ]);
-
-            /* Se le Asigna un rol
-            * de cliente por defecto
-            */
-            $userNew->assignRole('client');
-            Auth::login($userNew);
-        }
-
-       /*  Redirigir a la página de dashboard*/
-        return redirect('/dashboard');
-    } catch (Exception $e) {
-        /*Se maneja el error de autenticación con google */
-        \Log::error('Error en la autenticación: ' . $e->getMessage());
-
-        return redirect('/')->with('error', 'Error al iniciar sesión con Google.');
-    }
-});
-
 Route::get('/profile/overview', function () {
     return view('profile.overview');
 })->name('profile.overview');
+
+Route::get('/login-google', [SocialAuthController::class, 'redirectToGoogle']);
+Route::get('/google-callback', [SocialAuthController::class, 'handleGoogleCallback']);
+
+/* rutas del admin*/
+Route::resource('roles',RolerController::class)->names('admin.roles');
+Route::post('roles/{role}/remove-permissions', [RolerController::class, 'removePermissions'])->name('admin.roles.removePermissions');
+Route::get('admin/roles/{roleId}/permissions', [RolerController::class, 'getRolePermissions'])->name('admin.roles.getPermissions');
+Route::post('/roles/{role}/add-permissions', [RolerController::class, 'addPermissions'])->name('admin.roles.addPermissions');
+
+
+
+
 
 Route::middleware([
     'auth:sanctum',
@@ -73,3 +36,4 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
