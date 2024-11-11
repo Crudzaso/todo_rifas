@@ -23,21 +23,21 @@ class RequestRaffle extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'type' => 'required|in:ticket,bet',
             'lottery' => 'required|string',
             'raffle_date' => 'required|date',
 
-            'tickets_count' => 'required_if:type,ticket|integer|min:1',
-            'ticket_price' => 'required_if:type,ticket|numeric|min:1',
-
-            'min_bet' => 'required_if:type,bet|numeric|min:1',
-            'max_bet' => 'required_if:type,bet|numeric|min:1|gt:min_bet',
-
+            'tickets_count' => 'required|integer|min:1|max:100',
 
         ];
+
+        if ($this->input('type') === 'ticket') {
+            $rules['ticket_price'] = 'required|numeric|min:1';
+        }
+        return $rules;
     }
 
 
@@ -50,11 +50,10 @@ class RequestRaffle extends FormRequest
             'type.required' => 'Debes seleccionar un tipo de rifa.',
             'raffle_date.required' => 'La fecha de la rifa es obligatoria.',
             'raffle_date.after' => 'La fecha de la rifa debe ser una fecha futura.',
-            'tickets_count.required_if' => 'El número de boletos es obligatorio si seleccionaste el tipo "ticket".',
-            'ticket_price.required_if' => 'El precio del boleto es obligatorio si seleccionaste el tipo "ticket".',
-            'min_bet.required_if' => 'La apuesta mínima es obligatoria si seleccionaste el tipo "bets".',
-            'max_bet.required_if' => 'La apuesta máxima es obligatoria si seleccionaste el tipo "bets".',
-            'max_bet.gt' => 'La apuesta máxima debe ser mayor que la mínima.',
+            'tickets_count.required' => 'El número de boletos es obligatorio".',
+            'ticket_price.required' => 'El precio del boleto es obligatorio si seleccionaste el tipo "ticket".',
+            'ticket_price.numeric' => 'El precio del boleto debe ser un número.',
+            'ticket_price.min' => 'El precio del boleto debe ser al menos 1.',
         ];
     }
 }

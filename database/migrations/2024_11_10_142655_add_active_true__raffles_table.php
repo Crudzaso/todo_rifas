@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('raffle_entries', function (Blueprint $table) {
-            $table->string('raffle_prize');
+        Schema::table('raffles', function (Blueprint $table) {
+            $table->boolean('active')->default(true)->change();
+
         });
     }
 
@@ -21,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('raffle_entries', function (Blueprint $table) {
+        Schema::table('raffles', function (Blueprint $table) {
             //
         });
     }

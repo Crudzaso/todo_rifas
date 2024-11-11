@@ -17,155 +17,195 @@
 
 @section('content')
 
-        <h2>Crear una nueva rifa</h2>
-
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-
-        <form method="POST" action="{{ route('raffles.store') }}">
-            @csrf
-
-            <!-- Campo de nombre -->
-            <div class="form-group">
-                <label for="name">Nombre de la rifa:</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" >
+    <div class="container mx-auto px-4 py-6">
+        <div class="max-w-3xl mx-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold">Crear Nueva Rifa</h1>
+                <a href="{{ route('raffles.index') }}"
+                   class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    Volver
+                </a>
             </div>
 
-            <!-- Campo de descripción -->
-            <div class="form-group">
-                <label for="description">Descripción:</label>
-                <textarea name="description" id="description" class="form-control" required></textarea>
-            </div>
-
-            <!-- Selección del tipo de rifa -->
-            <div class="form-group">
-                <label>Tipo de rifa:</label><br>
-                <div class="form-check">
-                    <input type="radio" name="type" id="type_ticket" value="ticket" class="form-check-input" required>
-                    <label class="form-check-label" for="type_ticket">Ticket</label>
+            @if ($errors->any())
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">¡Error!</strong>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
-                <div class="form-check">
-                    <input type="radio" name="type" id="type_bet" value="bet" class="form-check-input">
-                    <label class="form-check-label" for="type_bet">Apuesta</label>
+            @endif
+
+            @if(session('error'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <span class="block sm:inline">{{ session('error') }}</span>
                 </div>
-            </div>
+            @endif
 
-            <!-- Opciones específicas para 'ticket' -->
-            <div id="ticket-fields" class="d-none">
-                <div class="form-group">
-                    <label for="tickets_count">Cantidad de boletos:</label>
-                    <input type="number" name="tickets_count" id="tickets_count" class="form-control" disabled>
+            <form action="{{ route('raffles.store') }}" method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                @csrf
+
+                {{-- Nombre de la Rifa --}}
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                        Nombre de la Rifa *
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('name') border-red-500 @enderror"
+                           id="name"
+                           type="text"
+                           name="name"
+                           value="{{ old('name') }}"
+                           required>
                 </div>
-                <div class="form-group">
-                    <label for="ticket_price">Precio del boleto:</label>
-                    <input type="number" name="ticket_price" id="ticket_price" class="form-control" disabled>
+
+                {{-- Descripción --}}
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
+                        Descripción *
+                    </label>
+                    <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('description') border-red-500 @enderror"
+                              id="description"
+                              name="description"
+                              rows="3"
+                              required>{{ old('description') }}</textarea>
                 </div>
-            </div>
 
-            <!-- Opciones específicas para 'bet' -->
-            <div id="bet-fields" class="d-none">
-                <div class="form-group">
-                    <label for="min_bet">Apuesta mínima:</label>
-                    <input type="number" name="min_bet" id="min_bet" class="form-control" disabled>
+                {{-- Selección de Lotería --}}
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="lottery">
+                        Selecciona una Lotería *
+                    </label>
+                    <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('lottery') border-red-500 @enderror"
+                            id="lottery"
+                            name="lottery"
+                            required>
+                        <option value="">Seleccione una lotería</option>
+                        @foreach($availableLotteries as $lottery)
+                            <option value="{{ $lottery }}" {{ old('lottery') == $lottery ? 'selected' : '' }}>
+                                {{ $lottery }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label for="max_bet">Apuesta máxima:</label>
-                    <input type="number" name="max_bet" id="max_bet" class="form-control" disabled>
+
+
+                {{-- Tipo de Rifa --}}
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Tipo de Rifa *
+                    </label>
+                    <div class="mt-2">
+                        <label class="inline-flex items-center mr-6">
+                            <input type="radio"
+                                   class="form-radio"
+                                   name="type"
+                                   value="ticket"
+                                   {{ old('type') == 'ticket' ? 'checked' : '' }}
+                                   onclick="toggleTicketPrice(true)">
+                            <span class="ml-2">Ticket</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio"
+                                   class="form-radio"
+                                   name="type"
+                                   value="bet"
+                                   {{ old('type') == 'bet' ? 'checked' : '' }}
+                                   onclick="toggleTicketPrice(false)">
+                            <span class="ml-2">Apuesta</span>
+                        </label>
+                    </div>
                 </div>
-            </div>
 
+                {{-- Fecha de la Rifa --}}
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="raffle_date">
+                        Fecha de la Rifa *
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('raffle_date') border-red-500 @enderror"
+                           id="raffle_date"
+                           type="datetime-local"
+                           name="raffle_date"
+                           value="{{ old('raffle_date') }}"
+                           required>
+                </div>
 
-            <!-- Resto de campos -->
-            <div class="form-group">
-                <label for="lottery">Lotería:</label>
-                <select name="lottery" id="lottery" class="form-control">
-                    @foreach ($availableLotteries as $lottery)
-                        <option value="{{ $lottery }}">{{ $lottery }}</option>
-                    @endforeach
-                </select>
-            </div>
+                {{-- Número de Participantes --}}
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="tickets_count">
+                        Número de Participantes *
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('tickets_count') border-red-500 @enderror"
+                           id="tickets_count"
+                           type="number"
+                           name="tickets_count"
+                           min="1"
+                           max="100"
+                           value="{{ old('tickets_count') }}"
+                           required>
+                    <p class="text-gray-600 text-xs italic">Máximo 100 participantes</p>
+                </div>
 
-            <div class="form-group">
-                <label for="raffle_date">Fecha de la rifa:</label>
-                <input type="date" name="raffle_date" id="raffle_date" class="form-control">
-            </div>
+                {{-- Precio del Ticket --}}
+                <div id="ticketPriceSection" class="mb-4" style="{{ old('type') == 'bet' ? 'display: none;' : '' }}">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="ticket_price">
+                        Precio del Ticket *
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('ticket_price') border-red-500 @enderror"
+                           id="ticket_price"
+                           type="number"
+                           step="0.01"
+                           name="ticket_price"
+                           value="{{ old('ticket_price') }}"
+                        {{ old('type') == 'ticket' ? 'required' : '' }}>
+                </div>
 
-            <div class="form-group">
-                <label for="active">¿Está activa?</label><br>
-                <input type="checkbox" name="active" id="a
-ctive" value="1"> Activa
-            </div>
+                {{-- Estado Activo --}}
+                <div class="mb-6">
+                    <label class="inline-flex items-center">
+                        <input type="checkbox"
+                               class="form-checkbox"
+                               name="active"
+                               value="1"
+                            {{ old('active', true) ? 'checked' : '' }}>
+                        <span class="ml-2">Rifa activa</span>
+                    </label>
+                </div>
 
-            <button type="submit" class="btn btn-primary">Crear rifa</button>
-        </form>
+                <div class="flex items-center justify-between">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            type="submit">
+                        Crear Rifa
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-
+    @push('scripts')
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const typeTicket = document.getElementById('type_ticket');
-                const typeBet = document.getElementById('type_bet');
-                const ticketFields = document.getElementById('ticket-fields');
-                const betFields = document.getElementById('bet-fields');
-                const ticketsCount = document.getElementById('tickets_count');
-                const ticketPrice = document.getElementById('ticket_price');
-                const minBet = document.getElementById('min_bet');
-                const maxBet = document.getElementById('max_bet');
-                const form = document.querySelector('form');
+            function toggleTicketPrice(show) {
+                const ticketPriceSection = document.getElementById('ticketPriceSection');
+                const ticketPriceInput = document.getElementById('ticket_price');
 
-                // Función para mostrar/ocultar los campos y habilitarlos
-                function toggleFields() {
-                    if (typeTicket.checked) {
-                        ticketFields.classList.remove('d-none');
-                        betFields.classList.add('d-none');
-                        ticketsCount.removeAttribute('disabled');  // Habilitar
-                        ticketPrice.removeAttribute('disabled');  // Habilitar
-                        minBet.setAttribute('disabled', 'true');    // Deshabilitar
-                        maxBet.setAttribute('disabled', 'true');    // Deshabilitar
-                    } else if (typeBet.checked) {
-                        ticketFields.classList.add('d-none');
-                        betFields.classList.remove('d-none');
-                        ticketsCount.setAttribute('disabled', 'true');  // Deshabilitar
-                        ticketPrice.setAttribute('disabled', 'true');   // Deshabilitar
-                        minBet.removeAttribute('disabled');  // Habilitar
-                        maxBet.removeAttribute('disabled');  // Habilitar
-                    }
+                if (show) {
+                    ticketPriceSection.style.display = 'block';
+                    ticketPriceInput.required = true;
+                } else {
+                    ticketPriceSection.style.display = 'none';
+                    ticketPriceInput.required = false;
+                    ticketPriceInput.value = '';
                 }
+            }
 
-                // Validación al enviar el formulario
-                form.addEventListener('submit', function(e) {
-                    // Validar que la apuesta máxima sea mayor que la mínima
-                    const minBetValue = parseFloat(minBet.value);
-                    const maxBetValue = parseFloat(maxBet.value);
-
-                    if (typeBet.checked && maxBetValue <= minBetValue) {
-                        e.preventDefault();  // Evitar el envío del formulario
-                        alert("La apuesta máxima debe ser mayor que la apuesta mínima.");
-                    } else {
-                        // Limpiar todos los campos del formulario después de la validación exitosa
-                        form.reset();
-                        // Si el formulario tiene radios, puedes asegurarte de que uno de los radios esté seleccionado
-                        // Si no se seleccionó un radio, se puede seleccionar el primero por defecto:
-                        typeTicket.checked = true;
-                        toggleFields();
-                    }
-                });
-
-                // Event listeners para los radios
-                typeTicket.addEventListener('change', toggleFields);
-                typeBet.addEventListener('change', toggleFields);
-
-                // Ejecutar toggleFields para asegurarse de que se muestren los campos adecuados al cargar
-                toggleFields();
+            // Inicializar el estado del precio del ticket basado en el tipo seleccionado
+            document.addEventListener('DOMContentLoaded', function() {
+                const selectedType = document.querySelector('input[name="type"]:checked')?.value;
+                if (selectedType) {
+                    toggleTicketPrice(selectedType === 'ticket');
+                }
             });
-
-
         </script>
+    @endpush
 @endsection

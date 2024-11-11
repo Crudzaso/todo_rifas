@@ -16,14 +16,19 @@ class Raffle extends Model
         'lottery',
         'active',
         'type',
-        'raffle_date',
+        'raffle_date'=>'datetime',
         'tickets_count',
         'ticket_price',
-        'amount'
+
     ];
 
     public function entries()
     {
         return $this->hasMany(RaffleEntries::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

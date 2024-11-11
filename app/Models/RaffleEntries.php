@@ -13,13 +13,17 @@ class RaffleEntries extends Model
         'raffle_id',
         'type',
         'price',
-        'min_bet',
-        'max_bet'
+        'min_bet'
     ];
 
 
     public function raffle()
     {
         return $this->belongsTo(Raffle::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

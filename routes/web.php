@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\RaffleController;
+use App\Http\Controllers\RaffleEntrieController;
 use App\Http\Controllers\RolerController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,7 @@ Route::resource('raffles', RaffleController::class);
 //Route::get('/raffles', [RaffleController::class, 'index'])->name('raffles.index');
 //Route::get('/raffles', [RaffleController::class, 'create'])->name('raffles.create');
 
+Route::resource('raffleEntries',RaffleEntrieController::class);
 
 
 
