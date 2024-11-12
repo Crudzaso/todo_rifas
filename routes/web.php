@@ -8,22 +8,42 @@ use App\Http\Controllers\RolerController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth'])->group(function () {
 
-    // Rutas de administración
-    Route::resource('roles', RolerController::class)->names('admin.roles');
-    Route::post('roles/{role}/remove-permissions', [RolerController::class, 'removePermissions'])->name('admin.roles.removePermissions');
-    Route::get('admin/roles/{roleId}/permissions', [RolerController::class, 'getRolePermissions'])->name('admin.roles.getPermissions');
-    Route::post('/roles/{role}/add-permissions', [RolerController::class, 'addPermissions'])->name('admin.roles.addPermissions');
+/* rutas del admin*/
+Route::resource('roles',RolerController::class)->names('admin.roles');
+Route::post('roles/{role}/remove-permissions', [RolerController::class, 'removePermissions'])->name('admin.roles.removePermissions');
+Route::get('admin/roles/{roleId}/permissions', [RolerController::class, 'getRolePermissions'])->name('admin.roles.getPermissions');
+Route::post('/roles/{role}/add-permissions', [RolerController::class, 'addPermissions'])->name('admin.roles.addPermissions');
 
-    // Rutas de rifas
-    Route::resource('raffles', RaffleController::class);
-    Route::resource('raffleEntries', RaffleEntrieController::class);
-    Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
+/* rout raffles
+ * **/
+Route::resource('raffles', RaffleController::class);
 
-});
+/* rout users
+ * **/
+Route::get('/admin/users', [UserController::class, 'index'])->middleware('admin');
+Route::get('/admin/users/{id}/edit', [UserController::class, 'edit'])->middleware('admin');
+Route::put('/admin/users/{id}', [UserController::class, 'update'])->middleware('admin');
+Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->middleware('admin');
 
-// Rutas públicas (no requieren autenticación)
+/* rout result lotery
+ * **/
+Route::get('/results', [ResultController::class, 'index']);
+
+/* rout adminLotery
+ * **/
+Route::get('/admin/raffles', [AdminRaffleController::class, 'index'])->middleware('admin');
+
+
+Route::resource('raffleEntries',RaffleEntrieController::class);
+Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
+
+
+
+
+
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -34,6 +54,8 @@ Route::get('/profile/overview', function () {
 
 Route::get('/login-google', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('/google-callback', [SocialAuthController::class, 'handleGoogleCallback']);
+
+
 
 /**
  * raffle routes
