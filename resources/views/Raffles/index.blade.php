@@ -1,4 +1,4 @@
-<!-- resources/views/raffles/index.blade.php -->
+>
 @extends('layouts.appTodoRifas')
 
 @section('title', 'Rifas')
@@ -15,15 +15,29 @@
     @include('components.dashboard_header')
 @endsection
 
+
 @section('content')
     <!-- Navbar fija al scroll -->
     <nav class="navbar navbar-expand-lg fixed-top transition-all" id="mainNav" style="background: transparent;">
     </nav>
 
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+
     <div class="container py-5 contenido ">
         <!-- Header Section con más espaciado -->
         <div class="text-center mb-5 mt-5 pt-4">
-            <h1 class="display-4  texto fw-bold text-primary mb-3">Nuestras Rifas</h1>
+            <h1 class="display-4  texto fw-bold text-primary mb-3">Juegos Disponibles</h1>
             <p class="lead text-muted">Explora nuestras emocionantes oportunidades de ganar</p>
         </div>
 
@@ -44,46 +58,53 @@
             @else
                 <div class="row g-4">
                     @foreach ($raffles->where('type', 'bet') as $raffle)
-                        <div class="col-md-4">
+                        <div class="col-md-6 mb-4">
                             <div class="card h-100 shadow-sm hover-shadow transition-all position-relative">
-                                <!-- Título flotante -->
-                                <div class="card-title-floating">
+                                <!-- Banner superior con el título -->
+                                <div class="card-banner">
                                     <h5 class="fw-bold text-white mb-0">{{ $raffle->name }}</h5>
                                 </div>
 
-                                <div class="card-body text-white mt-4">
-                                    <div class="mb-4">
-                                        <h6 class="fw-bold mb-2"><i class="fas fa-gift me-2"></i>Premio:</h6>
-                                        <p class="text-capitalize mb-3">{{ $raffle->description }}</p>
+                                <div class="card-body d-flex">
+                                    <!-- Columna izquierda con la información principal -->
+                                    <div class="raffle-info flex-grow-1">
+                                        <div class="info-item">
+                                            <span class="info-label"><i class="fas fa-gift me-2"></i>Premio:</span>
+                                            <span class="info-value">{{ $raffle->description }}</span>
+                                        </div>
 
-                                        <h6 class="fw-bold mb-2"><i class="fas fa-ticket-alt me-2"></i>Lotería:</h6>
-                                        <p class="text-capitalize mb-3">{{ $raffle->lottery }}</p>
+                                        <div class="info-item">
+                                            <span class="info-label"><i class="fas fa-ticket-alt me-2"></i>Lotería:</span>
+                                            <span class="info-value">{{ $raffle->lottery }}</span>
+                                        </div>
 
-                                        <h6 class="fw-bold mb-2"><i class="far fa-calendar-alt me-2"></i>Fecha del Sorteo:</h6>
-                                        <p class="mb-0">{{ \Carbon\Carbon::parse($raffle->raffle_date)->format('d M Y') }}</p>
+                                        <div class="info-item">
+                                            <span class="info-label"><i class="far fa-calendar-alt me-2"></i>Fecha:</span>
+                                            <span class="info-value">{{ \Carbon\Carbon::parse($raffle->raffle_date)->format('d M Y') }}</span>
+                                        </div>
                                     </div>
 
-                                    <div class="text-center mt-4">
+                                    <!-- Columna derecha con los botones -->
+                                    <div class="raffle-actions d-flex flex-column justify-content-between ms-3">
                                         <a href="{{ route('raffles.show', $raffle->id) }}"
-                                           class="btn btn-light btn-lg w-75 fw-bold shadow-sm hover-scale">
-                                            <i class="fas fa-play-circle me-2"></i>Jugar Ahora
+                                           class="btn btn-play mb-2">
+                                            <i class="fas fa-play-circle me-1"></i>
+                                            <span>Jugar</span>
                                         </a>
-                                    </div>
-                                </div>
 
-                                <div class="card-footer bg-transparent border-0 pb-3">
-                                    <div class="d-flex justify-content-center gap-2">
-                                        <a href="{{ route('raffles.edit', $raffle->id) }}"
-                                           class="btn btn-sm btn-light">
-                                            <i class="fas fa-edit me-1"></i>Editar
-                                        </a>
-                                        <form action="{{ route('raffles.destroy', $raffle->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash-alt me-1"></i>Eliminar
+                                        <div class="admin-buttons d-flex gap-2">
+                                            <button onclick="openEditModal({{ $raffle->id }}, '{{ $raffle->name }}', '{{ $raffle->description }}')"
+                                                    class="btn btn-edit">
+                                                <i class="fas fa-edit"></i>
                                             </button>
-                                        </form>
+                                            <form action="{{ route('raffles.destroy', $raffle->id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-delete">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -92,7 +113,6 @@
                 </div>
             @endif
         </div>
-
         <!-- Sección Boleto de la Suerte -->
         <div class="mb-5">
             <div class="d-flex align-items-center justify-content-center mb-4">
@@ -110,46 +130,53 @@
             @else
                 <div class="row g-4">
                     @foreach ($raffles->where('type', 'ticket') as $raffle)
-                        <div class="col-md-4">
+                        <div class="col-md-6 mb-4">
                             <div class="card h-100 shadow-sm hover-shadow transition-all position-relative">
-                                <!-- Título flotante -->
-                                <div class="card-title-floating">
+                                <!-- Banner superior con el título -->
+                                <div class="card-banner">
                                     <h5 class="fw-bold text-white mb-0">{{ $raffle->name }}</h5>
                                 </div>
 
-                                <div class="card-body text-white mt-4">
-                                    <div class="mb-4">
-                                        <h6 class="fw-bold mb-2"><i class="fas fa-gift me-2"></i>Premio:</h6>
-                                        <p class="text-capitalize mb-3">{{ $raffle->description }}</p>
+                                <div class="card-body d-flex">
+                                    <!-- Columna izquierda con la información principal -->
+                                    <div class="raffle-info flex-grow-1">
+                                        <div class="info-item">
+                                            <span class="info-label"><i class="fas fa-gift me-2"></i>Premio:</span>
+                                            <span class="info-value">{{ $raffle->description }}</span>
+                                        </div>
 
-                                        <h6 class="fw-bold mb-2"><i class="fas fa-ticket-alt me-2"></i>Lotería:</h6>
-                                        <p class="text-capitalize mb-3">{{ $raffle->lottery }}</p>
+                                        <div class="info-item">
+                                            <span class="info-label"><i class="fas fa-ticket-alt me-2"></i>Lotería:</span>
+                                            <span class="info-value">{{ $raffle->lottery }}</span>
+                                        </div>
 
-                                        <h6 class="fw-bold mb-2"><i class="far fa-calendar-alt me-2"></i>Fecha del Sorteo:</h6>
-                                        <p class="mb-0">{{ \Carbon\Carbon::parse($raffle->raffle_date)->format('d M Y') }}</p>
+                                        <div class="info-item">
+                                            <span class="info-label"><i class="far fa-calendar-alt me-2"></i>Fecha:</span>
+                                            <span class="info-value">{{ \Carbon\Carbon::parse($raffle->raffle_date)->format('d M Y') }}</span>
+                                        </div>
                                     </div>
 
-                                    <div class="text-center mt-4">
+                                    <!-- Columna derecha con los botones -->
+                                    <div class="raffle-actions d-flex flex-column justify-content-between ms-3">
                                         <a href="{{ route('raffles.show', $raffle->id) }}"
-                                           class="btn btn-light btn-lg w-75 fw-bold shadow-sm hover-scale">
-                                            <i class="fas fa-play-circle me-2"></i>Jugar Ahora
+                                           class="btn btn-play mb-2">
+                                            <i class="fas fa-play-circle me-1"></i>
+                                            <span>Jugar</span>
                                         </a>
-                                    </div>
-                                </div>
 
-                                <div class="card-footer bg-transparent border-0 pb-3">
-                                    <div class="d-flex justify-content-center gap-2">
-                                        <a href="{{ route('raffles.edit', $raffle->id) }}"
-                                           class="btn btn-sm btn-light">
-                                            <i class="fas fa-edit me-1"></i>Editar
-                                        </a>
-                                        <form action="{{ route('raffles.destroy', $raffle->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash-alt me-1"></i>Eliminar
+                                        <div class="admin-buttons d-flex gap-2">
+                                            <button onclick="openEditModal({{ $raffle->id }}, '{{ $raffle->name }}', '{{ $raffle->description }}')"
+                                                    class="btn btn-edit">
+                                                <i class="fas fa-edit"></i>
                                             </button>
-                                        </form>
+                                            <form action="{{ route('raffles.destroy', $raffle->id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-delete">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -167,95 +194,42 @@
         </div>
     </div>
 
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Editar Rifa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Formulario para editar la rifa -->
+                    <form id="editForm" method="POST">
+                        @csrf
+                        @method('PUT') <!-- Usamos PUT porque es una actualización -->
 
-    <style>
-        /* Variables de color */
-        :root {
-            --primary-green: #005792;
-            --hover-green: #246b24;
-            --hover-blue: #007bff;
-            --text-color: #FFFFFF;
-        }
+                        <!-- Nombre de la rifa -->
+                        <div class="mb-3">
+                            <label for="editName" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="editName" name="name" required>
+                        </div>
 
-        /* Navbar styles */
-        #mainNav {
-            transition: background-color 0.3s ease-in-out, padding 0.3s ease-in-out;
-            padding: 1rem 0;
-        }
+                        <!-- Descripción de la rifa -->
+                        <div class="mb-3">
+                            <label for="editDescription">Descripción</label>
+                            <textarea class="form-control" id="editDescription" name="description" rows="3" required></textarea>
+                        </div>
 
-        #mainNav.scrolled {
-            background-color: var(--primary-green) !important;
-            padding: 0.5rem 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
+                        <!-- No hay campo de fecha aquí -->
 
-        /* Card styles */
-        .card {
-            background-color: var(--primary-green);
-            border: none;
-            border-radius: 15px;
-            overflow: visible; /* Permite que los elementos dentro de la tarjeta sobresalgan si es necesario */
-            padding-top: 20px;
-            color: var(--tag-text-color);
-
-        }
-
-        .card-title-floating {
-            background-color: var(--hover-blue); /* Cambia a azul */
-            padding: 10px 25px;
-            border-radius: 25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 2;
-            min-width: 80%;
-            text-align: center;
-        }
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-        .hover-shadow:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15)!important;
-        }
 
-        .hover-scale:hover {
-            transform: scale(1.05);
-            transition: transform 0.3s ease;
-        }
-
-        .transition-all {
-            transition: all 0.3s ease;
-        }
-
-        .btn {
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-light {
-            color: var(--primary-green);
-            font-weight: bold;
-        }
-
-        .btn-light:hover {
-            background-color: var(--hover-green);
-            color: white;
-        }
-
-        /* Centrado del contenido */
-        .contenido {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        /* Estilo para el título */
-        .texto {
-            font-size: 4rem;  /* Título más grande */
-            color: #005792;   /* Color azul */
-        }
-
-    </style>
 
     <!-- Script para la navbar -->
     <script>

@@ -18,42 +18,7 @@ class RaffleEntrieController extends Controller
         //
     }
 
-    /**
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
-
-    private function generateRandomNumber()
-    {
-        do {
-            $randomNumber = random_int(100, 999);
-        } while (RaffleEntries::where('number', $randomNumber)->exists());
-
-        return $randomNumber;
-    }
 
     public function store(Request $request)
     {
@@ -85,7 +50,6 @@ class RaffleEntrieController extends Controller
                 'number' => $validated['id'],
                 'status' => 'reserved',
                 'type' => $raffle->type,
-                'reservation_expires_at' => now()->addMinutes(15),
             ];
 
 
@@ -102,7 +66,6 @@ class RaffleEntrieController extends Controller
             else {
                 // Para rifas de tipo 'ticket'
                 $entryData['price'] = $raffle->ticket_price;
-                $raffle->decrement('tickets_count', 1);
             }
 
             $entry = RaffleEntries::create($entryData);
@@ -122,21 +85,6 @@ class RaffleEntrieController extends Controller
     }
 
 
-
-    public function cleanupExpiredReservations()
-    {
-        $expiredEntries = RaffleEntries::where('status', 'reserved')
-            ->where('reservation_expires_at', '<', now())
-            ->get();
-
-        foreach ($expiredEntries as $entry) {
-            if ($entry->raffle->type === 'bet') {
-                $entry->raffle->decrement('total_bet_pool', $entry->bet_amount);
-            }
-            $entry->update(['status' => 'expired']);
-        }
-    }
-
     public function index(Raffle $raffle)
     {
         $entries = RaffleEntries::where('raffle_id', $raffle->id)
@@ -146,13 +94,10 @@ class RaffleEntrieController extends Controller
         return view('raffles.entries.index', compact('raffle', 'entries'));
     }
 
-//    public function show(RaffleEntries $entry)
-//    {
-//        return view('raffle.entries.show', compact('entry'));
-//    }
 
-    public function show(Raffle $raffle)
-    {
-        return view('raffleEntries.show', compact('raffle'));
+    public function show(Raffle $raffle){
+
+
+        return view('raffleEntries.show', compact('raffle',));
     }
 }
