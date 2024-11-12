@@ -3,12 +3,12 @@
 <html lang="en">
 <!--begin::Head-->
 <head>
-    <title>Metronic - The World's #1 Selling Tailwind CSS & Bootstrap Admin Template by KeenThemes</title>
+    <title>TodoRifas</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="canonical" href="http://preview.keenthemes.comlanding.html" />
-    <link rel="shortcut icon" href="{{asset('images/todo_rifas_pet.png')}}" />
+    <link rel="shortcut icon" href="{{asset('assets/media/images/todo_rifas v2.png')}}" />
     <!--begin::Fonts(mandatory for all pages)-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
     <!--end::Fonts-->
@@ -33,8 +33,8 @@
         <!--begin::Wrapper-->
         <div class="bgi-no-repeat bgi-size-contain bgi-position-x-center bgi-position-y-bottom landing-dark-bg" style="background-image: url(assets/media/svg/illustrations/landing.svg)">
             <!--begin::Header-->
-          @include('layouts.partials.headerLandin')
-          @include('layouts.partials.landingHero')
+          <x-header_landing></x-header_landing>
+          <x-hero_landing></x-hero_landing>
         <!--end::Wrapper-->
         <!--begin::Curve bottom-->
         <div class="landing-curve landing-dark-color mb-10 mb-lg-20">
@@ -44,6 +44,43 @@
         </div>
         <!--end::Curve bottom-->
     </div>
+
+<div class="wrapper">
+        <div class="card-switch">
+            <label class="switch">
+               <input type="checkbox" class="toggle">
+               <span class="slider"></span>
+               <span class="card-side"></span>
+               <div class="flip-card__inner">
+                  <div class="flip-card__front">
+                     <div class="title">Log in</div>
+                    <a href="{{ url('login-google') }}" class="btn btn-google btn-sm">
+                    <img src="{{ asset('assets/media/images/icono-google.png') }}" alt="Google Logo" class="h-4 mr-2">
+                    Entrar con Google
+                    </a>
+                     <form class="flip-card__form" action="">
+                        <input class="flip-card__input" name="email" placeholder="Email" type="email">
+                        <input class="flip-card__input" name="password" placeholder="Password" type="password">
+                        <button class="flip-card__btn">Let`s go!</button>
+                     </form>
+                  </div>
+                  <div class="flip-card__back">
+                     <div class="title">Sign up</div>
+                    <a href="{{ url('login-google') }}" class="btn btn-google btn-sm">
+                    <img src="{{ asset('assets/media/images/icono-google.png') }}" alt="Google Logo" class="h-4 mr-2">
+                    Entrar con Google
+                    </a>
+                     <form class="flip-card__form" action="">
+                        <input class="flip-card__input" placeholder="Name" type="name">
+                        <input class="flip-card__input" name="email" placeholder="Email" type="email">
+                        <input class="flip-card__input" name="password" placeholder="Password" type="password">
+                        <button class="flip-card__btn">Confirm!</button>
+                     </form>
+                  </div>
+               </div>
+            </label>
+        </div>
+   </div>
     <!--end::Header Section-->
     <!--begin::How It Works Section-->
     <div class="mb-n10 mb-lg-n20 z-index-2">
@@ -52,7 +89,8 @@
             <!--begin::Heading-->
             <div class="text-center mb-17">
                 <!--begin::Title-->
-                <h3 class="fs-2hx text-gray-900 mb-5" id="how-it-works" data-kt-scroll-offset="{default: 100, lg: 150}">How it Works</h3>
+                <h3 class="fs-2hx text-gray-900 mb-5" id="how-it-works" data-kt-scroll-offset="{default: 100, lg: 150}">Cómo funciona</h3>
+                <br><br><br>
                 <!--end::Title-->
             <!--begin::Row-->
             <div class="row w-100 gy-10 mb-md-20">
@@ -61,7 +99,7 @@
                     <!--begin::Story-->
                     <div class="text-center mb-10 mb-md-0">
                         <!--begin::Illustration-->
-                        <img src="assets/media/illustrations/sigma-1/2.png" class="mh-125px mb-9" alt="" />
+                        <img src="https://img.icons8.com/ios/50/000000/user.png" alt="Sign Up" class="mx-auto mb-4 w-16 h-16">
                         <!--end::Illustration-->
                         <!--begin::Heading-->
                         <div class="d-flex flex-center mb-5">
@@ -69,14 +107,14 @@
                             <span class="badge badge-circle badge-light-success fw-bold p-5 me-3 fs-3">1</span>
                             <!--end::Badge-->
                             <!--begin::Title-->
-                            <div class="fs-5 fs-lg-3 fw-bold text-gray-900">Jane Miller</div>
+                            <div class="fs-5 fs-lg-3 fw-bold text-gray-900">Registrate con nosotros</div>
                             <!--end::Title-->
                         </div>
                         <!--end::Heading-->
                         <!--begin::Description-->
-                        <div class="fw-semibold fs-6 fs-lg-4 text-muted">Save thousands to millions of bucks
-                            <br />by using single tool for different
-                            <br />amazing and great</div>
+                        <div class="fw-semibold fs-6 fs-lg-4 text-muted">Crea tucuenta con nosotros para empezar a
+                            <br />participar en nuestras rifas, recuerda que
+                            <br />¡la suerte está en tus manos!</div>
                         <!--end::Description-->
                     </div>
                     <!--end::Story-->
@@ -87,7 +125,7 @@
                     <!--begin::Story-->
                     <div class="text-center mb-10 mb-md-0">
                         <!--begin::Illustration-->
-                        <img src="assets/media/illustrations/sigma-1/8.png" class="mh-125px mb-9" alt="" />
+                        <img src="https://img.icons8.com/ios/50/000000/ticket.png" alt="Buy Tickets" class="mx-auto mb-4 w-16 h-16">
                         <!--end::Illustration-->
                         <!--begin::Heading-->
                         <div class="d-flex flex-center mb-5">
@@ -95,14 +133,14 @@
                             <span class="badge badge-circle badge-light-success fw-bold p-5 me-3 fs-3">2</span>
                             <!--end::Badge-->
                             <!--begin::Title-->
-                            <div class="fs-5 fs-lg-3 fw-bold text-gray-900">Setup Your App</div>
+                            <div class="fs-5 fs-lg-3 fw-bold text-gray-900">Compra tus numeros</div>
                             <!--end::Title-->
                         </div>
                         <!--end::Heading-->
                         <!--begin::Description-->
-                        <div class="fw-semibold fs-6 fs-lg-4 text-muted">Save thousands to millions of bucks
-                            <br />by using single tool for different
-                            <br />amazing and great</div>
+                        <div class="fw-semibold fs-6 fs-lg-4 text-muted">Compra tus numeros para participar en nuestras
+                            <br />rifas transparentes y reguladas!
+                        </div>
                         <!--end::Description-->
                     </div>
                     <!--end::Story-->
@@ -113,7 +151,7 @@
                     <!--begin::Story-->
                     <div class="text-center mb-10 mb-md-0">
                         <!--begin::Illustration-->
-                        <img src="assets/media/illustrations/sigma-1/12.png" class="mh-125px mb-9" alt="" />
+                        <img src="https://img.icons8.com/ios/50/000000/waiting-room.png" alt="Wait for the Draw" class="mx-auto mb-4 w-16 h-16">
                         <!--end::Illustration-->
                         <!--begin::Heading-->
                         <div class="d-flex flex-center mb-5">
@@ -121,59 +159,22 @@
                             <span class="badge badge-circle badge-light-success fw-bold p-5 me-3 fs-3">3</span>
                             <!--end::Badge-->
                             <!--begin::Title-->
-                            <div class="fs-5 fs-lg-3 fw-bold text-gray-900">Enjoy Nautica App</div>
+                            <div class="fs-5 fs-lg-3 fw-bold text-gray-900">Espera el día de la rifa</div>
                             <!--end::Title-->
                         </div>
                         <!--end::Heading-->
                         <!--begin::Description-->
-                        <div class="fw-semibold fs-6 fs-lg-4 text-muted">Save thousands to millions of bucks
-                            <br />by using single tool for different
-                            <br />amazing and great</div>
+                        <div class="fw-semibold fs-6 fs-lg-4 text-muted">Espera el día dela rifa para
+                            <br />saber los resultados de la misma. Recuerda que
+                            <br />los resultados se basan en las rifas locales!</div>
                         <!--end::Description-->
                     </div>
                     <!--end::Story-->
                 </div>
                 <!--end::Col-->
+
             </div>
             <!--end::Row-->
-            <!--begin::Product slider-->
-            <div class="tns tns-default">
-                <!--begin::Slider-->
-                <div data-tns="true" data-tns-loop="true" data-tns-swipe-angle="false" data-tns-speed="2000" data-tns-autoplay="true" data-tns-autoplay-timeout="18000" data-tns-controls="true" data-tns-nav="false" data-tns-items="1" data-tns-center="false" data-tns-dots="false" data-tns-prev-button="#kt_team_slider_prev1" data-tns-next-button="#kt_team_slider_next1">
-                    <!--begin::Item-->
-                    <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
-                        <img src="assets/media/preview/demos/demo1/light-ltr.png" class="card-rounded shadow mh-lg-650px mw-100" alt="" />
-                    </div>
-                    <!--end::Item-->
-                    <!--begin::Item-->
-                    <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
-                        <img src="assets/media/preview/demos/demo2/light-ltr.png" class="card-rounded shadow mh-lg-650px mw-100" alt="" />
-                    </div>
-                    <!--end::Item-->
-                    <!--begin::Item-->
-                    <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
-                        <img src="assets/media/preview/demos/demo4/light-ltr.png" class="card-rounded shadow mh-lg-650px mw-100" alt="" />
-                    </div>
-                    <!--end::Item-->
-                    <!--begin::Item-->
-                    <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
-                        <img src="assets/media/preview/demos/demo5/light-ltr.png" class="card-rounded shadow mh-lg-650px mw-100" alt="" />
-                    </div>
-                    <!--end::Item-->
-                </div>
-                <!--end::Slider-->
-                <!--begin::Slider button-->
-                <button class="btn btn-icon btn-active-color-primary" id="kt_team_slider_prev1">
-                    <i class="ki-duotone ki-left fs-2x"></i>
-                </button>
-                <!--end::Slider button-->
-                <!--begin::Slider button-->
-                <button class="btn btn-icon btn-active-color-primary" id="kt_team_slider_next1">
-                    <i class="ki-duotone ki-right fs-2x"></i>
-                </button>
-                <!--end::Slider button-->
-            </div>
-            <!--end::Product slider-->
         </div>
         <!--end::Container-->
     </div>
