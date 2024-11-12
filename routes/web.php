@@ -22,6 +22,22 @@ Route::resource('raffles', RaffleController::class);
 //Route::get('/raffles', [RaffleController::class, 'index'])->name('raffles.index');
 //Route::get('/raffles', [RaffleController::class, 'create'])->name('raffles.create');
 
+/* rout users
+ * **/
+Route::get('/admin/users', [UserController::class, 'index'])->middleware('admin');
+Route::get('/admin/users/{id}/edit', [UserController::class, 'edit'])->middleware('admin');
+Route::put('/admin/users/{id}', [UserController::class, 'update'])->middleware('admin');
+Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->middleware('admin');
+
+/* rout result lotery
+ * **/
+Route::get('/results', [ResultController::class, 'index']);
+
+/* rout adminLotery
+ * **/
+Route::get('/admin/raffles', [AdminRaffleController::class, 'index'])->middleware('admin');
+
+
 Route::resource('raffleEntries',RaffleEntrieController::class);
 Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
 
