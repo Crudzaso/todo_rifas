@@ -8,29 +8,22 @@ use App\Http\Controllers\RolerController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
+Route::middleware(['auth'])->group(function () {
 
-/* rutas del admin*/
-Route::resource('roles',RolerController::class)->names('admin.roles');
-Route::post('roles/{role}/remove-permissions', [RolerController::class, 'removePermissions'])->name('admin.roles.removePermissions');
-Route::get('admin/roles/{roleId}/permissions', [RolerController::class, 'getRolePermissions'])->name('admin.roles.getPermissions');
-Route::post('/roles/{role}/add-permissions', [RolerController::class, 'addPermissions'])->name('admin.roles.addPermissions');
+    // Rutas de administración
+    Route::resource('roles', RolerController::class)->names('admin.roles');
+    Route::post('roles/{role}/remove-permissions', [RolerController::class, 'removePermissions'])->name('admin.roles.removePermissions');
+    Route::get('admin/roles/{roleId}/permissions', [RolerController::class, 'getRolePermissions'])->name('admin.roles.getPermissions');
+    Route::post('/roles/{role}/add-permissions', [RolerController::class, 'addPermissions'])->name('admin.roles.addPermissions');
 
-/* rout raffles
- * **/
-Route::resource('raffles', RaffleController::class);
-//Route::post('/raffles', [RaffleController::class, 'store'])->name('raffles.store');
-//Route::get('/raffles', [RaffleController::class, 'index'])->name('raffles.index');
-//Route::get('/raffles', [RaffleController::class, 'create'])->name('raffles.create');
+    // Rutas de rifas
+    Route::resource('raffles', RaffleController::class);
+    Route::resource('raffleEntries', RaffleEntrieController::class);
+    Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
 
-Route::resource('raffleEntries',RaffleEntrieController::class);
-Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
+});
 
-
-
-
-
-
-
+// Rutas públicas (no requieren autenticación)
 Route::get('/', function () {
     return view('welcome');
 });
@@ -41,8 +34,6 @@ Route::get('/profile/overview', function () {
 
 Route::get('/login-google', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('/google-callback', [SocialAuthController::class, 'handleGoogleCallback']);
-
-
 
 /**
  * raffle routes
