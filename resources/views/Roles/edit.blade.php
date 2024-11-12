@@ -1,6 +1,6 @@
 @extends('layouts.appTodoRifas')
 
-@section('title', 'Admin')
+@section('title', 'EditarRoles')
 
 @section('sidebar')
     @include('components.sidebar')
@@ -14,14 +14,17 @@
     @include('components.dashboard_header')
 @stop
 
+@section('styles')
+    <link href="{{ asset('css/permissions.css') }}" rel="stylesheet">
+@stop
 
 @section('content')
-    <h1>Editar Permisos del Rol: {{ $role->name }}</h1>
+    <div class="permissions-container">
+        <h1 class="permissions-header">Editar Permisos del Rol: <span class="text-success">{{ $role->name }}</span></h1>
 
-    <div class="card">
-        <div class="card-body">
-            <!-- Formulario para quitar permisos -->
-            <form action="{{ route('admin.roles.removePermissions', $role->id) }}" method="POST">
+        <div class="permissions-section">
+            <h5 class="mb-3">Quitar Permisos</h5>
+            <form action="{{ route('admin.roles.removePermissions', $role->id) }}" method="POST" class="permissions-form">
                 @csrf
                 <div class="form-group">
                     <label for="permissions">Selecciona los permisos a quitar:</label>
@@ -31,13 +34,13 @@
                         @endforeach
                     </select>
                 </div>
-                <button type="submit" class="btn btn-danger mt-2">Quitar Permisos</button>
+                <button type="submit" class="btn btn-danger">Quitar Permisos</button>
             </form>
+        </div>
 
-            <hr>
-
-            <!-- Formulario para agregar permisos -->
-            <form action="{{ route('admin.roles.addPermissions', $role->id) }}" method="POST">
+        <div class="permissions-section">
+            <h5 class="mb-3">Agregar Permisos</h5>
+            <form action="{{ route('admin.roles.addPermissions', $role->id) }}" method="POST" class="permissions-form">
                 @csrf
                 <div class="form-group">
                     <label for="add-permissions">Selecciona los permisos a agregar:</label>
@@ -49,12 +52,12 @@
                         @endforeach
                     </select>
                 </div>
-                <button type="submit" class="btn btn-success mt-2">Agregar Permisos</button>
+                <button type="submit" class="btn btn-success">Agregar Permisos</button>
             </form>
+        </div>
 
-            <hr>
-
-            <h4>Todos los permisos disponibles:</h4>
+        <div class="permissions-section">
+            <h5 class="mb-3">Todos los Permisos Disponibles</h5>
             <ul>
                 @foreach($allPermissions as $permission)
                     <li>{{ $permission->name }}</li>
@@ -62,6 +65,6 @@
             </ul>
         </div>
 
-        <a href="{{ route('admin.roles.index') }}" class="btn btn-secondary mt-2">Regresar</a>
+        <a href="{{ route('admin.roles.index') }}" class="btn-back">Regresar</a>
     </div>
 @stop

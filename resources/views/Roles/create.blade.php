@@ -1,6 +1,6 @@
 @extends('layouts.appTodoRifas')
 
-@section('title', 'Admin')
+@section('title', 'CrearRoles')
 
 @section('sidebar')
     @include('components.sidebar')

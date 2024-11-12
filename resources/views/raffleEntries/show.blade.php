@@ -1,262 +1,143 @@
 @extends('layouts.boletos')
 
-@section('styles')
-    <style>
-        :root {
-            --primary-blue: #0066ff;
-            --secondary-blue: #003d99;
-            --primary-green: #00cc66;
-            --secondary-green: #009933;
-            --light-gray: #f8f9fa;
-        }
-
-        .main-container {
-            min-height: 100vh;
-            padding: 2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .raffle-container {
-            background: white;
-            width: 100%;
-            max-width: 800px;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .raffle-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: var(--primary-blue);
-            text-transform: uppercase;
-            margin-bottom: 2rem;
-            padding: 1rem;
-            border-bottom: 4px solid var(--primary-green);
-        }
-
-        .lottery-details {
-            background: var(--light-gray);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
-            border-left: 6px solid var(--primary-green);
-        }
-
-        .lottery-details p {
-            margin: 0.8rem 0;
-            font-size: 1.1rem;
-        }
-
-        .prize-info {
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
-        }
-
-        .bet-buttons {
-            display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-
-        .bet-amount-btn {
-            flex: 1;
-            padding: 1rem;
-            border: 2px solid var(--primary-blue);
-            border-radius: 8px;
-            background: white;
-            color: var(--primary-blue);
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .bet-amount-btn:hover {
-            background: var(--primary-blue);
-            color: white;
-        }
-
-        .bet-amount-btn.selected {
-            background: var(--primary-blue);
-            color: white;
-            transform: scale(1.05);
-        }
-
-        .form-group {
-            margin: 1.5rem 0;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.8rem;
-            font-size: 1.1rem;
-            color: var(--secondary-blue);
-            font-weight: bold;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid var(--primary-blue);
-            border-radius: 8px;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-
-        .total-pool {
-            background: var(--primary-green);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .potential-earnings {
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
-            text-align: center;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .btn-primary {
-            background: var(--primary-green);
-            color: white;
-            flex: 2;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
-
-        .btn-secondary {
-            background: var(--primary-blue);
-            color: white;
-            flex: 1;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
-    </style>
-@endsection
-
 @section('content')
+    <div class="raffle-page">
+        <div class="raffle-container">
+            <div class="raffle-card">
+                <div class="raffle-header">
+                    <div class="trophy-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                            <path d="M4 22h16"></path>
+                            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                        </svg>
+                    </div>
+                    <h1 class="raffle-title">{{ $raffle->name }}</h1>
+                    <p class="raffle-description">{{ $raffle->description }}</p>
+                </div>
 
-
-    @extends('layouts.boletos')
-
-    @section('styles')
-        <style>
-            .bet-amount-btn {
-                padding: 10px;
-                margin: 5px;
-                border: 1px solid #ccc;
-                cursor: pointer;
-            }
-
-            .bet-amount-btn.selected {
-                background-color: #4CAF50;
-                color: white;
-            }
-        </style>
-    @endsection
-
-    @section('content')
-        <div class="main-container">
-            <div class="raffle-container">
-                <h1 class="raffle-title">{{ $raffle->name }}</h1> <!-- Nombre de la rifa -->
-                <p class="lottery-details">{{ $raffle->description }}</p> <!-- Descripción de la rifa -->
-
-                <form action="{{ route('raffleEntries.store') }}" method="POST">
+                <form action="{{ route('raffleEntries.store') }}" method="POST" class="raffle-form">
                     @csrf
-
                     <input type="hidden" name="raffle_id" value="{{ $raffle->id }}">
 
-                    <div class="form-group">
-                        <label for="id">Número del Ticket (3-4 dígitos):</label>
-                        <input
-                            type="number"
-                            id="id"
-                            name="id"
-                            min="100"
-                            max="9999"
-                            placeholder="Ingrese un número de ticket"
-                            value="{{ old('id') }}"
-                            required
-                        >
+                    <div class="form-group ticket-number-group">
+                        <label for="id">Número de la Suerte (3 dígitos)</label>
+                        <div class="ticket-input-container">
+                            <input
+                                type="number"
+                                id="id"
+                                name="id"
+                                min="100"
+                                max="999"
+                                placeholder="Ingrese un número de ticket"
+                                value="{{ old('id') }}"
+                                required
+                                class="ticket-input"
+                            >
+                            <button type="button" id="generateRandomNumberBtn" class="random-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M19 2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z"></path>
+                                    <path d="M7 12h.01"></path>
+                                    <path d="M12 12h.01"></path>
+                                    <path d="M17 12h.01"></path>
+                                </svg>
+                                Aleatorio
+                            </button>
+                        </div>
                         @error('id')
-                        <div class="text-red-500">{{ $message }}</div>
+                        <div class="error-message">{{ $message }}</div>
                         @enderror
                     </div>
 
                     @if($raffle->type === 'ticket')
-                        <div class="form-group">
-                            <label for="ticket_price">Precio del Ticket:</label>
-                            <input
-                                type="number"
-                                id="ticket_price"
-                                name="ticket_price"
-                                value="{{ $raffle->ticket_price }}"
-                                readonly
-                                required
-                            >
+                        <div class="form-group ticket-price-group">
+                            <div class="price-container">
+                                <div class="price-label">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 12v8H4v-8"></path>
+                                        <path d="M2 4v8h20V4"></path>
+                                        <path d="M12 4v8"></path>
+                                        <path d="M12 16v3"></path>
+                                    </svg>
+                                    <label for="ticket_price">Precio del Ticket:</label>
+                                </div>
+                                <input
+                                    type="number"
+                                    id="ticket_price"
+                                    name="ticket_price"
+                                    value="{{ $raffle->ticket_price }}"
+                                    readonly
+                                    required
+                                    class="price-input"
+                                >
+                            </div>
                         </div>
                     @endif
 
                     @if($raffle->type === 'bet')
-                        <div class="form-group">
-                            <label>Seleccione el monto de su apuesta:</label>
+                        <div class="form-group bet-group">
+                            <div class="prize-pool">
+                                <div class="prize-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="8" r="6"></circle>
+                                        <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
+                                    </svg>
+                                </div>
+                                <div class="prize-info">
+                                    <span class="prize-label">PREMIO ACUMULADO</span>
+                                    <span class="prize-amount">{{ $raffle->total_bet_pool }}</span>
+                                </div>
+                            </div>
+
+                            <label class="bet-amount-label">Seleccione el monto de su apuesta:</label>
                             <div class="bet-buttons">
-                                <button type="button" class="bet-amount-btn" data-value="1000">1000</button>
-                                <button type="button" class="bet-amount-btn" data-value="5000">5000</button>
-                                <button type="button" class="bet-amount-btn" data-value="10000">10000</button>
+                                <button type="button" class="bet-amount-btn" data-value="1000">$1,000</button>
+                                <button type="button" class="bet-amount-btn" data-value="5000">$5,000</button>
+                                <button type="button" class="bet-amount-btn" data-value="10000">$10,000</button>
                             </div>
                             <input type="hidden" name="bet_amount" id="bet_amount" required>
                             @error('bet_amount')
-                            <div class="text-red-500">{{ $message }}</div>
+                            <div class="error-message">{{ $message }}</div>
                             @enderror
                         </div>
                     @endif
 
                     <div class="button-group">
-                        <button type="submit" class="btn-primary">
-                            Confirmar Compra
+                        <button type="submit" class="submit-button">
+                            <span>Confirmar Compra</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12h14"></path>
+                                <path d="m12 5 7 7-7 7"></path>
+                            </svg>
                         </button>
                     </div>
                 </form>
             </div>
         </div>
+    </div>
 
-        <script>
-            document.querySelectorAll('.bet-amount-btn').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    document.querySelectorAll('.bet-amount-btn').forEach(function(btn) {
-                        btn.classList.remove('selected');
-                    });
-                    const betAmount = this.getAttribute('data-value');
-                    document.getElementById('bet_amount').value = betAmount;
-                    this.classList.add('selected');
+    <script>
+        document.querySelectorAll('.bet-amount-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.bet-amount-btn').forEach(function(btn) {
+                    btn.classList.remove('selected');
                 });
+                const betAmount = this.getAttribute('data-value');
+                document.getElementById('bet_amount').value = betAmount;
+                this.classList.add('selected');
             });
-        </script>
-    @endsection
+        });
+
+        function generateRandomNumber() {
+            const min = 100;
+            const max = 999;
+            const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+            document.getElementById('id').value = randomNum;
+        }
+
+        document.getElementById('generateRandomNumberBtn').addEventListener('click', generateRandomNumber);
+    </script>
+@endsection

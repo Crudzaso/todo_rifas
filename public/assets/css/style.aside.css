@@ -1,0 +1,92 @@
+/* Estilo general del aside */
+.aside {
+    background-color: var(--primary);
+    color: var(--text-white);
+    padding: 1.5rem;
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    border-right: 1px solid var(--complementary);
+}
+
+/* Estilo del logo */
+.aside-logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.aside-logo img {
+    width: 120px;
+    height: auto;
+}
+
+/* Menú */
+.aside-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Estilo de los botones del menú */
+.menu-item {
+    margin-bottom: 1rem;
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    color: var(--text-white);
+    width: 100%;
+    text-align: center;
+}
+
+.menu-link:hover {
+    background-color: var(--accent);
+    color: var(--primary);
+    transform: translateY(-2px);
+}
+
+/* Botones específicos */
+.menu-item a.btn-success {
+    background-color: var(--accent);
+    border-radius: 8px;
+}
+
+.menu-item a.btn-success:hover {
+    background-color: var(--background);
+    color: var(--primary);
+    transform: translateY(-2px);
+}
+
+/* Distribución de los botones */
+.menu-item {
+    margin: 10px 0;
+}
+
+/* Efectos de hover */
+.menu-link:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .aside {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .menu-link {
+        font-size: 0.9rem;
+        padding: 10px 15px;
+    }
+}

@@ -1,0 +1,281 @@
+:root {
+    --color-primary: #1a1d23;    /* Dark Navy Blue */
+    --color-secondary: #093e5e;  /* Deep Navy Blue */
+    --color-accent: #34a85a;     /* Energetic Green */
+    --color-background: #2afb5a; /* Light Green */
+    --color-complementary: #2f4f4f; /* Dark Gray */
+    --color-white: #FFFFFF;
+    --gradient-primary: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+    --gradient-accent: linear-gradient(135deg, var(--color-accent), var(--color-background));
+}
+
+.raffle-page {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, var(--color-background), var(--color-white));
+    padding: 2rem 1rem;
+}
+
+.raffle-container {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.raffle-card {
+    background: var(--color-white);
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px -5px rgba(26, 29, 35, 0.1);
+    overflow: hidden;
+    padding: 2rem;
+    border: 1px solid rgba(9, 62, 94, 0.1);
+}
+
+.raffle-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.trophy-icon {
+    margin: 0 auto 1.5rem;
+    width: 48px;
+    height: 48px;
+    color: var(--color-accent);
+}
+
+.raffle-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+}
+
+.raffle-description {
+    color: var(--color-complementary);
+    font-size: 1.125rem;
+    line-height: 1.6;
+}
+
+.form-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-primary);
+}
+
+.ticket-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--color-secondary);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: all 0.2s;
+    color: var(--color-primary);
+}
+
+.ticket-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(52, 168, 90, 0.1);
+}
+
+.random-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background-color: var(--color-secondary);
+    border: none;
+    border-radius: 0.5rem;
+    color: var(--color-white);
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.random-button:hover {
+    background-color: var(--color-primary);
+    transform: translateY(-1px);
+}
+
+.random-button svg {
+    color: var(--color-white);
+}
+
+.price-container {
+    background-color: rgba(42, 251, 90, 0.1);
+    border: 1px solid var(--color-accent);
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.price-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+}
+
+.price-label svg {
+    color: var(--color-accent);
+}
+
+.price-input {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--color-white);
+    border: 2px solid var(--color-accent);
+    border-radius: 0.375rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.prize-pool {
+    background: linear-gradient(to right, rgba(42, 251, 90, 0.1), rgba(52, 168, 90, 0.1));
+    border: 2px solid var(--color-accent);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.prize-icon {
+    color: var(--color-accent);
+}
+
+.prize-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-secondary);
+}
+
+.prize-amount {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.bet-amount-btn {
+    padding: 0.75rem;
+    background-color: var(--color-white);
+    border: 2px solid var(--color-secondary);
+    border-radius: 0.5rem;
+    font-weight: 500;
+    color: var(--color-secondary);
+    transition: all 0.2s;
+}
+
+.bet-amount-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.bet-amount-btn.selected {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-white);
+}
+
+.error-message {
+    color: #dc2626;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.submit-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: 0.5rem;
+    color: var(--color-white);
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px -1px rgba(9, 62, 94, 0.2);
+}
+
+.submit-button:hover {
+    background: var(--color-accent);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px -1px rgba(52, 168, 90, 0.2);
+}
+
+.submit-button:active {
+    transform: translateY(0);
+}
+
+/* Animaciones */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.prize-pool:hover {
+    animation: pulse 2s infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .raffle-card {
+        padding: 1.5rem;
+    }
+
+    .bet-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .ticket-input-container {
+        flex-direction: column;
+    }
+
+    .random-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    .prize-pool:hover {
+        animation: none;
+    }
+
+    .submit-button:hover {
+        transform: none;
+    }
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+    .raffle-page {
+        background: linear-gradient(to bottom, var(--color-primary), var(--color-secondary));
+    }
+
+    .raffle-card {
+        background: #1a1d23;
+        border-color: var(--color-accent);
+    }
+
+    .ticket-input,
+    .price-input {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: var(--color-white);
+    }
+
+    .raffle-description,
+    .form-group label {
+        color: var(--color-white);
+    }
+
+    .bet-amount-btn {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: var(--color-white);
+    }
+}

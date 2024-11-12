@@ -6,6 +6,7 @@ use App\Http\Requests\RequestRaffle;
 use App\Models\Raffle;
 
 use App\Models\RaffleEntries;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
@@ -94,28 +95,50 @@ class RaffleController extends Controller
 
     public function show(Raffle $raffle)
     {
-        $totalBetPool = 0;
-        if ($raffle->type == 'bet') {
-            // Sumar todas las apuestas realizadas
-            $totalBetPool = RaffleEntries::where('raffle_id', $raffle->id)
-                ->sum('bet_amount');
-        }
-        return view('raffleEntries.show', compact('raffle', 'totalBetPool'));
+
+
+        return view('raffleEntries.show', compact('raffle'));
     }
 
-    public function edit(Raffle $raffle)
-    {
-        $availableLotteries = $this->getAvailableLotteries();
-        return view('Raffles.edit', compact('raffle', 'availableLotteries'));
-    }
 
-    public function update(RequestRaffle $request, Raffle $raffle)
+    public function update(Request $request, $id)
     {
-        // Implementar lógica de actualización
+        /**
+         * Este fragmento de codigo se encarda de validar los datos
+         * que entraran inicialmente a través del request
+        */
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:1000', // Solo texto
+        ]);
+
+        /**
+         * buscar la rifa y actualizar los datos
+        */
+        $raffle = Raffle::findOrFail($id);
+        $raffle->update([
+            'name' => $request->name,
+            'description' => $request->description, // Solo se actualiza la descripción
+        ]);
+
+        /**
+         * redirigir a la vista de apuestas
+        */
+        return redirect()->route('raffles.index')->with('success', 'Rifa actualizada con éxito');
     }
 
     public function destroy(Raffle $raffle)
     {
-        // Implementar lógica de eliminación
+        if ($raffle->raffle_date > now()) {
+            return redirect()->route('raffles.index')->with('error', 'No se puede eliminar la rifa porque aún no ha ocurrido.');
+        }
+
+        if ($raffle->entries()->exists()) {
+            return redirect()->route('raffles.index')->with('error', 'No se puede eliminar la rifa porque ya tiene boletos comprados.');
+        }
+
+        $raffle->delete();
+
+        return redirect()->route('raffles.index')->with('success', 'Rifa eliminada correctamente');
     }
 }
