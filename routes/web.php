@@ -40,10 +40,6 @@ Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('paym
 
 
 
-
-
-
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -83,4 +79,6 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+
 
