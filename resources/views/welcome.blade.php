@@ -3,11 +3,7 @@
 <html lang="en">
 <!--begin::Head-->
 <head>
-<<<<<<< HEAD
     <title>TodoRifas</title>
-=======
-    <title>TODO RIFAS</title>
->>>>>>> 846dd045d5247ca948bfc1d4863ff9c0f187ffbe
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 

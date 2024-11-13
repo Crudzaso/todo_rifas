@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.appTodoRifas')
 
 @section('content')
     <!--Start Dashboard content-->
-    
+
     <!--End Dashboard content-->
 @endsection
 

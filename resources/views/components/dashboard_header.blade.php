@@ -101,7 +101,7 @@
                         <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="light">
                                 <span class="menu-icon" data-kt-element="icon">
-                                    <i class="ki-outline ki-night-day fs-2"></i>            
+                                    <i class="ki-outline ki-night-day fs-2"></i>
                                 </span>
                                 <span class="menu-title">Light</span>
                             </a>
@@ -111,7 +111,7 @@
                         <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="dark">
                                 <span class="menu-icon" data-kt-element="icon">
-                                    <i class="ki-outline ki-moon fs-2"></i>            
+                                    <i class="ki-outline ki-moon fs-2"></i>
                                 </span>
                                 <span class="menu-title">Dark</span>
                             </a>
@@ -121,7 +121,7 @@
                         <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="system">
                                 <span class="menu-icon" data-kt-element="icon">
-                                    <i class="ki-outline ki-screen fs-2"></i>            
+                                    <i class="ki-outline ki-screen fs-2"></i>
                                 </span>
                                 <span class="menu-title">System</span>
                             </a>
@@ -210,9 +210,3 @@
         </div>
         <!--end::Wrapper-->
     </div>
-<<<<<<< HEAD
-    <!--end::Container-->
-=======
-    <!--end::Container-->
-</div>
->>>>>>> 846dd045d5247ca948bfc1d4863ff9c0f187ffbe
