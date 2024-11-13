@@ -81,4 +81,6 @@ Route::middleware([
 });
 
 
-
+Route::get('/paypal', function () {
+    return view('paypal');
+});
