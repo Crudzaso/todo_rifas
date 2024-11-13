@@ -1,15 +1,38 @@
-.btn-google {
+/* Launch button styles */
+button {
     display: flex;
     align-items: center;
-    background-color: #4285F4; /* Color de fondo de Google */
-    color: white; /* Color del texto */
-    padding: 10px 15px; /* Espaciado del botón */
-    border: none; /* Sin borde */
-    border-radius: 5px; /* Esquinas redondeadas */
-    text-decoration: none; /* Sin subrayado */
-}
+    font-family: inherit;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 17px;
+    padding: 0.8em 1.3em 0.8em 0.9em;
+    color: white;
+    background: #ad5389;
+    background: #2d8cf0;
+    border: none;
+    letter-spacing: 0.05em;
+    border-radius: 50px;
+  }
 
-.btn-google img {
-    height: 20px; /* Altura del logo */
-    margin-right: 8px; /* Espacio entre logo y texto */
-}
+  button svg {
+    margin-right: 3px;
+    transform: rotate(30deg);
+    transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  button span {
+    transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  button:hover svg {
+    transform: translateX(5px) rotate(90deg);
+  }
+
+  button:hover span {
+    transform: translateX(7px);
+  }
+
+  .rocket{
+    border-radius: 50px;
+  }

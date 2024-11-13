@@ -12,10 +12,13 @@
     <!--begin::Logo-->
     <div class="aside-logo flex-column-auto pt-10 pt-lg-7" id="kt_aside_logo">
         <a href="index.html">
-            <img alt="Logo" src="{{asset('images/todo_rifas v2.png')}}" class="h-40px" />
+            <img alt="Logo" src="{{asset('assets/media/images/todo_rifas v2.png')}}" class="h-40px" />
         </a>
     </div>
     <!--end::Logo-->
+<<<<<<< HEAD
+</div>
+=======
     <div class="aside-menu flex-column-fluid pt-0 pb-7 py-lg-10" id="kt_aside_menu">
         <!--begin::Aside menu-->
         <div id="kt_aside_menu_wrapper" class="w-100 hover-scroll-y scroll-lg-ms d-flex" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: trur}" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer" data-kt-scroll-wrappers="#kt_aside, #kt_aside_menu" data-kt-scroll-offset="0">
@@ -44,3 +47,4 @@
 </div>
 </body>
 </html>
+>>>>>>> 846dd045d5247ca948bfc1d4863ff9c0f187ffbe

@@ -20,9 +20,13 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_OAUTH_ID'),
         'client_secret' => env('GOOGLE_OAUTH_KEY'),
+<<<<<<< HEAD
+        'redirect' => env('GOOGLE_REDIRECT_URI'),
+=======
         'redirect' => env('APP_ENV') === 'local'
         ? 'http://127.0.0.1:8000/google-callback'
         : 'https://todo-rifas.crudzaso.com/google-callback',
+>>>>>>> 846dd045d5247ca948bfc1d4863ff9c0f187ffbe
     ],
 
     'ses' => [
