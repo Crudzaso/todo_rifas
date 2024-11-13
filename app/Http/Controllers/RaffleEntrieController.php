@@ -25,6 +25,10 @@ class RaffleEntrieController extends Controller
     public function store(Request $request)
 
     {
+
+        if (!auth()->check()) {
+            return redirect()->route('auth')->withErrors('Por favor, inicie sesión para continuar.');
+        }
         /**
          * capturar el id de la rifa a través del request
         */

@@ -144,6 +144,7 @@
                                         </div>
                                     </div>
 
+
                                     <!-- Columna derecha con los botones -->
                                     <div class="raffle-actions d-flex flex-column justify-content-between ms-3">
                                         <a href="{{ route('raffles.show', $raffle->id) }}"
