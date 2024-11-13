@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('raffles', function (Blueprint $table) {
-            $table->enum('type', ['ticket', 'bet'])->change();
+        Schema::table('raffle_entries', function (Blueprint $table) {
+            //
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('raffle', function (Blueprint $table) {
+        Schema::table('raffle_entries', function (Blueprint $table) {
             //
         });
     }

@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('raffle_entries', function (Blueprint $table) {
-            $table->integer('id')->primary()->change();
+            $table->integer('number')->unique();
+            $table->decimal('price')->default(0.00);
         });
     }
 

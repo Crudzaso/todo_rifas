@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('raffle_entries', function (Blueprint $table) {
-            $table->integer('id')->unique();
-            $table->foreignId('raffle_id')->constrained()->onDelete('cascade');
+            $table->id();
             $table->enum('type', ['ticket', 'bet']);
             $table->decimal('price', 8, 2);
-            $table->decimal('min_bet', 8, 2);
-            $table->decimal('max_bet', 8, 2);
+            $table->decimal('bet_amount')->default(0.00);
+            $table->string('status');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('raffle_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

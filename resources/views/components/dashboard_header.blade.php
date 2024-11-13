@@ -137,8 +137,13 @@
                                 <!--end::Avatar-->
                                 <!--begin::Username-->
                                 <div class="d-flex flex-column">
-                                    <div class="fw-bold d-flex align-items-center fs-5">Max Smith</div>
-                                    <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">max@kt.com</a>
+                                    @if(auth()->check())
+                                        <div class="fw-bold d-flex align-items-center fs-5">{{ auth()->user()->name }}</div>
+                                        <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">{{ auth()->user()->email }}</a>
+                                    @else
+                                        <p>No estás autenticado</p>
+                                    @endif
+
                                 </div>
                                 <!--end::Username-->
                             </div>

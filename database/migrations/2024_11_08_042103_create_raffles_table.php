@@ -16,10 +16,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('lottery');
-            $table->boolean('active');
-            $table->enum('type', ['ticket', 'bets']);
-
-
+            $table->enum('type', ['ticket', 'bet']);
+            $table->integer('tickets_count');
+            $table->decimal('ticket_price');
+            $table->timestamp('raffle_date');
+            $table->boolean('active')->default(true);
+            $table->decimal('total_bet_pool')->default(0.00);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

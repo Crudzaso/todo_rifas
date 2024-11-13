@@ -6,10 +6,12 @@ use App\Models\Raffle;
 use App\Models\RaffleEntries;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class RaffleEntrieController extends Controller
 {
+
 
 
 
@@ -21,9 +23,17 @@ class RaffleEntrieController extends Controller
 
 
     public function store(Request $request)
+
     {
+        /**
+         * capturar el id de la rifa a través del request
+        */
         $raffle = Raffle::findOrFail($request->input('raffle_id'));
 
+        /**
+         * a través del metodo valited, se verifica las siguientes condiciones
+         * en los
+        */
 
         try {
             $validated = $request->validate([
@@ -50,6 +60,7 @@ class RaffleEntrieController extends Controller
                 'number' => $validated['id'],
                 'status' => 'reserved',
                 'type' => $raffle->type,
+                'user_id' => Auth::id(),
             ];
 
 
@@ -57,15 +68,15 @@ class RaffleEntrieController extends Controller
             if ($raffle->type === 'bet') {
                 // Para rifas de tipo 'bet'
                 $entryData['bet_amount'] = $validated['bet_amount'];
-            }
-            if ($raffle->tickets_count > 0) {
-                $raffle->decrement('tickets_count', 1);
-            }
 
 
-            else {
+            } else {
                 // Para rifas de tipo 'ticket'
                 $entryData['price'] = $raffle->ticket_price;
+            }
+
+            if ($raffle->tickets_count > 0) {
+                $raffle->decrement('tickets_count', 1);
             }
 
             $entry = RaffleEntries::create($entryData);

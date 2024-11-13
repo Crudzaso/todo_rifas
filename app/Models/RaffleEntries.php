@@ -14,9 +14,9 @@ class RaffleEntries extends Model
         'number',
         'price',
         'type',
+        'user_id',
         'bet_amount',
         'status',
-        'reservation_expires_at',
     ];
 
     protected $dates = [

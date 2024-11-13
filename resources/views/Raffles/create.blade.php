@@ -103,7 +103,7 @@
                                    name="type"
                                    value="ticket"
                                    {{ old('type') == 'ticket' ? 'checked' : '' }}
-                                   onclick="toggleTicketPrice(true)">
+                                   onchange="toggleTicketPrice()">
                             <span class="ml-2">Ticket</span>
                         </label>
                         <label class="inline-flex items-center">
@@ -112,7 +112,7 @@
                                    name="type"
                                    value="bet"
                                    {{ old('type') == 'bet' ? 'checked' : '' }}
-                                   onclick="toggleTicketPrice(false)">
+                                   onchange="toggleTicketPrice()">
                             <span class="ml-2">Apuesta</span>
                         </label>
                     </div>
@@ -148,7 +148,7 @@
                 </div>
 
                 {{-- Precio del Ticket --}}
-                <div id="ticketPriceSection" class="mb-4" style="{{ old('type') == 'bet' ? 'display: none;' : '' }}">
+                <div class="mb-4" id="ticket_price_section" style="{{ request()->input('type') == 'bet' ? 'display: none;' : '' }}">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="ticket_price">
                         Precio del Ticket *
                     </label>
@@ -158,8 +158,7 @@
                            step="0.01"
                            name="ticket_price"
                            value="{{ old('ticket_price') }}"
-                        {{ old('type') == 'ticket' ? 'required' : '' }}>
-                </div>
+                    {{ request()->input('type') == 'ticket' }}                </div>
 
                 {{-- Estado Activo --}}
                 <div class="mb-6">
@@ -185,27 +184,28 @@
 
     @push('scripts')
         <script>
-            function toggleTicketPrice(show) {
-                const ticketPriceSection = document.getElementById('ticketPriceSection');
-                const ticketPriceInput = document.getElementById('ticket_price');
+            function toggleTicketPrice() {
+                const ticketPriceSection = document.getElementById('ticket_price_section');
+                const selectedType = document.querySelector('input[name="type"]:checked')?.value;
 
-                if (show) {
+                if (selectedType === 'ticket') {
                     ticketPriceSection.style.display = 'block';
-                    ticketPriceInput.required = true;
+                    document.getElementById('ticket_price').required = true;
                 } else {
                     ticketPriceSection.style.display = 'none';
-                    ticketPriceInput.required = false;
-                    ticketPriceInput.value = '';
+                    document.getElementById('ticket_price').required = false;
                 }
             }
 
-            // Inicializar el estado del precio del ticket basado en el tipo seleccionado
             document.addEventListener('DOMContentLoaded', function() {
-                const selectedType = document.querySelector('input[name="type"]:checked')?.value;
-                if (selectedType) {
-                    toggleTicketPrice(selectedType === 'ticket');
-                }
+                // Ejecutar la función al cargar la página para verificar el estado inicial
+                toggleTicketPrice();
+
+                // Agregar el evento a los inputs tipo radio
+                const typeInputs = document.querySelectorAll('input[name="type"]');
+                typeInputs.forEach(input => input.addEventListener('change', toggleTicketPrice));
             });
         </script>
     @endpush
+
 @endsection

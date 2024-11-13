@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RaffleController;
 use App\Http\Controllers\RaffleEntrieController;
+use App\Http\Controllers\ResultController;
 use App\Http\Controllers\RolerController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -19,29 +20,13 @@ Route::post('/roles/{role}/add-permissions', [RolerController::class, 'addPermis
  * **/
 Route::resource('raffles', RaffleController::class);
 
-/* rout users
- * **/
-Route::get('/admin/users', [UserController::class, 'index'])->middleware('admin');
-Route::get('/admin/users/{id}/edit', [UserController::class, 'edit'])->middleware('admin');
-Route::put('/admin/users/{id}', [UserController::class, 'update'])->middleware('admin');
-Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->middleware('admin');
-
 /* rout result lotery
  * **/
 Route::get('/results', [ResultController::class, 'index']);
 
-/* rout adminLotery
- * **/
-Route::get('/admin/raffles', [AdminRaffleController::class, 'index'])->middleware('admin');
-
 
 Route::resource('raffleEntries',RaffleEntrieController::class);
 Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
-
-
-
-
-
 
 
 Route::get('/', function () {
@@ -54,7 +39,6 @@ Route::get('/profile/overview', function () {
 
 Route::get('/login-google', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('/google-callback', [SocialAuthController::class, 'handleGoogleCallback']);
-
 
 
 /**

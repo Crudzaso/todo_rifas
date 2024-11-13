@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('raffles', function (Blueprint $table) {
-            $table->softDeletes();
-
+            $table->decimal('ticket_price', 8, 2)->default(0.00)->change();  // Define el valor por defecto como 0.00
+            $table->integer('tickets_count')->default(0)->change();
         });
     }
 
