@@ -68,6 +68,7 @@ class RaffleEntrieController extends Controller
             if ($raffle->type === 'bet') {
                 // Para rifas de tipo 'bet'
                 $entryData['bet_amount'] = $validated['bet_amount'];
+                $raffle->increment('total_bet_pool', $validated['bet_amount']);
 
 
             } else {
