@@ -68,9 +68,6 @@ Route::middleware([
     })->name('dashboard');
 });
 
-<<<<<<< HEAD
 Route::get('/auth', function(){
     return view('auth.auth'); //func to load auth view
 })-> name('auth');
-=======
->>>>>>> 846dd045d5247ca948bfc1d4863ff9c0f187ffbe
