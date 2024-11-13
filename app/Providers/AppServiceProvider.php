@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
+
     protected $listen = [
 
         Login::class => [

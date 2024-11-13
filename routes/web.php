@@ -1,68 +1,62 @@
 <?php
 
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\SocialAuthController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\RaffleController;
+use App\Http\Controllers\RaffleEntrieController;
+use App\Http\Controllers\ResultController;
+use App\Http\Controllers\RolerController;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
+
+
+/* rutas del admin*/
+Route::resource('roles',RolerController::class)->names('admin.roles');
+Route::post('roles/{role}/remove-permissions', [RolerController::class, 'removePermissions'])->name('admin.roles.removePermissions');
+Route::get('admin/roles/{roleId}/permissions', [RolerController::class, 'getRolePermissions'])->name('admin.roles.getPermissions');
+Route::post('/roles/{role}/add-permissions', [RolerController::class, 'addPermissions'])->name('admin.roles.addPermissions');
+
+/* rout raffles
+ * **/
+Route::resource('raffles', RaffleController::class);
+
+/* rout result lotery
+ * **/
+Route::get('/results', [ResultController::class, 'index']);
+
+
+Route::resource('raffleEntries',RaffleEntrieController::class);
+Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
 
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login-google', function () {
-    return Socialite::driver('google')->redirect();
-});
-
-Route::get('/google-callback', function () {
-    try {
-        $user = Socialite::driver('google')->user();
-
-        /*verificar si el usuario existe usando
-        el id del proveedor de google y el external auth
-        */
-
-        $userExist = User::where('provider_id', $user->id)
-            ->where('external_auth', 'google')
-            ->first();
-
-        if ($userExist) {
-
-            Auth::login($userExist);
-        } else {
-       /* Si no existe
-        * se crea un nuevo
-        *  usuario en la base de datos
-        *
-        *  */
-            $userNew = User::create([
-                'name' => $user->name,
-                'email' => $user->email,
-                'avatar' => $user->avatar,
-                'provider_id' => $user->id,
-                'external_auth' => 'google',
-            ]);
-
-            /* Se le Asigna un rol
-            * de cliente por defecto
-            */
-            $userNew->assignRole('client');
-            Auth::login($userNew);
-        }
-
-       /*  Redirigir a la página de dashboard*/
-        return redirect('/dashboard');
-    } catch (Exception $e) {
-        /*Se maneja el error de autenticación con google */
-        \Log::error('Error en la autenticación: ' . $e->getMessage());
-
-        return redirect('/')->with('error', 'Error al iniciar sesión con Google.');
-    }
-});
-
 Route::get('/profile/overview', function () {
     return view('profile.overview');
 })->name('profile.overview');
+
+Route::get('/login-google', [SocialAuthController::class, 'redirectToGoogle']);
+Route::get('/google-callback', [SocialAuthController::class, 'handleGoogleCallback']);
+
+
+/**
+ * raffle routes
+*/
+//Route::get('/',function (){
+//    $response = Http::get('https://api-resultadosloterias.com/api/results');
+//    $data = $response->json();
+//
+//   foreach ($data['data'] as $lottery){
+//       echo 'Lotería: ' . $lottery['lottery'] . ' | Resultado: ' . $lottery['result'] . ' | Fecha: ' . $lottery['date'];
+//       echo "<br>";
+//
+//   }
+//
+//
+//});
+
 
 Route::middleware([
     'auth:sanctum',
@@ -74,6 +68,9 @@ Route::middleware([
     })->name('dashboard');
 });
 
+<<<<<<< HEAD
 Route::get('/auth', function(){
     return view('auth.auth'); //func to load auth view
 })-> name('auth');
+=======
+>>>>>>> 846dd045d5247ca948bfc1d4863ff9c0f187ffbe

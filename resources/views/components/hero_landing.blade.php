@@ -11,7 +11,7 @@
 							</span></h1>
         <!--end::Title-->
         <!--begin::Action-->
-        <a href="{{ route('login') }}" class="btn btn-primary">Quiero Probar mi suerte</a>
+        <a href="{{ route('raffles.index') }}" class="btn btn-primary">Quiero Probar mi suerte</a>
         <!--end::Action-->
     </div>
     <!--end::Heading-->
