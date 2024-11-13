@@ -73,3 +73,7 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::get('/auth', function(){
+    return view('auth.auth'); //func to load auth view
+})-> name('auth');

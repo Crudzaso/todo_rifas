@@ -44,43 +44,6 @@
         </div>
         <!--end::Curve bottom-->
     </div>
-
-<div class="wrapper">
-        <div class="card-switch">
-            <label class="switch">
-               <input type="checkbox" class="toggle">
-               <span class="slider"></span>
-               <span class="card-side"></span>
-               <div class="flip-card__inner">
-                  <div class="flip-card__front">
-                     <div class="title">Log in</div>
-                    <a href="{{ url('login-google') }}" class="btn btn-google btn-sm">
-                    <img src="{{ asset('assets/media/images/icono-google.png') }}" alt="Google Logo" class="h-4 mr-2">
-                    Entrar con Google
-                    </a>
-                     <form class="flip-card__form" action="">
-                        <input class="flip-card__input" name="email" placeholder="Email" type="email">
-                        <input class="flip-card__input" name="password" placeholder="Password" type="password">
-                        <button class="flip-card__btn">Let`s go!</button>
-                     </form>
-                  </div>
-                  <div class="flip-card__back">
-                     <div class="title">Sign up</div>
-                    <a href="{{ url('login-google') }}" class="btn btn-google btn-sm">
-                    <img src="{{ asset('assets/media/images/icono-google.png') }}" alt="Google Logo" class="h-4 mr-2">
-                    Entrar con Google
-                    </a>
-                     <form class="flip-card__form" action="">
-                        <input class="flip-card__input" placeholder="Name" type="name">
-                        <input class="flip-card__input" name="email" placeholder="Email" type="email">
-                        <input class="flip-card__input" name="password" placeholder="Password" type="password">
-                        <button class="flip-card__btn">Confirm!</button>
-                     </form>
-                  </div>
-               </div>
-            </label>
-        </div>
-   </div>
     <!--end::Header Section-->
     <!--begin::How It Works Section-->
     <div class="mb-n10 mb-lg-n20 z-index-2">
