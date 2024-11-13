@@ -1,6 +1,6 @@
 @extends('layouts.appTodoRifas')
 
-@section('title', 'Admin')
+@section('title', 'CrearRoles')
 
 @section('sidebar')
     @include('components.sidebar')
@@ -13,6 +13,7 @@
 @section('header')
     @include('components.dashboard_header')
 @stop
+
 
 @section('content')
     <h1>Crear un nuevo Rol</h1>

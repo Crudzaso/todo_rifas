@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
     <link href="{{ asset('assets/css/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/raffle.index.css') }}" rel="stylesheet" type="text/css" />
+
     <style>
 
         #kt_content {
@@ -100,7 +102,7 @@
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
 <script src="{{ asset('assets/js/plugins.min.js') }}"></script>
 <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
-<script src="{{ asset('assets/js/modalRoles.js') }}"></script>
+<script src="{{ asset('assets/js/raffleModal.js') }}"></script>
 <!--end::Global Javascript Bundle-->
 </body>
 </html>
