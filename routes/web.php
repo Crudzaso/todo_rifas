@@ -20,13 +20,9 @@ Route::post('/roles/{role}/add-permissions', [RolerController::class, 'addPermis
  * **/
 Route::resource('raffles', RaffleController::class);
 
-/* rout result lotery
- * **/
-Route::get('/results', [ResultController::class, 'index']);
-
 
 Route::resource('raffleEntries',RaffleEntrieController::class);
-Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
+Route::get('/winners', [RaffleController::class, 'showWinners'])->name('winners');
 
 
 Route::get('/', function () {

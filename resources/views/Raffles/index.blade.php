@@ -1,4 +1,4 @@
->
+
 @extends('layouts.appTodoRifas')
 
 @section('title', 'Rifas')

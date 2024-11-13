@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RequestRaffle;
 use App\Models\Raffle;
+use App\Models\RaffleEntries;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -18,24 +20,40 @@ class RaffleController extends Controller
         $response = Http::get('https://api-resultadosloterias.com/api/lotteries');
 
         if ($response->successful() && isset($response['data'])) {
-            return collect($response['data'])->pluck('name');
+            return collect($response['data'])
+                ->filter(function ($lottery) {
+                    return stripos($lottery['name'], 'ANTIOQUEÑITA') !== false ||
+                        stripos($lottery['name'], 'PAISITA') !== false ||
+                        stripos($lottery['name'], 'MEDELLIN') !== false;
+                })
+                ->pluck('name');
         }
 
-        return [];
+        return collect();
     }
 
+    /**
+     * se muestran todas las rifas creadas
+    */
     public function index()
     {
         $raffles = Raffle::with(['entries'])->get();
         return view('Raffles.index', compact('raffles'));
     }
 
+    /**
+     * se muestra un panel para crear una rifa
+    */
     public function create()
     {
         $availableLotteries = $this->getAvailableLotteries();
         return view('Raffles.create', compact('availableLotteries'));
     }
 
+
+    /**
+     * metodo para crear una rifa
+    */
     public function store(RequestRaffle $request)
 
 
@@ -101,13 +119,22 @@ class RaffleController extends Controller
         }
     }
 
+    /**
+     * este metodo lleva al panel de boletos para comprar
+     * o reservar un boleto
+    */
     public function show(Raffle $raffle)
+
     {
-
-
         return view('raffleEntries.show', compact('raffle'));
     }
 
+    /**
+     * Metodo para actualizar una rifa
+     * se puede actualizar el nombre y la descripcion de una rifa
+     * no redirige a la vida de edit
+     * porque se abre un modal
+    */
 
     public function update(Request $request, $id)
     {
@@ -135,6 +162,11 @@ class RaffleController extends Controller
         return redirect()->route('raffles.index')->with('success', 'Rifa actualizada con éxito');
     }
 
+    /**
+     * este metodo borra una rifa siempre y cuando la rifa haya jugado
+     * y no tenga boletos ocmprados
+    */
+
     public function destroy(Raffle $raffle)
     {
         if ($raffle->raffle_date > now()) {
@@ -149,4 +181,111 @@ class RaffleController extends Controller
 
         return redirect()->route('raffles.index')->with('success', 'Rifa eliminada correctamente');
     }
+
+    /**
+     * Este metodo obtiene el resultado de los ganadores de rifa
+     * Basandose en lerias de antioquia
+     * filtra las loteria de antioquia por fecha
+     * obtenemos las que juegan hoy
+     * obtenemos el resultalto de la loteria a través de la api
+     * si se obtiene un resultado extraemos los 3 ultimos digiros
+     * lo comparamos con el number de l boleto del usuario
+    */
+
+    public function getWinner()
+    {
+        $today = Carbon::today();
+
+        $rafflesToday = Raffle::whereDate('raffle_date', $today)->get();
+
+        $winners = [];
+
+        foreach ($rafflesToday as $raffle) {
+
+            $lotteryResult = $this->getLotteryResult($raffle->lottery);
+
+            if ($lotteryResult) {
+                $lotteryResultLast3Digits = substr($lotteryResult, -3);
+
+                $entries = RaffleEntries::where('raffle_id', $raffle->id)
+//                    ->where('status', 'paid')
+                    ->get();
+
+                foreach ($entries as $entry) {
+                    $userNumberLast3Digits = $entry->number;
+
+                    if ($userNumberLast3Digits == $lotteryResultLast3Digits) {
+                        $winners[] = [
+                            'raffle_name' => $raffle->lottery,
+                            'raffle_date' => $raffle->raffle_date,
+                            'winning_number' => $lotteryResult,
+                            'user_number' => $entry->number,
+                            'user_id' => $entry->user_id,
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $winners;
+    }
+
+/**
+ * Este metodo sirve para filtrar los resultados de la loteria
+ * haciendo una consula a la api
+ * directamente al enpoint que devuelve los resultados
+ * filtramos por rifas de antioquia
+ * que inicien por esos nombres
+ * el metodo recibe un nombre para comparar
+*/
+
+    public function getLotteryResult($lotteryName)
+    {
+        $lotteriesOfInterest = ['ANTIOQUEÑITA', 'PAISITA', 'MEDELLIN'];
+
+        $response = Http::get('https://api-resultadosloterias.com/api/results');
+
+        if ($response->successful() && isset($response['data'])) {
+            $lotteryData = collect($response['data'])->firstWhere(function ($item) use ($lotteriesOfInterest) {
+                return collect($lotteriesOfInterest)->contains(fn($lottery) => strpos($item['lottery'], $lottery) === 0);
+            });
+
+            if ($lotteryData) {
+                return $lotteryData['result'];
+            }
+        }
+
+        return null;
+    }
+
+/**
+ * Este metodo sirve para pasar los resultados
+ * a la vista de resultados
+*/
+
+    public function showWinners()
+    {
+        $winners = $this->getWinner();
+
+        // Pasar los datos de los ganadores a la vista 'winners'
+        return view('Raffles.winners', ['winners' => $winners]);
+    }
+
+
+    public function showOrganizersRaffles(User $user)
+    {
+        $raffles = Raffle::where('user_id', $user->id)->with('entries')->get();
+
+        $rafflesWithStats = $raffles->map(function ($raffle) {
+            $raffle->potential_gain = $raffle->getPotentialGain();
+            $raffle->actual_gain = $raffle->getActualGain();
+            return $raffle;
+        });
+
+        return view('organizer.raffles', compact('rafflesWithStats'));
+    }
+
+
+
+
 }
