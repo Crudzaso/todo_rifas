@@ -1,22 +1,8 @@
 @extends('layouts.appTodoRifas')
 
-@section('title', 'EditarRoles')
-
-@section('sidebar')
-    @include('components.sidebar')
-@endsection
-
-@section('headerMobile')
-    @include('components.header_mobile')
-@endsection
-
-@section('header')
-    @include('components.dashboard_header')
-@stop
-
 @section('styles')
-    <link href="{{ asset('css/permissions.css') }}" rel="stylesheet">
-@stop
+<link href="{{ asset('assets/css/raffle.index.css') }}" rel="stylesheet" type="text/css" />
+@endsection
 
 @section('content')
     <div class="permissions-container">
@@ -67,4 +53,4 @@
 
         <a href="{{ route('admin.roles.index') }}" class="btn-back">Regresar</a>
     </div>
-@stop
+@endsection

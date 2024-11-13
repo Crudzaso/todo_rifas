@@ -1,19 +1,8 @@
 @extends('layouts.appTodoRifas')
 
-@section('title', 'CrearRoles')
-
-@section('sidebar')
-    @include('components.sidebar')
+@section('styles')
+    <link href="{{ asset('assets/css/raffle.index.css') }}" rel="stylesheet" type="text/css" />
 @endsection
-
-@section('headerMobile')
-    @include('components.header_mobile')
-@endsection
-
-@section('header')
-    @include('components.dashboard_header')
-@stop
-
 
 @section('content')
     <h1>Crear un nuevo Rol</h1>
@@ -59,3 +48,5 @@
         <button type="submit" class="btn btn-primary">Crear Rol</button>
     </form>
 @endsection
+
+

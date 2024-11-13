@@ -1,20 +1,8 @@
-
 @extends('layouts.appTodoRifas')
 
-@section('title', 'Rifas')
-
-@section('sidebar')
-    @include('components.sidebar')
+@section('styles')
+    <link href="{{ asset('assets/css/raffle.index.css') }}" rel="stylesheet" type="text/css" />
 @endsection
-
-@section('headerMobile')
-    @include('components.header_mobile')
-@endsection
-
-@section('header')
-    @include('components.dashboard_header')
-@endsection
-
 
 @section('content')
     <!-- Navbar fija al scroll -->
@@ -86,7 +74,7 @@
 
                                     <!-- Columna derecha con los botones -->
                                     <div class="raffle-actions d-flex flex-column justify-content-between ms-3">
-                                        <a href="{{ route('raffles.show', $raffle->id) }}"
+                                        <a href="{{route('raffles.show', $raffle->id) }}"
                                            class="btn btn-play mb-2">
                                             <i class="fas fa-play-circle me-1"></i>
                                             <span>Jugar</span>
@@ -245,4 +233,8 @@
             });
         });
     </script>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('assets/js/raffleModal.js') }}"></script>
 @endsection

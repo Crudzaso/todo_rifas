@@ -1,20 +1,5 @@
 @extends('layouts.appTodoRifas')
 
-@section('title', 'Rifas')
-
-@section('sidebar')
-    @include('components.sidebar')
-@endsection
-
-@section('headerMobile')
-    @include('components.header_mobile')
-@endsection
-
-@section('header')
-    @include('components.dashboard_header')
-@stop
-
-
 @section('content')
 
     <div class="container mx-auto px-4 py-6">
@@ -207,5 +192,8 @@
             });
         </script>
     @endpush
+@endsection
 
+@section('scripts')
+    <script src="{{ asset('assets/js/raffleModal.js') }}"></script>
 @endsection

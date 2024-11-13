@@ -18,6 +18,7 @@
                 <!--begin::Item-->
                 <div class="me-3">
                     <a href="#" class="btn btn-icon btn-custom btn-active-color-primary position-relative" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+                        <i class="ki-outline ki-notification-bing fs-1"></i>
                         <span class="bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink"></span>
                     </a>
                     <!--begin::Menu-->
@@ -73,7 +74,7 @@
                                     <!--end::Section-->
                                     <!--begin::Illustration-->
                                     <div class="text-center px-4">
-                                        <img class="mw-100 mh-200px" alt="image" src="assets/media/illustrations/sigma-1/1.png" />
+                                        <img class="mw-100 mh-200px" alt="image" src="{{asset('assets/media/images/todo_rifas_pet.png')}}" />
                                     </div>
                                     <!--end::Illustration-->
                                 </div>
@@ -90,7 +91,8 @@
                 <div class="d-flex align-items-center me-3">
                     <!--begin::Menu toggle-->
                     <a href="#" class="btn btn-icon btn-custom btn-active-color-primary" data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-
+                        <i class="ki-outline ki-night-day theme-light-show fs-1"></i>
+                        <i class="ki-outline ki-moon theme-dark-show fs-1"></i>
                     </a>
                     <!--begin::Menu toggle-->
                     <!--begin::Menu-->
@@ -98,6 +100,9 @@
                         <!--begin::Menu item-->
                         <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="light">
+                                <span class="menu-icon" data-kt-element="icon">
+                                    <i class="ki-outline ki-night-day fs-2"></i>
+                                </span>
                                 <span class="menu-title">Light</span>
                             </a>
                         </div>
@@ -105,6 +110,9 @@
                         <!--begin::Menu item-->
                         <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="dark">
+                                <span class="menu-icon" data-kt-element="icon">
+                                    <i class="ki-outline ki-moon fs-2"></i>
+                                </span>
                                 <span class="menu-title">Dark</span>
                             </a>
                         </div>
@@ -112,6 +120,9 @@
                         <!--begin::Menu item-->
                         <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="system">
+                                <span class="menu-icon" data-kt-element="icon">
+                                    <i class="ki-outline ki-screen fs-2"></i>
+                                </span>
                                 <span class="menu-title">System</span>
                             </a>
                         </div>
@@ -123,7 +134,7 @@
                 <!--begin::Item-->
                 <div class="me-3">
                     <a href="#" class="btn btn-icon btn-custom btn-active-color-primary" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-
+                        <i class="ki-outline ki-user fs-1"></i>
                     </a>
                     <!--begin::User account menu-->
                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px" data-kt-menu="true">
@@ -132,7 +143,7 @@
                             <div class="menu-content d-flex align-items-center px-3">
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-50px me-5">
-                                    <img alt="Logo" src="{{asset('images/todo_rifas_pet.png')}}" />
+                                    <img alt="Logo" src="{{asset('assets/media/images/todo_rifas_pet.png')}}" />
                                 </div>
                                 <!--end::Avatar-->
                                 <!--begin::Username-->
@@ -199,5 +210,3 @@
         </div>
         <!--end::Wrapper-->
     </div>
-    <!--end::Container-->
-</div>
