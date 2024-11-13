@@ -10,9 +10,8 @@
 
 </head>
 <body>
+@yield('content')
 
-
-<!-- Aquí tus scripts globales -->
-
+@yield('scripts')
 </body>
 </html>
