@@ -1,11 +1,16 @@
 @extends('layouts.appTodoRifas')
+@section('title')
+    Crear Rifa
+@endsection
 
+@section('subtitle')
+    Acá podrás Crear una Rifa Nueva
+@endsection
 @section('content')
 
     <div class="container mx-auto px-4 py-6">
         <div class="max-w-3xl mx-auto">
             <div class="flex justify-between items-center mb-6">
-                <h1 class="text-2xl font-bold">Crear Nueva Rifa</h1>
                 <a href="{{ route('raffles.index') }}"
                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                     Volver

@@ -5,8 +5,8 @@
         <div class="page-title d-flex flex-column align-items-start justify-content-center flex-wrap me-lg-20 py-3 py-lg-0 me-3">
             <!--begin::Heading-->
             <h1 class="d-flex flex-column text-gray-900 fw-bold my-1">
-                <span class="text-white fs-1">¡La suerte en tus manos!</span>
-                <small class="text-gray-600 fs-6 fw-normal pt-2">Bienvenido a TodoRifas</small>
+                <span class="text-white fs-1">@yield('Title')</span>
+                <small class="text-gray-600 fs-6 fw-normal pt-2">@yield('Subtitle')</small>
             </h1>
             <!--end::Heading-->
         </div>
@@ -165,7 +165,7 @@
                         <!--end::Menu separator-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-5">
-                            <a href="{{ route('profile.overview') }}" class="menu-link px-5">Mi perfil</a>
+                            <a href="{{ route('user-details') }}" class="menu-link px-5">Mi perfil</a>
                         </div>
                         <!--end::Menu item-->
                         <!--begin::Menu item-->

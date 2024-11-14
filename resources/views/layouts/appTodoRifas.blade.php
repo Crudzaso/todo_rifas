@@ -24,7 +24,14 @@
             <x-header_mobile></x-header_mobile>
             <!--end::Header tablet and mobile-->
             <!--begin::Header-->
-            <x-dashboard_header></x-dashboard_header>
+            <x-dashboard_header>
+                @section('Title')
+                    @yield('title')
+                @endsection
+                @section('Subtitle')
+                    @yield('subtitle')
+                @endsection
+            </x-dashboard_header>
             <!--end::Header-->
             <!--begin::Content-->
             <div class="content d-flex flex-column flex-column-fluid" id="kt_content">

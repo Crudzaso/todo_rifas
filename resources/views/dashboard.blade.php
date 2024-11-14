@@ -1,5 +1,10 @@
 @extends('layouts.appTodoRifas')
-
+@section('title')
+    Bienvenido a TodoRifas
+@endsection
+@section('subtitle')
+    ¡La suerte está en tus manos!
+@endsection
 @section('content')
     <!--Start Dashboard content-->
 
