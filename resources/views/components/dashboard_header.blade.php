@@ -188,7 +188,7 @@
                         <!--end::Menu separator-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-5 my-1">
-                            <a href={{route('profile.show')}} class="menu-link px-5">Configuración de la cuenta</a>
+                            <a href={{route('user-config')}} class="menu-link px-5">Configuración de la cuenta</a>
                         </div>
                         <!--end::Menu item-->
                         <!--begin::Menu item-->

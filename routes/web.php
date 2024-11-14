@@ -74,5 +74,9 @@ Route::get('/auth', function(){
 })-> name('auth');
 
 Route::get('/profile', function(){
-    return view('User.user-details'); //func to load auth view
+    return view('User.user-details'); //func to load user details view
 })-> name('user-details');
+
+Route::get('/profile/settings',function(){
+    return view('User.user-update'); //func to load user edit view
+})-> name('user-config');

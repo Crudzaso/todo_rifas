@@ -72,7 +72,7 @@
             </div>
             <!--end::Card title-->
             <!--begin::Action-->
-            <a href="account/settings.html" class="btn btn-sm btn-primary align-self-center">Editar Perfil</a>
+            <a href="{{route('user-config')}}" class="btn btn-sm btn-primary align-self-center">Editar Perfil</a>
             <!--end::Action-->
         </div>
         <!--begin::Card header-->
