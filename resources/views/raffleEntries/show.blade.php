@@ -30,7 +30,7 @@
                                 type="number"
                                 id="id"
                                 name="id"
-                                min="100"
+                                min="000"
                                 max="999"
                                 placeholder="Ingrese un número de ticket"
                                 value="{{ old('id') }}"

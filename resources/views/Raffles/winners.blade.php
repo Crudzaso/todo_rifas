@@ -30,14 +30,16 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($winners as $winner)
-            <div>
-                <h3>Lotería: {{ $winner['lottery_name'] }}</h3>
-                <p>Resultado: {{ $winner['winning_number'] }}</p>
-                <p>Tu número: {{ $winner['user_number'] }}</p>
-                <p>ID del usuario: {{ $winner['user_id'] }}</p>
-            </div>
+        @foreach ($winners as $winner)
+            <h3>Lotería: {{ $winner['raffle_name'] }}</h3>
+            <p>Numero Ganador: {{ $winner['winning_number'] }}</p>
+            <p> Tu numero de la suerte: {{ $winner['user_number'] }}</p>
+            <p>ID del usuario: {{ $winner['user_id'] }}</p>
+            <p>NOmbre del ganador: {{ $winner['user_name'] }}</p>
+            <p>Tu premio es de: {{ $winner['prize'] }}</p>
+
         @endforeach
+
 
         </tbody>
     </table>

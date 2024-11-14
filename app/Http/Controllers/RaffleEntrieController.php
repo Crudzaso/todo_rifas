@@ -41,7 +41,7 @@ class RaffleEntrieController extends Controller
 
         try {
             $validated = $request->validate([
-                'id' => 'required|integer|min:100|max:9999',
+                'id' => ['required', 'regex:/^\d{3}$/'],
                 'bet_amount' => $raffle->type === 'bet' ? 'required|numeric' : 'nullable',
             ]);
 
@@ -109,6 +109,14 @@ class RaffleEntrieController extends Controller
 
         return view('raffles.entries.index', compact('raffle', 'entries'));
     }
+
+    public function redirectToPaymentGateway($entry)
+    {
+
+        return redirect()->route('payment.gateway', ['entry' => $entry]);
+    }
+
+
 
 
     public function show(Raffle $raffle){

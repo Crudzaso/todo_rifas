@@ -28,6 +28,8 @@ Route::get('/winners', [RaffleController::class, 'showWinners'])->name('winners'
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/', [RaffleController::class, 'showLandingPage']);
+
 
 Route::get('/profile/overview', function () {
     return view('profile.overview');
@@ -37,21 +39,11 @@ Route::get('/login-google', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('/google-callback', [SocialAuthController::class, 'handleGoogleCallback']);
 
 
-/**
- * raffle routes
-*/
-//Route::get('/',function (){
-//    $response = Http::get('https://api-resultadosloterias.com/api/results');
-//    $data = $response->json();
-//
-//   foreach ($data['data'] as $lottery){
-//       echo 'Lotería: ' . $lottery['lottery'] . ' | Resultado: ' . $lottery['result'] . ' | Fecha: ' . $lottery['date'];
-//       echo "<br>";
-//
-//   }
-//
-//
-//});
+
+Route::get('/payment/gateway/{entry}', [PaymentController::class, 'index'])->name('payment.gateway');
+Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('payment.process');
+
+
 
 
 Route::middleware([

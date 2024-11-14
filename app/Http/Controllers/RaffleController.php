@@ -60,7 +60,7 @@ class RaffleController extends Controller
     {
         $userId = Auth::id();
         if (!$userId) {
-            return redirect()->route('login')->with('error', 'Debes iniciar sesión.');
+            return redirect()->route('auth')->with('error', 'Debes iniciar sesión.');
         }
 
 
@@ -164,7 +164,8 @@ class RaffleController extends Controller
 
     /**
      * este metodo borra una rifa siempre y cuando la rifa haya jugado
-     * y no tenga boletos ocmprados
+     * No tenga boletos comprados
+     * a menos que el atributo active sea igual a false
     */
 
     public function destroy(Raffle $raffle)
@@ -173,7 +174,7 @@ class RaffleController extends Controller
             return redirect()->route('raffles.index')->with('error', 'No se puede eliminar la rifa porque aún no ha ocurrido.');
         }
 
-        if ($raffle->entries()->exists()) {
+        if ($raffle->entries()->exists()&& $raffle->active) {
             return redirect()->route('raffles.index')->with('error', 'No se puede eliminar la rifa porque ya tiene boletos comprados.');
         }
 
@@ -190,6 +191,7 @@ class RaffleController extends Controller
      * obtenemos el resultalto de la loteria a través de la api
      * si se obtiene un resultado extraemos los 3 ultimos digiros
      * lo comparamos con el number de l boleto del usuario
+     * cambia el atributo active a false
     */
 
     public function getWinner()
@@ -214,14 +216,31 @@ class RaffleController extends Controller
                 foreach ($entries as $entry) {
                     $userNumberLast3Digits = $entry->number;
 
+
+
                     if ($userNumberLast3Digits == $lotteryResultLast3Digits) {
+
+                        $user = $entry->user;
+
+
+                        $prize = null;
+                        if ($raffle->type === 'bet') {
+                            $prize = $raffle->total_bet_pool;
+                        } else if ($raffle->type === 'ticket') {
+                            $prize = $raffle->description;
+                        }
                         $winners[] = [
                             'raffle_name' => $raffle->lottery,
                             'raffle_date' => $raffle->raffle_date,
                             'winning_number' => $lotteryResult,
                             'user_number' => $entry->number,
                             'user_id' => $entry->user_id,
+                            'user_name'=> $user->name,
+                            'prize'=> $prize,
                         ];
+
+                        $raffle->update(['active' => false]);
+
                     }
                 }
             }
@@ -285,6 +304,11 @@ class RaffleController extends Controller
         return view('organizer.raffles', compact('rafflesWithStats'));
     }
 
+    public function showLandingPage()
+    {
+        $winners = $this->getWinner();
+        return view('welcome', ['winners' => $winners]);
+    }
 
 
 
