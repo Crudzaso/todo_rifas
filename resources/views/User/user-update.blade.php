@@ -18,7 +18,7 @@
                 <!--begin: Pic-->
                 <div class="me-7 mb-4">
                     <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                        <img src="{{asset('assets/media/images/todo_rifas_pet.png')}}" alt="image">
+                        <img src="{{ auth()->user()->avatar ?? asset('assets/media/images/todo_rifas_pet.png') }}" alt="Profile image">
                     </div>
                 </div>
                 <!--end::Pic-->

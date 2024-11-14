@@ -143,7 +143,7 @@
                             <div class="menu-content d-flex align-items-center px-3">
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-50px me-5">
-                                    <img alt="Logo" src="{{asset('assets/media/images/todo_rifas_pet.png')}}" />
+                                    <img src="{{ auth()->user()->avatar ?? asset('assets/media/images/todo_rifas_pet.png') }}" alt="Profile image">
                                 </div>
                                 <!--end::Avatar-->
                                 <!--begin::Username-->

@@ -55,6 +55,18 @@
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
 <script src="{{ asset('assets/js/plugins.min.js') }}"></script>
 <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
+<script src="{{ asset('assets/js/cloudinary.js')}}"></script>
+<script>
+    window.Laravel = {
+        cloudinary: {
+            cloud_name: "{{ env('CLOUDINARY_CLOUD_NAME') }}",
+            api_key: "{{ env('CLOUDINARY_API_KEY') }}",
+            api_secret : "{{env ('CLOUDINARY_SECRET_KEY')}"
+            // Do NOT expose the apiSecret here!
+        }
+    };
+</script>
+
 <!--end::Global Javascript Bundle-->
 <!--start::Custom scripts-->
 @yield('scripts')
