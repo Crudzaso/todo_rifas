@@ -1,5 +1,11 @@
 @extends('layouts.appTodoRifas')
+@section('title')
+    Rifas
+@endsection
 
+@section('subtitle')
+    Acá podrás ver y participar de rifas y apuestas
+@endsection
 @section('styles')
     <link href="{{ asset('assets/css/raffle.index.css') }}" rel="stylesheet" type="text/css" />
 @endsection
