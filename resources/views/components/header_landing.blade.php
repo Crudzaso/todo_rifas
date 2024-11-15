@@ -62,7 +62,7 @@
             <!--end::Menu wrapper-->
             <!--begin::Toolbar-->
             <div class="flex justify-end space-x-2">
-                <a href="{{route('auth')}}" class="rocket">
+                <a href="{{route('login')}}" class="rocket">
                     <button class="rocket">
                     <svg
                         height="24"
