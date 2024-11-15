@@ -18,6 +18,9 @@ class ProfileUpdateForm extends Component
     public $new_password;
     public $new_password_confirmation;
     public $avatar;
+    public $date_of_birth;
+    public $phone_number;
+    public $identification;
 
     protected function rules()
     {
@@ -26,7 +29,10 @@ class ProfileUpdateForm extends Component
         'email' => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
         'current_password' => 'required|string',
         'new_password' => ['nullable', 'string', 'confirmed', Password::defaults()],
+        'date_of_birth' => 'nullable|date',
+        'phone_number' => 'nullable|string|max:15',
         'avatar' => 'nullable|image|max:1024',
+        'identification' => 'nullable|string|max:10',
         ];
     }
 
@@ -34,6 +40,8 @@ class ProfileUpdateForm extends Component
         $user = Auth::user();
         $this->name = $user->name;
         $this->email = $user->email;
+        $this->date_of_birth = $user->date_of_birth;
+        $this->phone_number = $user->phone_number;
     }
 
     public function updateProfile() {
@@ -49,12 +57,18 @@ class ProfileUpdateForm extends Component
                 'name' => $this->name,
                 'email' => $this->email,
                 'avatar' => $uploadedImage['secure_url'], // Save the Cloudinary image URL in the database
+                'date_of_birth' => $this->date_of_birth,
+                'phone_number' => $this->phone_number,
+                'identification' => $this->identification,
             ]);
         } else {
             // Just update name and email if no new image
             auth()->user()->update([
                 'name' => $this->name,
                 'email' => $this->email,
+                'date_of_birth' => $this->date_of_birth,
+                'phone_number' => $this->phone_number,
+                'identification' => $this->identification,
             ]);
         }
 
@@ -82,7 +96,7 @@ class ProfileUpdateForm extends Component
             'folder' => 'user_avatars', // Optional: Set folder for uploaded images
             'public_id' => 'avatar_' . time(), // Optional: Use unique name
         ]);
-        
+
         return $response; // Return Cloudinary response containing the image URL
     }
 
