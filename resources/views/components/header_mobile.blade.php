@@ -4,7 +4,7 @@
         <!--begin::Mobile logo-->
         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
             <a href="index.html">
-                <img alt="Logo" src="{{asset('images/todo_rifas v2.png')}}" class="h-35px" />
+                <img alt="Logo" src="{{asset('assets/media/images/todo_rifas v2.png')}}" class="h-35px" />
             </a>
         </div>
         <!--end::Mobile logo-->

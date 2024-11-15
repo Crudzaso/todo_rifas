@@ -1,0 +1,406 @@
+/**
+*estilos para index de riifas
+*/
+:root {
+    --primary: #2c3e50;    /* Darker Navy Blue */
+    --secondary: #2980b9;  /* Lighter Navy Blue */
+    --accent: #2ecc71;     /* Lighter Energetic Green */
+    --background: #a9dfbf; /* Light Green */
+    --complementary: #34495e; /* Muted Dark Gray */
+    --text-white: #ffffff;
+    --text-light: #d5d8dc;  /* Lighter Gray */
+}
+
+.container {
+    background-color: var(--text-white);
+    border-radius: 15px;
+    padding: 2rem;
+}
+
+/* Estilos de las cards */
+.card {
+    background: linear-gradient(145deg, var(--primary), var(--secondary));
+    border: none;
+    border-radius: 12px;
+    max-height: 180px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.card-banner {
+    background-color: var(--secondary);
+    padding: 8px 15px;
+    border-radius: 8px 8px 0 0;
+    text-align: center;
+    border-bottom: 2px solid var(--accent);
+}
+
+.card-body {
+    padding: 1rem;
+    color: var(--text-white);
+}
+
+.raffle-info {
+    font-size: 0.9rem;
+}
+
+.info-item {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.info-label {
+    font-weight: 600;
+    margin-right: 0.5rem;
+    color: var(--accent);
+}
+
+.info-value {
+    color: var(--text-light);
+}
+
+.raffle-actions {
+    min-width: 100px;
+}
+
+/* Botones */
+.btn-play {
+    background-color: var(--accent);
+    color: var(--text-white);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-play:hover {
+    background-color: var(--background);
+    color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+}
+
+.btn-edit, .btn-delete {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.btn-edit {
+    background-color: var(--complementary);
+    color: var(--text-white);
+    border: none;
+}
+
+.btn-edit:hover {
+    background-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.btn-delete {
+    background-color: #e74c3c; /* Red softened */
+    color: var(--text-white);
+    border: none;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+.hover-shadow:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(9, 62, 94, 0.2);
+}
+
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+/* Títulos de sección */
+.section-title {
+    color: var(--primary);
+    border-bottom: 3px solid var(--accent);
+    display: inline-block;
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Efectos adicionales */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    background: linear-gradient(45deg, transparent, rgba(46, 204, 113, 0.1));
+    pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card {
+        max-height: none;
+    }
+
+    .card-body {
+        flex-direction: column;
+    }
+
+    .raffle-actions {
+        margin-top: 1rem;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .admin-buttons {
+        justify-content: flex-end;
+        width: 100%;
+    }
+}
+
+/* Animaciones */
+@keyframes subtle-glow {
+    0% { box-shadow: 0 0 5px rgba(46, 204, 113, 0.2); }
+    50% { box-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
+    100% { box-shadow: 0 0 5px rgba(46, 204, 113, 0.2); }
+}
+
+.btn-play:focus {
+    animation: subtle-glow 2s infinite;
+}
+
+
+
+/*Estilos vista de roles*/
+
+.roles-container {
+    padding: 20px;
+    background-color: #ecf0f1; /* Fondo más claro para la sección */
+    border-radius: 8px;
+    margin: 20px;
+}
+
+.roles-header {
+    color: #2c3e50; /* Gris oscuro para un buen contraste con el fondo claro */
+    margin-bottom: 25px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.roles-card {
+    background-color: #ffffff; /* Blanco para el contenedor de la tarjeta */
+    border-radius: 6px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.roles-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+.roles-table thead th {
+    background-color: #16a085; /* Mantiene un verde suave pero vibrante */
+    color: #ffffff; /* Blanco para el texto */
+    padding: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.roles-table tbody tr {
+    background-color: #f9f9f9; /* Fondo mucho más claro para las filas */
+    transition: all 0.3s ease;
+}
+
+.roles-table tbody tr:hover {
+    background-color: #1abc9c; /* Resalta con un verde suave al pasar el cursor */
+}
+
+.roles-table tbody td {
+    padding: 12px;
+    color: #2c3e50; /* Gris oscuro para el texto */
+}
+
+.btn-new-role {
+    background-color: #27ae60; /* Verde claro y acogedor */
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    float: right;
+    margin-bottom: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-new-role:hover {
+    background-color: #2ecc71; /* Verde ligeramente más brillante en hover */
+    color: white;
+    text-decoration: none;
+}
+
+.btn-view-permissions {
+    background-color: #16a085; /* Verde suave pero brillante */
+    color: #ffffff;
+    border: 1px solid #16a085;
+    padding: 8px 16px; /* Ajustado para que quepa el texto completo */
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    white-space: nowrap; /* Asegura que no se corte el texto */
+}
+
+.btn-view-permissions:hover {
+    background-color: #1abc9c;
+    color: #ffffff;
+}
+
+.btn-delete {
+    background-color: #e74c3c; /* Rojo suave */
+    color: white;
+    border: 1px solid #e74c3c;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b; /* Rojo un poco más oscuro */
+    color: white;
+}
+
+.alert-success {
+    background-color: #2ecc71; /* Verde suave para alertas */
+    color: white;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+/***
+estilos de los permisos
+*/
+
+/* Estilos adaptados para la vista de edición de permisos */
+.permissions-container {
+    padding: 20px;
+    background-color: #ecf0f1; /* Fondo más claro para la sección */
+    border-radius: 8px;
+    margin: 20px;
+}
+
+.permissions-header {
+    color: #2c3e50; /* Gris oscuro para un buen contraste con el fondo claro */
+    margin-bottom: 25px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.permissions-section {
+    background-color: #ffffff; /* Blanco para el contenedor de la sección */
+    border-radius: 6px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px; /* Espaciado entre las secciones */
+}
+
+.permissions-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+.permissions-table thead th {
+    background-color: #16a085; /* Verde suave pero vibrante */
+    color: #ffffff; /* Blanco para el texto */
+    padding: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.permissions-table tbody tr {
+    background-color: #f9f9f9; /* Fondo mucho más claro para las filas */
+    transition: all 0.3s ease;
+}
+
+.permissions-table tbody tr:hover {
+    background-color: #1abc9c; /* Resalta con un verde suave al pasar el cursor */
+}
+
+.permissions-table tbody td {
+    padding: 12px;
+    color: #2c3e50; /* Gris oscuro para el texto */
+}
+
+.permissions-form {
+    margin-bottom: 30px;
+}
+
+.permissions-form select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.permissions-form button {
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+.permissions-form button.btn-success {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+}
+
+.permissions-form button.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+}
+
+.permissions-form button:hover {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.permissions-form button.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.btn-back {
+    background-color: #bdc3c7;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-top: 20px;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.btn-back:hover {
+    background-color: #95a5a6;
+}
+
+.alert-success {
+    background-color: #2ecc71; /* Verde suave para alertas */
+    color: white;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
