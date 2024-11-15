@@ -41,6 +41,11 @@ Route::get('/login-google', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('/google-callback', [SocialAuthController::class, 'handleGoogleCallback']);
 
 
+Route::get('raffle-entry/{raffleEntry}/pay', [PaymentController::class, 'pay'])->name('raffleEntry.pay');
+Route::get('mercadopago/success/{raffleEntry}', [PaymentController::class, 'success'])->name('mercadopago.success');
+Route::get('mercadopago/failed/{raffleEntry}', [PaymentController::class, 'failed'])->name('mercadopago.failed');
+
+
 /**
  * raffle routes
 */
