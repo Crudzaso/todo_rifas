@@ -1,19 +1,8 @@
 @extends('layouts.appTodoRifas')
 
-@section('title', 'Roles')
-
-@section('sidebar')
-    @include('components.sidebar')
+@section('styles')
+<link href="{{ asset('assets/css/raffle.index.css') }}" rel="stylesheet" type="text/css" />
 @endsection
-
-@section('headerMobile')
-    @include('components.header_mobile')
-@endsection
-
-@section('header')
-    @include('components.dashboard_header')
-@stop
-
 @section('content')
 
 

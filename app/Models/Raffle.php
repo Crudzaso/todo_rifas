@@ -12,6 +12,7 @@ class Raffle extends Model
 
     protected $fillable = [
         'name',
+        'user_id',
         'description',
         'lottery',
         'active',

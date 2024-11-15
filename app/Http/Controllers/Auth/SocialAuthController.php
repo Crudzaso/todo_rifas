@@ -8,7 +8,6 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
-use MongoDB\Driver\Exception\Exception;
 
 class SocialAuthController extends Controller
 {

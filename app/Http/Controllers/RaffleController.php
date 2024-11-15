@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RequestRaffle;
 use App\Models\Raffle;
-
-use App\Models\RaffleEntries;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -13,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 class RaffleController extends Controller
 {
+
+
     private function getAvailableLotteries()
     {
         $response = Http::get('https://api-resultadosloterias.com/api/lotteries');
@@ -37,7 +37,15 @@ class RaffleController extends Controller
     }
 
     public function store(RequestRaffle $request)
+
+
     {
+        $userId = Auth::id();
+        if (!$userId) {
+            return redirect()->route('login')->with('error', 'Debes iniciar sesión.');
+        }
+
+
         try {
             $validatedData = $request->validated();
 
@@ -72,7 +80,7 @@ class RaffleController extends Controller
                 'tickets_count' => $validatedData['tickets_count'],
                 'available_count' => $validatedData['tickets_count'],
                 'user_id' => Auth::id(),
-                'ticket_price' => $validatedData['type'] === 'ticket' ? $validatedData['ticket_price'] : null
+                'ticket_price' => $validatedData['type'] === 'ticket' ? ($validatedData['ticket_price'] ?? 0.00) : 0.00
             ];
 
 
