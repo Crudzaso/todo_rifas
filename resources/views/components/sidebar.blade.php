@@ -142,6 +142,49 @@
                     <!--end:Menu sub-->
                 </div>
                 <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item py-2">
+                    <!--begin:Menu link-->
+                    <span class="menu-link menu-center">
+                        <span class="menu-icon me-0">
+                            <i class="ki-duotone ki-lock-2 fs-1">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                                <span class="path4"></span>
+                                <span class="path5"></span>
+                            </i>
+                        </span>
+                    </span>
+                    <!--end:Menu link-->
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-dropdown px-2 py-4 w-250px mh-75 overflow-auto" style="">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu content-->
+                            <div class="menu-content">
+                                <span class="menu-section fs-5 fw-bolder ps-1 py-1">Administración</span>
+                            </div>
+                            <!--end:Menu content-->
+                        </div>
+                        <!--end:Menu item-->
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link" href="{{route('admin.roles.index')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Gestión de roles</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                    </div>
+                    <!--end:Menu sub-->
+                </div>
+
+
             </div>
         </div>
     </div>
