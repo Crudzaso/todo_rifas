@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\SocialAuthController;
+use App\Http\Controllers\IssuerController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RaffleController;
 use App\Http\Controllers\RaffleEntrieController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\ResultController;
 use App\Http\Controllers\RolerController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use MercadoPago\MercadoPagoConfig;
 
 
 /* rutas del admin*/
@@ -40,10 +42,24 @@ Route::get('/google-callback', [SocialAuthController::class, 'handleGoogleCallba
 
 
 
+//Route::get('/test-mercadopago', function () {
+//    MercadoPagoConfig::setAccessToken(config('services.mercadopago.access_token'));
+//
+//    return response()->json([
+//        'access_token' => config('services.mercadopago.access_token'),
+//        'configured_token' => MercadoPagoConfig::getAccessToken(),
+//    ]);
+//});
+
+
+
 Route::get('/payment/gateway/{entry}', [PaymentController::class, 'index'])->name('payment.gateway');
 Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('payment.process');
 
 
+
+// En routes/web.php o routes/api.php
+Route::get('/get-issuers/{id}', [IssuerController::class, 'getIssuers']);
 
 
 Route::middleware([
