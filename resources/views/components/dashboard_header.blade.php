@@ -195,7 +195,7 @@
                         <div class="menu-item px-5">
                             <form method="POST" action="{{ route('logout') }}" class="inline">
                                 @csrf
-                                <button type="submit" class="menu-link px-5">
+                                <button type="submit" class="btn btn-primary">
                                     Salir
                                 </button>
                             </form>
