@@ -139,6 +139,7 @@
                                         </a>
 
                                         <div class="admin-buttons d-flex gap-2">
+                                            @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('organizer'))
                                             <button onclick="openEditModal({{ $raffle->id }}, '{{ $raffle->name }}', '{{ $raffle->description }}')"
                                                     class="btn btn-edit">
                                                     <i class="ki-duotone ki-pencil fs-1 text-gray-900">
@@ -146,9 +147,11 @@
                                                     <span class="path2"></span>
                                                     </i>
                                             </button>
+                                            @endif
                                             <form action="{{ route('raffles.destroy', $raffle->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
+                                                @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('organizer'))
                                                 <button type="submit" class="btn btn-delete">
                                                     <i class="ki-duotone ki-trash fs-1 text-gray-900">
                                                         <span class="path1"></span>
@@ -158,6 +161,7 @@
                                                         <span class="path5"></span>
                                                         </i>
                                                 </button>
+                                                @endif
                                             </form>
                                         </div>
                                     </div>
@@ -267,6 +271,7 @@
                                         </a>
 
                                         <div class="admin-buttons d-flex gap-2">
+                                            @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('organizer'))
                                             <button onclick="openEditModal({{ $raffle->id }}, '{{ $raffle->name }}', '{{ $raffle->description }}')"
                                                     class="btn btn-edit">
                                                     <i class="ki-duotone ki-pencil fs-1 text-gray-900">
@@ -274,9 +279,11 @@
                                                         <span class="path2"></span>
                                                         </i>
                                             </button>
+                                            @endif
                                             <form action="{{ route('raffles.destroy', $raffle->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
+                                                @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('organizer'))
                                                 <button type="submit" class="btn btn-delete">
                                                     <i class="ki-duotone ki-trash fs-1 text-gray-900">
                                                         <span class="path1"></span>
@@ -286,6 +293,7 @@
                                                         <span class="path5"></span>
                                                         </i>
                                                 </button>
+                                                @endif
                                             </form>
                                         </div>
                                     </div>
@@ -299,6 +307,7 @@
 
         <!-- Botón para crear nueva rifa -->
         <div class="text-center mt-5">
+            @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('organizer'))
             <a href="{{ route('raffles.create') }}" class="btn btn-success btn-lg shadow-lg hover-scale">
                 <i class="ki-duotone ki-plus fs-1 text-warning">
                     <span class="path1"></span>
@@ -306,6 +315,7 @@
                     <span class="path3"></span>
                 </i>Crear Nueva Rifa
             </a>
+            @endif
         </div>
     </div>
 
@@ -320,7 +330,7 @@
                     <!-- Formulario para editar la rifa -->
                     <form id="editForm" method="POST">
                         @csrf
-                        @method('PUT') <!-- Usamos PUT porque es una actualización -->
+                        @method('PUT')
 
                         <!-- Nombre de la rifa -->
                         <div class="mb-3">
