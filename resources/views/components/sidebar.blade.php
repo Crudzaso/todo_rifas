@@ -159,10 +159,13 @@
                     </span>
                     <!--end:Menu link-->
                     <!--begin:Menu sub-->
+                    @if(auth()->user()->hasRole('admin'))
                     <div class="menu-sub menu-sub-dropdown px-2 py-4 w-250px mh-75 overflow-auto" style="">
                         <!--begin:Menu item-->
+
                         <div class="menu-item">
                             <!--begin:Menu content-->
+
                             <div class="menu-content">
                                 <span class="menu-section fs-5 fw-bolder ps-1 py-1">Administración</span>
                             </div>
@@ -172,22 +175,33 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
+
+
                             <a class="menu-link" href="{{route('admin.roles.index')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title">Gestión de roles</span>
                             </a>
+
+
                             <!--end:Menu link-->
                         </div>
+
+
                     </div>
+                    @endif
                     <!--end:Menu sub-->
                 </div>
 
 
+
             </div>
+
         </div>
+
     </div>
+
     <!--begin: nav footer-->
     <div class="aside-footer flex-column-auto pb-5 pb-lg-10" id="kt_aside_footer">
         <!--begin::Menu-->
