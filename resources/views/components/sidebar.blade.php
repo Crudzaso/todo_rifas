@@ -159,6 +159,7 @@
                     </span>
                     <!--end:Menu link-->
                     <!--begin:Menu sub-->
+                    @auth()
                     @if(auth()->user()->hasRole('admin'))
                     <div class="menu-sub menu-sub-dropdown px-2 py-4 w-250px mh-75 overflow-auto" style="">
                         <!--begin:Menu item-->
@@ -191,6 +192,7 @@
 
                     </div>
                     @endif
+                    @endauth
                     <!--end:Menu sub-->
                 </div>
 

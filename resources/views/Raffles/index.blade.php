@@ -139,6 +139,7 @@
                                         </a>
 
                                         <div class="admin-buttons d-flex gap-2">
+                                            @auth()
                                             @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('organizer'))
                                             <button onclick="openEditModal({{ $raffle->id }}, '{{ $raffle->name }}', '{{ $raffle->description }}')"
                                                     class="btn btn-edit">
@@ -148,9 +149,11 @@
                                                     </i>
                                             </button>
                                             @endif
+                                            @endauth
                                             <form action="{{ route('raffles.destroy', $raffle->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
+                                                @auth()
                                                 @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('organizer'))
                                                 <button type="submit" class="btn btn-delete">
                                                     <i class="ki-duotone ki-trash fs-1 text-gray-900">
@@ -162,6 +165,7 @@
                                                         </i>
                                                 </button>
                                                 @endif
+                                                @endauth
                                             </form>
                                         </div>
                                     </div>
@@ -271,6 +275,7 @@
                                         </a>
 
                                         <div class="admin-buttons d-flex gap-2">
+                                            @auth()
                                             @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('organizer'))
                                             <button onclick="openEditModal({{ $raffle->id }}, '{{ $raffle->name }}', '{{ $raffle->description }}')"
                                                     class="btn btn-edit">
@@ -280,9 +285,11 @@
                                                         </i>
                                             </button>
                                             @endif
+                                            @endauth
                                             <form action="{{ route('raffles.destroy', $raffle->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
+                                                @auth()
                                                 @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('organizer'))
                                                 <button type="submit" class="btn btn-delete">
                                                     <i class="ki-duotone ki-trash fs-1 text-gray-900">
@@ -294,6 +301,7 @@
                                                         </i>
                                                 </button>
                                                 @endif
+                                                @endauth
                                             </form>
                                         </div>
                                     </div>
@@ -307,6 +315,7 @@
 
         <!-- Botón para crear nueva rifa -->
         <div class="text-center mt-5">
+            @auth()
             @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('organizer'))
             <a href="{{ route('raffles.create') }}" class="btn btn-success btn-lg shadow-lg hover-scale">
                 <i class="ki-duotone ki-plus fs-1 text-warning">
@@ -316,6 +325,7 @@
                 </i>Crear Nueva Rifa
             </a>
             @endif
+            @endauth
         </div>
     </div>
 
