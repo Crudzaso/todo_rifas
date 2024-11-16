@@ -70,7 +70,7 @@ Route::middleware([
 });
 
 Route::get('/auth', function(){
-    return view('auth.auth'); //func to load auth view
+    return view('auth.login'); //func to load auth view
 })-> name('auth');
 
 Route::get('/profile', function(){
