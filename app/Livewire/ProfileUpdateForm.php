@@ -11,6 +11,13 @@ use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class ProfileUpdateForm extends Component
 {
+
+    public function __construct()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Redirige al login
+        }
+    }
     use WithFileUploads;
     public $name;
     public $email;
@@ -37,7 +44,12 @@ class ProfileUpdateForm extends Component
     }
 
     public function mount() {
+
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Redirige al login
+        }
         $user = Auth::user();
+
         $this->name = $user->name;
         $this->email = $user->email;
         $this->date_of_birth = $user->date_of_birth;

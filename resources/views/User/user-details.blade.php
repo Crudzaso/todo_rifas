@@ -85,7 +85,11 @@
                 <!--end::Label-->
                 <!--begin::Col-->
                 <div class="col-lg-8">
-                    <span class="fw-bold fs-6 text-gray-800">{{auth()->user()->name}}</span>
+                    @if (auth()->check())
+                        <span class="fw-bold fs-6 text-gray-800">{{ auth()->user()->name }}</span>
+                    @else
+                        <span class="fw-bold fs-6 text-gray-800">Por favor, inicia sesión</span>
+                    @endif
                 </div>
                 <!--end::Col-->
             </div>
@@ -97,7 +101,11 @@
                 <!--end::Label-->
                 <!--begin::Col-->
                 <div class="col-lg-8 fv-row">
-                    <span class="fw-semibold text-gray-800 fs-6">{{auth()->user()->email}}</span>
+                    @if (auth()->check())
+                        <span class="fw-bold fs-6 text-gray-800">{{ auth()->user()->email }}</span>
+                    @else
+                        <span class="fw-bold fs-6 text-gray-800">Por favor, inicia sesión</span>
+                    @endif
                 </div>
                 <!--end::Col-->
             </div>
@@ -109,7 +117,8 @@
                 <!--end::Label-->
                 <!--begin::Col-->
                 <div class="col-lg-8 d-flex align-items-center">
-                    <span class="fw-bold fs-6 text-gray-800 me-2">{{auth()->user()->phone_number}}</span>
+                    <span class="fw-bold fs-6 text-gray-800">{{ optional(auth()->user())->phone_number ?? 'No Disponible' }}</span>
+
                 </div>
                 <!--end::Col-->
             </div>
@@ -121,7 +130,7 @@
                 <!--end::Label-->
                 <!--begin::Col-->
                 <div class="col-lg-8">
-                    <span class="fw-bold fs-6 text-gray-800 me-2">{{auth()->user()->date_of_birth}}</span>
+                    <span class="fw-bold fs-6 text-gray-800 me-2">{{ optional(auth()->user())->date_of_birth ?? 'No disponible' }}</span>
                 </div>
                 <!--end::Col-->
             </div>
