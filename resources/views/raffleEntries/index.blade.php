@@ -1,6 +1,9 @@
 @extends('layouts.boletos')
 
 @section('content')
+
+
+
     <div class="raffle-page">
         <div class="raffle-container">
             <div class="raffle-card">
@@ -18,6 +21,17 @@
                     <h1 class="raffle-title">{{ $raffle->name }}</h1>
                     <p class="raffle-description">{{ $raffle->description }}</p>
                 </div>
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
 
                 <form action="{{ route('raffleEntries.store') }}" method="POST" class="raffle-form">
                     @csrf
