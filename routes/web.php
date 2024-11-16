@@ -6,7 +6,6 @@ use App\Http\Controllers\RaffleController;
 use App\Http\Controllers\RaffleEntrieController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\RolerController;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 
@@ -46,22 +45,6 @@ Route::get('mercadopago/success/{raffleEntry}', [PaymentController::class, 'succ
 Route::get('mercadopago/failed/{raffleEntry}', [PaymentController::class, 'failed'])->name('mercadopago.failed');
 
 
-/**
- * raffle routes
-*/
-//Route::get('/',function (){
-//    $response = Http::get('https://api-resultadosloterias.com/api/results');
-//    $data = $response->json();
-//
-//   foreach ($data['data'] as $lottery){
-//       echo 'Lotería: ' . $lottery['lottery'] . ' | Resultado: ' . $lottery['result'] . ' | Fecha: ' . $lottery['date'];
-//       echo "<br>";
-//
-//   }
-//
-//
-//});
-
 
 Route::middleware([
     'auth:sanctum',
@@ -73,3 +56,14 @@ Route::middleware([
     })->name('dashboard');
 });
 
+Route::get('/auth', function(){
+    return view('auth.login'); //func to load auth view
+})-> name('auth');
+
+Route::get('/profile', function(){
+    return view('User.user-details'); //func to load user details view
+})-> name('user-details');
+
+Route::get('/profile/settings',function(){
+    return view('User.user-update'); //func to load user edit view
+})-> name('user-config');

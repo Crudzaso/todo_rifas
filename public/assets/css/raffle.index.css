@@ -11,12 +11,6 @@
     --text-light: #d5d8dc;  /* Lighter Gray */
 }
 
-/* Estilo general de la página */
-body {
-    background-color: var(--text-white);
-    font-family: 'Arial', sans-serif;
-}
-
 .container {
     background-color: var(--text-white);
     border-radius: 15px;

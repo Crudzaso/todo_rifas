@@ -1,20 +1,14 @@
->
 @extends('layouts.appTodoRifas')
-
-@section('title', 'Rifas')
-
-@section('sidebar')
-    @include('components.sidebar')
+@section('title')
+    Rifas
 @endsection
 
-@section('headerMobile')
-    @include('components.header_mobile')
+@section('subtitle')
+    Acá podrás ver y participar de rifas y apuestas
 @endsection
-
-@section('header')
-    @include('components.dashboard_header')
+@section('styles')
+    <link href="{{ asset('assets/css/raffle.index.css') }}" rel="stylesheet" type="text/css" />
 @endsection
-
 
 @section('content')
     <!-- Navbar fija al scroll -->
@@ -46,14 +40,25 @@
             <div class="d-flex align-items-center justify-content-center mb-4">
                 <div class="border-bottom flex-grow-1"></div>
                 <h2 class="text-center px-3 mb-0" style="color: #1a5d1a;">
-                    <i class="fas fa-dice me-2"></i>Apuesta y Gana
+                        <i class="ki-duotone ki-dollar fs-1 text-warning">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                            <span class="path3"></span>
+                        </i>
+                    Apuesta y Gana
                 </h2>
                 <div class="border-bottom flex-grow-1"></div>
             </div>
 
             @if ($raffles->where('type', 'bet')->isEmpty())
                 <div class="alert alert-info text-center">
-                    <i class="fas fa-info-circle me-2"></i>No hay rifas de tipo "Apuesta y Gana" disponibles en este momento.
+                    <i class="ki-duotone ki-disconnect fs-1 text-warning">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                        <span class="path3"></span>
+                        <span class="path4"></span>
+                        <span class="path5"></span>
+                    </i>No hay rifas de tipo "Apuesta y Gana" disponibles en este momento.
                 </div>
             @else
                 <div class="row g-4">
@@ -69,17 +74,50 @@
                                     <!-- Columna izquierda con la información principal -->
                                     <div class="raffle-info flex-grow-1">
                                         <div class="info-item">
-                                            <span class="info-label"><i class="fas fa-gift me-2"></i>Premio:</span>
+                                            <span class="info-label">
+                                                <i class="ki-duotone ki-star text-warning">
+                                                </i>Premio:
+                                            </span>
                                             <span class="info-value">{{ $raffle->description }}</span>
                                         </div>
 
                                         <div class="info-item">
-                                            <span class="info-label"><i class="fas fa-ticket-alt me-2"></i>Lotería:</span>
+                                            <span class="info-label">
+                                                <i class="ki-duotone ki-ocean text-danger">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                                <span class="path3"></span>
+                                                <span class="path4"></span>
+                                                <span class="path5"></span>
+                                                <span class="path6"></span>
+                                                <span class="path7"></span>
+                                                <span class="path8"></span>
+                                                <span class="path9"></span>
+                                                <span class="path10"></span>
+                                                <span class="path11"></span>
+                                                <span class="path12"></span>
+                                                <span class="path13"></span>
+                                                <span class="path14"></span>
+                                                <span class="path15"></span>
+                                                <span class="path16"></span>
+                                                <span class="path17"></span>
+                                                <span class="path18"></span>
+                                                <span class="path19"></span>
+                                                </i>Lotería:
+                                            </span>
                                             <span class="info-value">{{ $raffle->lottery }}</span>
                                         </div>
 
                                         <div class="info-item">
-                                            <span class="info-label"><i class="far fa-calendar-alt me-2"></i>Fecha:</span>
+                                            <span class="info-label">
+                                                <i class="ki-duotone ki-calendar-2 text-primary">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                                <span class="path3"></span>
+                                                <span class="path4"></span>
+                                                <span class="path5"></span>
+                                                </i>Fecha:
+                                            </span>
                                             <span class="info-value">{{ \Carbon\Carbon::parse($raffle->raffle_date)->format('d M Y') }}</span>
                                         </div>
                                     </div>
@@ -88,21 +126,46 @@
                                     <div class="raffle-actions d-flex flex-column justify-content-between ms-3">
                                         <a href="{{ route('raffles.show', $raffle->id) }}"
                                            class="btn btn-play mb-2">
-                                            <i class="fas fa-play-circle me-1"></i>
+                                            <i class="ki-duotone ki-bill fs-1 text-gray-900">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                                <span class="path3"></span>
+                                                <span class="path4"></span>
+                                                <span class="path5"></span>
+                                                <span class="path6"></span>
+                                                <span class="path7"></span>
+                                            </i>
                                             <span>Jugar</span>
                                         </a>
 
                                         <div class="admin-buttons d-flex gap-2">
+                                            @auth()
+                                            @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('organizer'))
                                             <button onclick="openEditModal({{ $raffle->id }}, '{{ $raffle->name }}', '{{ $raffle->description }}')"
                                                     class="btn btn-edit">
-                                                <i class="fas fa-edit"></i>
+                                                    <i class="ki-duotone ki-pencil fs-1 text-gray-900">
+                                                    <span class="path1"></span>
+                                                    <span class="path2"></span>
+                                                    </i>
                                             </button>
+                                            @endif
+                                            @endauth
                                             <form action="{{ route('raffles.destroy', $raffle->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
+                                                @auth()
+                                                @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('organizer'))
                                                 <button type="submit" class="btn btn-delete">
-                                                    <i class="fas fa-trash-alt"></i>
+                                                    <i class="ki-duotone ki-trash fs-1 text-gray-900">
+                                                        <span class="path1"></span>
+                                                        <span class="path2"></span>
+                                                        <span class="path3"></span>
+                                                        <span class="path4"></span>
+                                                        <span class="path5"></span>
+                                                        </i>
                                                 </button>
+                                                @endif
+                                                @endauth
                                             </form>
                                         </div>
                                     </div>
@@ -118,14 +181,25 @@
             <div class="d-flex align-items-center justify-content-center mb-4">
                 <div class="border-bottom flex-grow-1"></div>
                 <h2 class="text-center px-3 mb-0" style="color: #1a5d1a;">
-                    <i class="fas fa-ticket-alt me-2"></i>Boleto de la Suerte
+                    <i class="ki-duotone ki-abstract-22 fs-1 text-warning">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                        <span class="path3"></span>
+                    </i>
+                    Boleto de la Suerte
                 </h2>
                 <div class="border-bottom flex-grow-1"></div>
             </div>
 
             @if ($raffles->where('type', 'ticket')->isEmpty())
                 <div class="alert alert-info text-center">
-                    <i class="fas fa-info-circle me-2"></i>No hay rifas de tipo "Boleto de la Suerte" disponibles en este momento.
+                    <i class="ki-duotone ki-disconnect fs-1 text-warning">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                        <span class="path3"></span>
+                        <span class="path4"></span>
+                        <span class="path5"></span>
+                    </i>No hay rifas de tipo "Boleto de la Suerte" disponibles en este momento.
                 </div>
             @else
                 <div class="row g-4">
@@ -141,40 +215,93 @@
                                     <!-- Columna izquierda con la información principal -->
                                     <div class="raffle-info flex-grow-1">
                                         <div class="info-item">
-                                            <span class="info-label"><i class="fas fa-gift me-2"></i>Premio:</span>
+                                            <span class="info-label"><i class="ki-duotone ki-star text-warning">
+                                            </i>Premio:</span>
                                             <span class="info-value">{{ $raffle->description }}</span>
                                         </div>
 
                                         <div class="info-item">
-                                            <span class="info-label"><i class="fas fa-ticket-alt me-2"></i>Lotería:</span>
+                                            <span class="info-label"><i class="ki-duotone ki-ocean text-danger">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                                <span class="path3"></span>
+                                                <span class="path4"></span>
+                                                <span class="path5"></span>
+                                                <span class="path6"></span>
+                                                <span class="path7"></span>
+                                                <span class="path8"></span>
+                                                <span class="path9"></span>
+                                                <span class="path10"></span>
+                                                <span class="path11"></span>
+                                                <span class="path12"></span>
+                                                <span class="path13"></span>
+                                                <span class="path14"></span>
+                                                <span class="path15"></span>
+                                                <span class="path16"></span>
+                                                <span class="path17"></span>
+                                                <span class="path18"></span>
+                                                <span class="path19"></span>
+                                                </i>Lotería:</span>
                                             <span class="info-value">{{ $raffle->lottery }}</span>
                                         </div>
 
                                         <div class="info-item">
-                                            <span class="info-label"><i class="far fa-calendar-alt me-2"></i>Fecha:</span>
+                                            <span class="info-label"><i class="ki-duotone ki-calendar-2 text-primary">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                                <span class="path3"></span>
+                                                <span class="path4"></span>
+                                                <span class="path5"></span>
+                                                </i>Fecha:</span>
                                             <span class="info-value">{{ \Carbon\Carbon::parse($raffle->raffle_date)->format('d M Y') }}</span>
                                         </div>
                                     </div>
+
 
                                     <!-- Columna derecha con los botones -->
                                     <div class="raffle-actions d-flex flex-column justify-content-between ms-3">
                                         <a href="{{ route('raffles.show', $raffle->id) }}"
                                            class="btn btn-play mb-2">
-                                            <i class="fas fa-play-circle me-1"></i>
+                                           <i class="ki-duotone ki-bill fs-1 text-gray-900">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                            <span class="path3"></span>
+                                            <span class="path4"></span>
+                                            <span class="path5"></span>
+                                            <span class="path6"></span>
+                                            <span class="path7"></span>
+                                            </i>
                                             <span>Jugar</span>
                                         </a>
 
                                         <div class="admin-buttons d-flex gap-2">
+                                            @auth()
+                                            @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('organizer'))
                                             <button onclick="openEditModal({{ $raffle->id }}, '{{ $raffle->name }}', '{{ $raffle->description }}')"
                                                     class="btn btn-edit">
-                                                <i class="fas fa-edit"></i>
+                                                    <i class="ki-duotone ki-pencil fs-1 text-gray-900">
+                                                        <span class="path1"></span>
+                                                        <span class="path2"></span>
+                                                        </i>
                                             </button>
+                                            @endif
+                                            @endauth
                                             <form action="{{ route('raffles.destroy', $raffle->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
+                                                @auth()
+                                                @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('organizer'))
                                                 <button type="submit" class="btn btn-delete">
-                                                    <i class="fas fa-trash-alt"></i>
+                                                    <i class="ki-duotone ki-trash fs-1 text-gray-900">
+                                                        <span class="path1"></span>
+                                                        <span class="path2"></span>
+                                                        <span class="path3"></span>
+                                                        <span class="path4"></span>
+                                                        <span class="path5"></span>
+                                                        </i>
                                                 </button>
+                                                @endif
+                                                @endauth
                                             </form>
                                         </div>
                                     </div>
@@ -188,9 +315,17 @@
 
         <!-- Botón para crear nueva rifa -->
         <div class="text-center mt-5">
+            @auth()
+            @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('organizer'))
             <a href="{{ route('raffles.create') }}" class="btn btn-success btn-lg shadow-lg hover-scale">
-                <i class="fas fa-plus-circle me-2"></i>Crear Nueva Rifa
+                <i class="ki-duotone ki-plus fs-1 text-warning">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                    <span class="path3"></span>
+                </i>Crear Nueva Rifa
             </a>
+            @endif
+            @endauth
         </div>
     </div>
 
@@ -205,7 +340,7 @@
                     <!-- Formulario para editar la rifa -->
                     <form id="editForm" method="POST">
                         @csrf
-                        @method('PUT') <!-- Usamos PUT porque es una actualización -->
+                        @method('PUT')
 
                         <!-- Nombre de la rifa -->
                         <div class="mb-3">
@@ -245,4 +380,8 @@
             });
         });
     </script>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('assets/js/raffleModal.js') }}"></script>
 @endsection

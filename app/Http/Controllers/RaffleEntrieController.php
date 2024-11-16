@@ -25,6 +25,10 @@ class RaffleEntrieController extends Controller
     public function store(Request $request)
 
     {
+
+        if (!auth()->check()) {
+            return redirect()->route('auth')->withErrors('Por favor, inicie sesión para continuar.');
+        }
         /**
          * capturar el id de la rifa a través del request
         */
@@ -71,7 +75,6 @@ class RaffleEntrieController extends Controller
                 $raffle->increment('total_bet_pool', $validated['bet_amount']);
 
 
-
             } else {
                 // Para rifas de tipo 'ticket'
                 $entryData['price'] = $raffle->ticket_price;
@@ -82,6 +85,7 @@ class RaffleEntrieController extends Controller
             }
 
             $entry = RaffleEntries::create($entryData);
+
 
             DB::commit();
 
@@ -97,14 +101,7 @@ class RaffleEntrieController extends Controller
     }
 
 
-    public function index(Raffle $raffle)
-    {
-        $entries = RaffleEntries::where('raffle_id', $raffle->id)
-            ->with(['user'])
-            ->paginate(20);
 
-        return view('raffles.entries.index', compact('raffle', 'entries'));
-    }
 
 
     public function show(Raffle $raffle){

@@ -1,26 +1,16 @@
 @extends('layouts.appTodoRifas')
-
-@section('title', 'Rifas')
-
-@section('sidebar')
-    @include('components.sidebar')
+@section('title')
+    Crear Rifa
 @endsection
 
-@section('headerMobile')
-    @include('components.header_mobile')
+@section('subtitle')
+    Acá podrás Crear una Rifa Nueva
 @endsection
-
-@section('header')
-    @include('components.dashboard_header')
-@stop
-
-
 @section('content')
 
-    <div class="container mx-auto px-4 py-6">
+    <div class="card-body pt-9 pb-0">
         <div class="max-w-3xl mx-auto">
             <div class="flex justify-between items-center mb-6">
-                <h1 class="text-2xl font-bold">Crear Nueva Rifa</h1>
                 <a href="{{ route('raffles.index') }}"
                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                     Volver
@@ -44,141 +34,172 @@
                 </div>
             @endif
 
-            <form action="{{ route('raffles.store') }}" method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                @csrf
+            <div class="card-body pt-9 pb-0">
+                <form action="{{ route('raffles.store') }}" method="POST">
+                    @csrf
 
-                {{-- Nombre de la Rifa --}}
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
-                        Nombre de la Rifa *
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('name') border-red-500 @enderror"
-                           id="name"
-                           type="text"
-                           name="name"
-                           value="{{ old('name') }}"
-                           required>
-                </div>
-
-                {{-- Descripción --}}
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
-                        Descripción *
-                    </label>
-                    <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('description') border-red-500 @enderror"
-                              id="description"
-                              name="description"
-                              rows="3"
-                              required>{{ old('description') }}</textarea>
-                </div>
-
-                {{-- Selección de Lotería --}}
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="lottery">
-                        Selecciona una Lotería *
-                    </label>
-                    <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('lottery') border-red-500 @enderror"
-                            id="lottery"
-                            name="lottery"
-                            required>
-                        <option value="">Seleccione una lotería</option>
-                        @foreach($availableLotteries as $lottery)
-                            <option value="{{ $lottery }}" {{ old('lottery') == $lottery ? 'selected' : '' }}>
-                                {{ $lottery }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-
-                {{-- Tipo de Rifa --}}
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">
-                        Tipo de Rifa *
-                    </label>
-                    <div class="mt-2">
-                        <label class="inline-flex items-center mr-6">
-                            <input type="radio"
-                                   class="form-radio"
-                                   name="type"
-                                   value="ticket"
-                                   {{ old('type') == 'ticket' ? 'checked' : '' }}
-                                   onchange="toggleTicketPrice()">
-                            <span class="ml-2">Ticket</span>
+                    {{-- Nombre de la Rifa --}}
+                    <div class="row mb-7">
+                        <label class="col-lg-4 col-form-label required fw-semibold fs-6" for="name">
+                            Nombre de la Rifa
                         </label>
-                        <label class="inline-flex items-center">
-                            <input type="radio"
-                                   class="form-radio"
-                                   name="type"
-                                   value="bet"
-                                   {{ old('type') == 'bet' ? 'checked' : '' }}
-                                   onchange="toggleTicketPrice()">
-                            <span class="ml-2">Apuesta</span>
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <input class=" form-control form-control-lg form-control-solid mb-3 mb-lg-0 focus:outline-none @error('name') border-red-500 @enderror"
+                                id="name"
+                                type="text"
+                                name="name"
+                                value="{{ old('name') }}"
+                                required>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {{-- Descripción --}}
+                    <div class="row mb-7">
+                        <label class="col-lg-4 col-form-label required fw-semibold fs-6" for="description">
+                            Descripción
+                        </label>
+                        <textarea class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 @error('description') border-red-500 @enderror"
+                                id="description"
+                                name="description"
+                                rows="3"
+                                required>{{ old('description') }}</textarea>
+                    </div>
+
+                    {{-- Selección de Lotería --}}
+                    <div class="row mb-7">
+                        <label class="col-lg-4 col-form-label required fw-semibold fs-6" for="lottery">
+                            Selecciona una Lotería
+                        </label>
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <select class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 @error('lottery') border-red-500 @enderror"
+                                        id="lottery"
+                                        name="lottery"
+                                        required>
+                                    <option value="">Seleccione una lotería</option>
+                                    @foreach($availableLotteries as $lottery)
+                                        <option value="{{ $lottery }}" {{ old('lottery') == $lottery ? 'selected' : '' }}>
+                                            {{ $lottery }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {{-- Tipo de Rifa --}}
+                    <div class="row mb-7">
+                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">
+                            Tipo de Rifa
+                        </label>
+                        <div class="col-lg-8">
+                            <label class="form-check-label">
+                                <input type="radio"
+                                    class="form-check-input"
+                                    name="type"
+                                    value="ticket"
+                                    {{ old('type') == 'ticket' ? 'checked' : '' }}
+                                    onchange="toggleTicketPrice()">
+                                <span class="ml-2">Ticket</span>
+                            </label>
+                            <label class="form-check-label">
+                                <input type="radio"
+                                    class="form-check-input"
+                                    name="type"
+                                    value="bet"
+                                    {{ old('type') == 'bet' ? 'checked' : '' }}
+                                    onchange="toggleTicketPrice()">
+                                <span class="ml-2">Apuesta</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    {{-- Fecha de la Rifa --}}
+                    <div class="row mb-7">
+                        <label class="col-lg-4 col-form-label required fw-semibold fs-6" for="raffle_date">
+                            Fecha de la Rifa
+                        </label>
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <input class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 @error('raffle_date') border-red-500 @enderror"
+                            id="raffle_date"
+                            type="datetime-local"
+                            name="raffle_date"
+                            value="{{ old('raffle_date') }}"
+                            required>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {{-- Número de Participantes --}}
+                    <div class="row mb-7">
+                        <label class="col-lg-4 col-form-label required fw-semibold fs-6" for="tickets_count">
+                            Número de Participantes
+                        </label>
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-6 fv-row fv-plugins-icon-container">
+                                    <input class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 @error('tickets_count') border-red-500 @enderror"
+                                    id="tickets_count"
+                                    type="number"
+                                    name="tickets_count"
+                                    min="1"
+                                    max="100"
+                                    value="{{ old('tickets_count') }}"
+                                    required>
+                                </div>
+                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                    <p class="text-600">Máximo 100 participantes</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    {{-- Precio del Ticket --}}
+                    <div class="row mb-7" id="ticket_price_section" style="{{ request()->input('type') == 'bet' ? 'display: none;' : '' }}">
+                        <label class="col-lg-4 col-form-label required fw-semibold fs-6" for="ticket_price">
+                            Precio del Ticket
+                        </label>
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <input class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 @error('ticket_price') border-red-500 @enderror"
+                                id="ticket_price"
+                                type="number"
+                                step="0.01"
+                                name="ticket_price"
+                                value="{{ old('ticket_price') }}"
+                                {{ request()->input('type') == 'ticket' }}>
+                            </div>
+                        </div>
+                   </div>
+
+                    {{-- Estado Activo --}}
+                    <div class="mb-6">
+                        <label class="form-check form-check-custom form-check-solid me-10">
+                            <input type="checkbox"
+                                class="form-check-input h-30px w-30px"
+                                name="active"
+                                value="1"
+                                {{ old('active', true) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="flexCheckbox40">Rifa activa</label>
                         </label>
                     </div>
-                </div>
 
-                {{-- Fecha de la Rifa --}}
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="raffle_date">
-                        Fecha de la Rifa *
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('raffle_date') border-red-500 @enderror"
-                           id="raffle_date"
-                           type="datetime-local"
-                           name="raffle_date"
-                           value="{{ old('raffle_date') }}"
-                           required>
-                </div>
-
-                {{-- Número de Participantes --}}
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="tickets_count">
-                        Número de Participantes *
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('tickets_count') border-red-500 @enderror"
-                           id="tickets_count"
-                           type="number"
-                           name="tickets_count"
-                           min="1"
-                           max="100"
-                           value="{{ old('tickets_count') }}"
-                           required>
-                    <p class="text-gray-600 text-xs italic">Máximo 100 participantes</p>
-                </div>
-
-                {{-- Precio del Ticket --}}
-                <div class="mb-4" id="ticket_price_section" style="{{ request()->input('type') == 'bet' ? 'display: none;' : '' }}">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="ticket_price">
-                        Precio del Ticket *
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('ticket_price') border-red-500 @enderror"
-                           id="ticket_price"
-                           type="number"
-                           step="0.01"
-                           name="ticket_price"
-                           value="{{ old('ticket_price') }}"
-                    {{ request()->input('type') == 'ticket' }}                </div>
-
-                {{-- Estado Activo --}}
-                <div class="mb-6">
-                    <label class="inline-flex items-center">
-                        <input type="checkbox"
-                               class="form-checkbox"
-                               name="active"
-                               value="1"
-                            {{ old('active', true) ? 'checked' : '' }}>
-                        <span class="ml-2">Rifa activa</span>
-                    </label>
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            type="submit">
-                        Crear Rifa
-                    </button>
-                </div>
-            </form>
+                    <div class="flex items-center justify-between">
+                        <button class="btn btn-primary"
+                                type="submit">
+                            Crear Rifa
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -207,5 +228,8 @@
             });
         </script>
     @endpush
+@endsection
 
+@section('scripts')
+    <script src="{{ asset('assets/js/raffleModal.js') }}"></script>
 @endsection

@@ -35,7 +35,7 @@ class MercadoPagoService
                     "id" => $raffleEntry->id, // ID único de la rifa
                     "title" => "Entrada Rifa ID {$raffleEntry->id}", // Nombre de la rifa
                     "description" => "Participación en la rifa",
-                    "currency_id" => "ARS", // Cambia la moneda si es necesario
+                    "currency_id" => "COL", // Cambia la moneda si es necesario
                     "quantity" => 1,
                     "unit_price" => $price // El valor de la entrada (ticket o bet)
                 ]

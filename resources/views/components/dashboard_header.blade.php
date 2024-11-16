@@ -5,8 +5,8 @@
         <div class="page-title d-flex flex-column align-items-start justify-content-center flex-wrap me-lg-20 py-3 py-lg-0 me-3">
             <!--begin::Heading-->
             <h1 class="d-flex flex-column text-gray-900 fw-bold my-1">
-                <span class="text-white fs-1">¡La suerte en tus manos!</span>
-                <small class="text-gray-600 fs-6 fw-normal pt-2">Bienvenido a TodoRifas</small>
+                <span class="text-white fs-1">@yield('Title')</span>
+                <small class="text-gray-600 fs-6 fw-normal pt-2">@yield('Subtitle')</small>
             </h1>
             <!--end::Heading-->
         </div>
@@ -18,6 +18,7 @@
                 <!--begin::Item-->
                 <div class="me-3">
                     <a href="#" class="btn btn-icon btn-custom btn-active-color-primary position-relative" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+                        <i class="ki-outline ki-notification-bing fs-1"></i>
                         <span class="bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink"></span>
                     </a>
                     <!--begin::Menu-->
@@ -73,7 +74,7 @@
                                     <!--end::Section-->
                                     <!--begin::Illustration-->
                                     <div class="text-center px-4">
-                                        <img class="mw-100 mh-200px" alt="image" src="assets/media/illustrations/sigma-1/1.png" />
+                                        <img class="mw-100 mh-200px" alt="image" src="{{asset('assets/media/images/todo_rifas_pet.png')}}" />
                                     </div>
                                     <!--end::Illustration-->
                                 </div>
@@ -90,7 +91,8 @@
                 <div class="d-flex align-items-center me-3">
                     <!--begin::Menu toggle-->
                     <a href="#" class="btn btn-icon btn-custom btn-active-color-primary" data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-
+                        <i class="ki-outline ki-night-day theme-light-show fs-1"></i>
+                        <i class="ki-outline ki-moon theme-dark-show fs-1"></i>
                     </a>
                     <!--begin::Menu toggle-->
                     <!--begin::Menu-->
@@ -98,6 +100,9 @@
                         <!--begin::Menu item-->
                         <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="light">
+                                <span class="menu-icon" data-kt-element="icon">
+                                    <i class="ki-outline ki-night-day fs-2"></i>
+                                </span>
                                 <span class="menu-title">Light</span>
                             </a>
                         </div>
@@ -105,6 +110,9 @@
                         <!--begin::Menu item-->
                         <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="dark">
+                                <span class="menu-icon" data-kt-element="icon">
+                                    <i class="ki-outline ki-moon fs-2"></i>
+                                </span>
                                 <span class="menu-title">Dark</span>
                             </a>
                         </div>
@@ -112,6 +120,9 @@
                         <!--begin::Menu item-->
                         <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="system">
+                                <span class="menu-icon" data-kt-element="icon">
+                                    <i class="ki-outline ki-screen fs-2"></i>
+                                </span>
                                 <span class="menu-title">System</span>
                             </a>
                         </div>
@@ -123,7 +134,7 @@
                 <!--begin::Item-->
                 <div class="me-3">
                     <a href="#" class="btn btn-icon btn-custom btn-active-color-primary" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-
+                        <i class="ki-outline ki-user fs-1"></i>
                     </a>
                     <!--begin::User account menu-->
                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px" data-kt-menu="true">
@@ -132,7 +143,7 @@
                             <div class="menu-content d-flex align-items-center px-3">
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-50px me-5">
-                                    <img alt="Logo" src="{{asset('images/todo_rifas_pet.png')}}" />
+                                    <img src="{{ auth()->user()->avatar ?? asset('assets/media/images/todo_rifas_pet.png') }}" alt="Profile image">
                                 </div>
                                 <!--end::Avatar-->
                                 <!--begin::Username-->
@@ -154,7 +165,7 @@
                         <!--end::Menu separator-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-5">
-                            <a href="{{ route('profile.overview') }}" class="menu-link px-5">Mi perfil</a>
+                            <a href="{{ route('user-details') }}" class="menu-link px-5">Mi perfil</a>
                         </div>
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
@@ -177,14 +188,14 @@
                         <!--end::Menu separator-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-5 my-1">
-                            <a href={{route('profile.show')}} class="menu-link px-5">Configuración de la cuenta</a>
+                            <a href={{route('user-config')}} class="menu-link px-5">Configuración de la cuenta</a>
                         </div>
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-5">
                             <form method="POST" action="{{ route('logout') }}" class="inline">
                                 @csrf
-                                <button type="submit" class="menu-link px-5">
+                                <button type="submit" class="btn btn-primary">
                                     Salir
                                 </button>
                             </form>
@@ -199,5 +210,3 @@
         </div>
         <!--end::Wrapper-->
     </div>
-    <!--end::Container-->
-</div>
