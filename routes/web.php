@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\SocialAuthController;
+use App\Http\Controllers\MockPaymentController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RaffleController;
 use App\Http\Controllers\RaffleEntrieController;
@@ -23,8 +24,12 @@ Route::resource('raffles', RaffleController::class);
  * **/
 Route::get('/results', [ResultController::class, 'index']);
 
+Route::resource('raffleEntries', RaffleEntrieController::class)->only([
+    'store', 'show','index'
+]);
 
-Route::resource('raffleEntries',RaffleEntrieController::class);
+Route::get('raffleEntries/{raffleEntry}/payment-simulation', [RaffleEntrieController::class, 'showPaymentSimulation']);
+
 Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
 
 
@@ -40,9 +45,21 @@ Route::get('/login-google', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('/google-callback', [SocialAuthController::class, 'handleGoogleCallback']);
 
 
-Route::get('raffle-entry/{raffleEntry}/pay', [PaymentController::class, 'pay'])->name('raffleEntry.pay');
-Route::get('mercadopago/success/{raffleEntry}', [PaymentController::class, 'success'])->name('mercadopago.success');
-Route::get('mercadopago/failed/{raffleEntry}', [PaymentController::class, 'failed'])->name('mercadopago.failed');
+Route::prefix('payment')->group(function() {
+
+    Route::post('process-simulated-payment/{raffleEntry}', [MockPaymentController::class, 'processSimulatedPayment'])
+        ->name('payment.simulation.process');
+
+//     Ruta para mostrar el éxito de la simulación de pago
+    Route::get('simulation-success/{raffleEntry}', [MockPaymentController::class, 'simulationSuccess'])
+        ->name('payment.simulation.success');
+
+});
+
+
+//Route::get('raffle-entry/{raffleEntry}/pay', [PaymentController::class, 'pay'])->name('raffleEntry.pay');
+//Route::get('mercadopago/success.blade.php/{raffleEntry}', [PaymentController::class, 'success.blade.php'])->name('mercadopago.success.blade.php');
+//Route::get('mercadopago/failed/{raffleEntry}', [PaymentController::class, 'failed'])->name('mercadopago.failed');
 
 
 

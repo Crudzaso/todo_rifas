@@ -7,9 +7,9 @@
 
 
     <div class="roles-container">
-        @if(session('success'))
+        @if(session('success.blade.php'))
             <div class="alert-success">
-                {{ session('success') }}
+                {{ session('success.blade.php') }}
             </div>
         @endif
 

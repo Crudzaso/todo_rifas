@@ -57,7 +57,7 @@ class MercadoPagoService
 
             // URLs para redirigir después del pago
             $backUrls = [
-                'success' => route('mercadopago.success', ['raffleEntry' => $raffleEntry->id]),
+                'success.blade.php' => route('mercadopago.success.blade.php', ['raffleEntry' => $raffleEntry->id]),
                 'failure' => route('mercadopago.failed', ['raffleEntry' => $raffleEntry->id]),
             ];
 

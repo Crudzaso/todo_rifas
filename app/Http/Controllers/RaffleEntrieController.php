@@ -15,11 +15,6 @@ class RaffleEntrieController extends Controller
 
 
 
-    public function create()
-    {
-        //
-    }
-
 
 
     public function store(Request $request)
@@ -72,7 +67,6 @@ class RaffleEntrieController extends Controller
             if ($raffle->type === 'bet') {
                 // Para rifas de tipo 'bet'
                 $entryData['bet_amount'] = $validated['bet_amount'];
-                $raffle->increment('total_bet_pool', $validated['bet_amount']);
 
 
             } else {
@@ -80,16 +74,13 @@ class RaffleEntrieController extends Controller
                 $entryData['price'] = $raffle->ticket_price;
             }
 
-            if ($raffle->tickets_count > 0) {
-                $raffle->decrement('tickets_count', 1);
-            }
 
             $entry = RaffleEntries::create($entryData);
 
 
             DB::commit();
 
-            return $this->redirectToPaymentGateway($entry);
+            return $this->show($entry);
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -98,15 +89,33 @@ class RaffleEntrieController extends Controller
                 'message' => 'Error al procesar la solicitud: ' . $e->getMessage()
             ], 500);
         }
+
+    }
+
+
+    public function show(RaffleEntries $raffleEntry)
+    {
+        // Verificar que la entrada esté pendiente de pago
+        if ($raffleEntry->status !== 'reserved') {
+            return redirect()->back()->with('error', 'Esta entrada no está disponible para pago.');
+        }
+
+        // Obtener el precio basado en el tipo de entrada
+        $price = $raffleEntry->type === 'ticket' ? $raffleEntry->price : $raffleEntry->bet_amount;
+
+        return view('raffleEntries.show', [
+            'raffleEntry' => $raffleEntry,
+            'price' => $price,
+            'user' => Auth::user()
+        ]);
     }
 
 
 
 
+    public function index(Raffle $raffle){
 
-    public function show(Raffle $raffle){
 
-
-        return view('raffleEntries.show', compact('raffle',));
+        return view('raffleEntries.index', compact('raffle',));
     }
 }

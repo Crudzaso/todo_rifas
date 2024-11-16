@@ -34,7 +34,7 @@ class PaymentController extends Controller
     // Método para manejar la respuesta exitosa
     public function success(Request $request, RaffleEntries $raffleEntry) {
         // Aquí puedes manejar la respuesta después de que el pago fue exitoso
-        return view('mercadopago.success', ['raffleEntry' => $raffleEntry]);
+        return view('mercadopago.success.blade.php', ['raffleEntry' => $raffleEntry]);
     }
 
     // Método para manejar la respuesta fallida
