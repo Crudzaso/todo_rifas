@@ -91,7 +91,7 @@ class RaffleController extends Controller
 
             return redirect()
                 ->route('raffles.index')
-                ->with('success', 'Rifa creada exitosamente');
+                ->with('success.blade.php', 'Rifa creada exitosamente');
 
         } catch (\Exception $e) {
             return redirect()
@@ -105,7 +105,7 @@ class RaffleController extends Controller
     {
 
 
-        return view('raffleEntries.show', compact('raffle'));
+        return view('raffleEntries.index', compact('raffle'));
     }
 
 
@@ -132,7 +132,7 @@ class RaffleController extends Controller
         /**
          * redirigir a la vista de apuestas
         */
-        return redirect()->route('raffles.index')->with('success', 'Rifa actualizada con éxito');
+        return redirect()->route('raffles.index')->with('success.blade.php', 'Rifa actualizada con éxito');
     }
 
     public function destroy(Raffle $raffle)
@@ -147,6 +147,6 @@ class RaffleController extends Controller
 
         $raffle->delete();
 
-        return redirect()->route('raffles.index')->with('success', 'Rifa eliminada correctamente');
+        return redirect()->route('raffles.index')->with('success.blade.php', 'Rifa eliminada correctamente');
     }
 }

@@ -1,13 +1,12 @@
 <?php
 
 use App\Http\Controllers\Auth\SocialAuthController;
+use App\Http\Controllers\MockPaymentController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RaffleController;
 use App\Http\Controllers\RaffleEntrieController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\RolerController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 
@@ -25,8 +24,12 @@ Route::resource('raffles', RaffleController::class);
  * **/
 Route::get('/results', [ResultController::class, 'index']);
 
+Route::resource('raffleEntries', RaffleEntrieController::class)->only([
+    'store', 'show','index'
+]);
 
-Route::resource('raffleEntries',RaffleEntrieController::class);
+Route::get('raffleEntries/{raffleEntry}/payment-simulation', [RaffleEntrieController::class, 'showPaymentSimulation']);
+
 Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
 
 
@@ -42,21 +45,22 @@ Route::get('/login-google', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('/google-callback', [SocialAuthController::class, 'handleGoogleCallback']);
 
 
-/**
- * raffle routes
-*/
-//Route::get('/',function (){
-//    $response = Http::get('https://api-resultadosloterias.com/api/results');
-//    $data = $response->json();
-//
-//   foreach ($data['data'] as $lottery){
-//       echo 'Lotería: ' . $lottery['lottery'] . ' | Resultado: ' . $lottery['result'] . ' | Fecha: ' . $lottery['date'];
-//       echo "<br>";
-//
-//   }
-//
-//
-//});
+Route::prefix('payment')->group(function() {
+
+    Route::post('process-simulated-payment/{raffleEntry}', [MockPaymentController::class, 'processSimulatedPayment'])
+        ->name('payment.simulation.process');
+
+//     Ruta para mostrar el éxito de la simulación de pago
+    Route::get('simulation-success/{raffleEntry}', [MockPaymentController::class, 'simulationSuccess'])
+        ->name('payment.simulation.success');
+
+});
+
+
+//Route::get('raffle-entry/{raffleEntry}/pay', [PaymentController::class, 'pay'])->name('raffleEntry.pay');
+//Route::get('mercadopago/success.blade.php/{raffleEntry}', [PaymentController::class, 'success.blade.php'])->name('mercadopago.success.blade.php');
+//Route::get('mercadopago/failed/{raffleEntry}', [PaymentController::class, 'failed'])->name('mercadopago.failed');
+
 
 
 Route::middleware([
