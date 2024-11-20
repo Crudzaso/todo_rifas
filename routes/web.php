@@ -7,6 +7,7 @@ use App\Http\Controllers\RaffleController;
 use App\Http\Controllers\RaffleEntrieController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\RolerController;
+use App\Http\Controllers\winnerController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -43,6 +44,9 @@ Route::get('/profile/overview', function () {
 
 Route::get('/login-google', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('/google-callback', [SocialAuthController::class, 'handleGoogleCallback']);
+
+Route::get('/lottery/winner', [winnerController::class, 'showWinner'])->name('lottery.winner');
+
 
 
 Route::prefix('payment')->group(function() {

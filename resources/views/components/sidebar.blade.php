@@ -138,10 +138,24 @@
                             </a>
                             <!--end:Menu link-->
                         </div>
+
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link" href="{{route('lottery.winner')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Resultados</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
                     </div>
                     <!--end:Menu sub-->
                 </div>
                 <!--end:Menu item-->
+
+
 
                 <!--begin:Menu item-->
                 <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item py-2">
