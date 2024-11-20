@@ -2352,7 +2352,7 @@ span.flatpickr-weekday {
 .fv-plugins-bulma .fv-has-success .select select,
 .fv-plugins-bulma .fv-has-success .input,
 .fv-plugins-bulma .fv-has-success .textarea {
-  border: 1px solid #23d160; /* Same as .input.is-success */
+  border: 1px solid #23d160; /* Same as .input.is-success.blade.php */
 }
 
 .fv-plugins-foundation {
@@ -2394,7 +2394,7 @@ span.flatpickr-weekday {
 }
 
 .fv-plugins-foundation .fv-row__success .fv-plugins-icon {
-  color: #3adb76; /* Same as .success */
+  color: #3adb76; /* Same as .success.blade.php */
 }
 
 .fv-plugins-foundation .fv-row__error label,
@@ -2543,7 +2543,7 @@ span.flatpickr-weekday {
 .fv-plugins-pure .fv-has-success label,
 .fv-plugins-pure .fv-has-success .fv-help-block,
 .fv-plugins-pure .fv-has-success .fv-plugins-icon {
-  color: #1cb841; /* Same as .button-success */
+  color: #1cb841; /* Same as .button-success.blade.php */
 }
 
 .fv-plugins-pure.pure-form-aligned .fv-help-block {
@@ -2668,7 +2668,7 @@ span.flatpickr-weekday {
 
 .fv-plugins-turret .fv-valid-row .form-message,
 .fv-plugins-turret .fv-valid-row .fv-plugins-icon {
-  color: #00b300; /* Same as .form-message.success */
+  color: #00b300; /* Same as .form-message.success.blade.php */
 }
 
 .fv-plugins-uikit {

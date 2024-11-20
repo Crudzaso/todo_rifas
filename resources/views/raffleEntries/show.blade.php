@@ -1,143 +1,189 @@
-@extends('layouts.boletos')
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simulación de Pago | Sistema de Rifas</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .bg-pattern {
+            background-color: #1a1d23;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23093e5e' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
 
-@section('content')
-    <div class="raffle-page">
-        <div class="raffle-container">
-            <div class="raffle-card">
-                <div class="raffle-header">
-                    <div class="trophy-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
-                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
-                            <path d="M4 22h16"></path>
-                            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
-                            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
-                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
-                        </svg>
+        .card-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-border {
+            border: 2px solid rgba(52, 168, 90, 0.1);
+        }
+
+        .hover-scale {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-scale:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .shine-button {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shine-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(45deg);
+            transition: 0.5s;
+        }
+
+        .shine-button:hover::after {
+            animation: shine 1.5s ease;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        /* Nuevos estilos para los valores */
+        .value-tag {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            color: #1a1d23;
+            font-weight: 500;
+        }
+
+        /* Estilo para el precio */
+        .price-tag {
+            background-color: #edf7f0;
+            border: 1px solid #34a85a;
+            color: #34a85a;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-pattern min-h-screen py-12">
+<div class="container mx-auto px-4">
+    <div class="max-w-xl mx-auto">
+        <div class="bg-white rounded-2xl card-shadow hover-scale">
+            <div class="bg-gradient-to-r from-[#093e5e] to-[#1a1d23] p-6 rounded-t-2xl">
+                <h2 class="text-2xl font-bold text-center text-white flex items-center justify-center">
+                    <i class="fas fa-credit-card mr-3"></i>
+                    Simulación de Pago
+                </h2>
+            </div>
+
+            <div class="p-8">
+                <div class="mb-8">
+                    <h3 class="text-[#1a1d23] text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-ticket-alt text-[#34a85a] mr-2"></i>
+                        Detalles de la Rifa
+                    </h3>
+                    <div class="bg-gray-50 rounded-xl p-6 custom-border">
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[#2f4f4f]">Rifa:</span>
+                                <span class="value-tag px-4 py-2 rounded-lg">
+                                        #{{ $raffleEntry->raffle->id }}
+                                    </span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-[#2f4f4f]">Número:</span>
+                                <span class="value-tag px-4 py-2 rounded-lg">
+                                        {{ $raffleEntry->number }}
+                                    </span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-[#2f4f4f]">Tipo:</span>
+                                <span class="value-tag px-4 py-2 rounded-lg">
+                                        {{ ucfirst($raffleEntry->type) }}
+                                    </span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-[#2f4f4f]">Precio:</span>
+                                <span class="price-tag px-4 py-2 rounded-lg">
+                                        ${{ number_format($raffleEntry->type === 'ticket' ? $raffleEntry->price : $raffleEntry->bet_amount, 0, ',', '.') }}
+                                    </span>
+                            </div>
+                        </div>
                     </div>
-                    <h1 class="raffle-title">{{ $raffle->name }}</h1>
-                    <p class="raffle-description">{{ $raffle->description }}</p>
                 </div>
 
-                <form action="{{ route('raffleEntries.store') }}" method="POST" class="raffle-form">
+                <div class="mb-8">
+                    <h3 class="text-[#1a1d23] text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-user text-[#34a85a] mr-2"></i>
+                        Datos del Comprador
+                    </h3>
+                    <div class="bg-gray-50 rounded-xl p-6 custom-border">
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[#2f4f4f]">Nombre:</span>
+                                <span class="value-tag px-4 py-2 rounded-lg">
+                                        {{ $user->name }}
+                                    </span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-[#2f4f4f]">Email:</span>
+                                <span class="value-tag px-4 py-2 rounded-lg">
+                                        {{ $user->email }}
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form action="{{ route('payment.simulation.process', $raffleEntry) }}" method="POST">
                     @csrf
-                    <input type="hidden" name="raffle_id" value="{{ $raffle->id }}">
-
-                    <div class="form-group ticket-number-group">
-                        <label for="id">Número de la Suerte (3 dígitos)</label>
-                        <div class="ticket-input-container">
-                            <input
-                                type="number"
-                                id="id"
-                                name="id"
-                                min="000"
-                                max="999"
-                                placeholder="Ingrese un número de ticket"
-                                value="{{ old('id') }}"
-                                required
-                                class="ticket-input"
-                            >
-                            <button type="button" id="generateRandomNumberBtn" class="random-button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M19 2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z"></path>
-                                    <path d="M7 12h.01"></path>
-                                    <path d="M12 12h.01"></path>
-                                    <path d="M17 12h.01"></path>
-                                </svg>
-                                Aleatorio
-                            </button>
-                        </div>
-                        @error('id')
-                        <div class="error-message">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    @if($raffle->type === 'ticket')
-                        <div class="form-group ticket-price-group">
-                            <div class="price-container">
-                                <div class="price-label">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M20 12v8H4v-8"></path>
-                                        <path d="M2 4v8h20V4"></path>
-                                        <path d="M12 4v8"></path>
-                                        <path d="M12 16v3"></path>
-                                    </svg>
-                                    <label for="ticket_price">Precio del Ticket:</label>
-                                </div>
-                                <input
-                                    type="number"
-                                    id="ticket_price"
-                                    name="ticket_price"
-                                    value="{{ $raffle->ticket_price }}"
-                                    readonly
-                                    required
-                                    class="price-input"
-                                >
-                            </div>
-                        </div>
-                    @endif
-
-                    @if($raffle->type === 'bet')
-                        <div class="form-group bet-group">
-                            <div class="prize-pool">
-                                <div class="prize-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="8" r="6"></circle>
-                                        <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
-                                    </svg>
-                                </div>
-                                <div class="prize-info">
-                                    <span class="prize-label">PREMIO ACUMULADO</span>
-                                    <span class="prize-amount">{{ $raffle->total_bet_pool }}</span>
-                                </div>
-                            </div>
-
-                            <label class="bet-amount-label">Seleccione el monto de su apuesta:</label>
-                            <div class="bet-buttons">
-                                <button type="button" class="bet-amount-btn" data-value="1000">$1,000</button>
-                                <button type="button" class="bet-amount-btn" data-value="5000">$5,000</button>
-                                <button type="button" class="bet-amount-btn" data-value="10000">$10,000</button>
-                            </div>
-                            <input type="hidden" name="bet_amount" id="bet_amount" required>
-                            @error('bet_amount')
-                            <div class="error-message">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    @endif
-
-                    <div class="button-group">
-                        <button type="submit" class="submit-button">
-                            <span>Confirmar Compra</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14"></path>
-                                <path d="m12 5 7 7-7 7"></path>
-                            </svg>
-                        </button>
-                    </div>
+                    <button type="submit"
+                            class="w-full bg-[#34a85a] hover:bg-[#2d9550]  font-bold py-4 px-6 rounded-xl transition-all duration-300 shine-button flex items-center justify-center text-lg shadow-lg">
+                        <i class="fas fa-lock mr-2"></i>
+                        Simular Pago Seguro
+                    </button>
                 </form>
+
+                <div class="mt-6 text-center">
+                    <p class="text-[#2f4f4f] text-sm flex items-center justify-center">
+                        <i class="fas fa-info-circle text-[#093e5e] mr-2"></i>
+                        Esta es una simulación de pago para propósitos de prueba
+                    </p>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        document.querySelectorAll('.bet-amount-btn').forEach(function(button) {
-            button.addEventListener('click', function() {
-                document.querySelectorAll('.bet-amount-btn').forEach(function(btn) {
-                    btn.classList.remove('selected');
-                });
-                const betAmount = this.getAttribute('data-value');
-                document.getElementById('bet_amount').value = betAmount;
-                this.classList.add('selected');
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const itemContainers = document.querySelectorAll('.custom-border');
+
+        itemContainers.forEach(container => {
+            container.addEventListener('mouseenter', function() {
+                this.style.borderColor = '#34a85a';
+                this.style.transform = 'translateY(-2px)';
+                this.style.transition = 'all 0.3s ease';
+            });
+
+            container.addEventListener('mouseleave', function() {
+                this.style.borderColor = 'rgba(52, 168, 90, 0.1)';
+                this.style.transform = 'translateY(0)';
             });
         });
-
-        function generateRandomNumber() {
-            const min = 100;
-            const max = 999;
-            const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
-            document.getElementById('id').value = randomNum;
-        }
-
-        document.getElementById('generateRandomNumberBtn').addEventListener('click', generateRandomNumber);
-    </script>
-@endsection
+    });
+</script>
+</body>
+</html>

@@ -7,9 +7,9 @@
 @section('content')
     <h1>Crear un nuevo Rol</h1>
 
-    @if(session('success'))
+    @if(session('success.blade.php'))
         <div class="alert alert-success">
-            {{ session('success') }}
+            {{ session('success.blade.php') }}
         </div>
     @endif
 

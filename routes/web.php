@@ -1,15 +1,13 @@
 <?php
 
 use App\Http\Controllers\Auth\SocialAuthController;
-use App\Http\Controllers\IssuerController;
+use App\Http\Controllers\MockPaymentController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RaffleController;
 use App\Http\Controllers\RaffleEntrieController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\RolerController;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
-use MercadoPago\MercadoPagoConfig;
 
 
 /* rutas del admin*/
@@ -22,16 +20,22 @@ Route::post('/roles/{role}/add-permissions', [RolerController::class, 'addPermis
  * **/
 Route::resource('raffles', RaffleController::class);
 
+/* rout result lotery
+ * **/
+Route::get('/results', [ResultController::class, 'index']);
 
-Route::resource('raffleEntries',RaffleEntrieController::class);
-Route::get('/winners', [RaffleController::class, 'showWinners'])->name('winners');
+Route::resource('raffleEntries', RaffleEntrieController::class)->only([
+    'store', 'show','index'
+]);
+
+Route::get('raffleEntries/{raffleEntry}/payment-simulation', [RaffleEntrieController::class, 'showPaymentSimulation']);
+
+Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
 
 
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/', [RaffleController::class, 'showLandingPage']);
-
 
 Route::get('/profile/overview', function () {
     return view('profile.overview');
@@ -41,25 +45,22 @@ Route::get('/login-google', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('/google-callback', [SocialAuthController::class, 'handleGoogleCallback']);
 
 
+Route::prefix('payment')->group(function() {
 
-//Route::get('/test-mercadopago', function () {
-//    MercadoPagoConfig::setAccessToken(config('services.mercadopago.access_token'));
-//
-//    return response()->json([
-//        'access_token' => config('services.mercadopago.access_token'),
-//        'configured_token' => MercadoPagoConfig::getAccessToken(),
-//    ]);
-//});
+    Route::post('process-simulated-payment/{raffleEntry}', [MockPaymentController::class, 'processSimulatedPayment'])
+        ->name('payment.simulation.process');
 
+//     Ruta para mostrar el éxito de la simulación de pago
+    Route::get('simulation-success/{raffleEntry}', [MockPaymentController::class, 'simulationSuccess'])
+        ->name('payment.simulation.success');
 
-
-Route::get('/payment/gateway/{entry}', [PaymentController::class, 'index'])->name('payment.gateway');
-Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('payment.process');
+});
 
 
+//Route::get('raffle-entry/{raffleEntry}/pay', [PaymentController::class, 'pay'])->name('raffleEntry.pay');
+//Route::get('mercadopago/success.blade.php/{raffleEntry}', [PaymentController::class, 'success.blade.php'])->name('mercadopago.success.blade.php');
+//Route::get('mercadopago/failed/{raffleEntry}', [PaymentController::class, 'failed'])->name('mercadopago.failed');
 
-// En routes/web.php o routes/api.php
-Route::get('/get-issuers/{id}', [IssuerController::class, 'getIssuers']);
 
 
 Route::middleware([
@@ -73,5 +74,13 @@ Route::middleware([
 });
 
 Route::get('/auth', function(){
-    return view('auth.auth'); //func to load auth view
+    return view('auth.login'); //func to load auth view
 })-> name('auth');
+
+Route::get('/profile', function(){
+    return view('User.user-details'); //func to load user details view
+})-> name('user-details');
+
+Route::get('/profile/settings',function(){
+    return view('User.user-update'); //func to load user edit view
+})-> name('user-config');

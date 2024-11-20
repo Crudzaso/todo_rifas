@@ -5,8 +5,8 @@
         <div class="page-title d-flex flex-column align-items-start justify-content-center flex-wrap me-lg-20 py-3 py-lg-0 me-3">
             <!--begin::Heading-->
             <h1 class="d-flex flex-column text-gray-900 fw-bold my-1">
-                <span class="text-white fs-1">¡La suerte en tus manos!</span>
-                <small class="text-gray-600 fs-6 fw-normal pt-2">Bienvenido a TodoRifas</small>
+                <span class="text-white fs-1">@yield('Title')</span>
+                <small class="text-gray-600 fs-6 fw-normal pt-2">@yield('Subtitle')</small>
             </h1>
             <!--end::Heading-->
         </div>
@@ -143,7 +143,7 @@
                             <div class="menu-content d-flex align-items-center px-3">
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-50px me-5">
-                                    <img alt="Logo" src="{{asset('assets/media/images/todo_rifas_pet.png')}}" />
+                                    <img src="{{ auth()->user()->avatar ?? asset('assets/media/images/todo_rifas_pet.png') }}" alt="Profile image">
                                 </div>
                                 <!--end::Avatar-->
                                 <!--begin::Username-->
@@ -165,7 +165,7 @@
                         <!--end::Menu separator-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-5">
-                            <a href="{{ route('profile.overview') }}" class="menu-link px-5">Mi perfil</a>
+                            <a href="{{ route('user-details') }}" class="menu-link px-5">Mi perfil</a>
                         </div>
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
@@ -188,14 +188,14 @@
                         <!--end::Menu separator-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-5 my-1">
-                            <a href={{route('profile.show')}} class="menu-link px-5">Configuración de la cuenta</a>
+                            <a href={{route('user-config')}} class="menu-link px-5">Configuración de la cuenta</a>
                         </div>
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-5">
                             <form method="POST" action="{{ route('logout') }}" class="inline">
                                 @csrf
-                                <button type="submit" class="menu-link px-5">
+                                <button type="submit" class="btn btn-primary">
                                     Salir
                                 </button>
                             </form>
