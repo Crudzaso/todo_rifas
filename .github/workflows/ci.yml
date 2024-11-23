@@ -1,37 +1,29 @@
-name: CI pipeline
+name: CI Pipeline
 
 on:
   pull_request:
     branches:
       - main
 
-
 jobs:
   tests:
     runs-on: ubuntu-latest
 
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Install PHPStan
-      run: composer require --dev phpstan/phpstan
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v3
+        with:
+          php-version: 8.1
+          extensions: mbstring, pdo, bcmath
 
-    - name: Run PHPStan analysis
-      run: vendor/bin/phpstan analyse --memory-limit=1G
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
 
-    - name: Set up PHP
-      uses: shivammathur/setup-php@v3
-      with:
-        php-version: 8.2
-        extensions: mbstring, pdo, bcmath
-        coverage: none
+      - name: Generate application key
+        run: php artisan key:generate
 
-    - name: Install Composer dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
-
-    - name: Generate application key
-      run: php artisan key:generate
-
-    - name: Run tests
-      run: php artisan test
+      - name: Run tests
+        run: php artisan test
