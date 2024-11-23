@@ -19,11 +19,5 @@ jobs:
           php-version: 8.1
           extensions: mbstring, pdo, bcmath
 
-      - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
-
-      - name: Generate application key
-        run: php artisan key:generate
-
       - name: Run tests
         run: php artisan test
