@@ -1,0 +1,25 @@
+name: CI pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v3
+      with: 
+        php-version: 8.2
+        extensions: mbstring, pdo, bcmath
+        coverage: none
+
+    - name: Install Composer dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
