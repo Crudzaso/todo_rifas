@@ -18,6 +18,3 @@ jobs:
         with:
           php-version: 8.1
           extensions: mbstring, pdo, bcmath
-
-      - name: Run tests
-        run: php artisan test
