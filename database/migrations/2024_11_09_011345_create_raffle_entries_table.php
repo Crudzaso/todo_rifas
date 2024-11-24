@@ -16,6 +16,8 @@ return new class extends Migration
             $table->enum('type', ['ticket', 'bet']);
             $table->decimal('bet_amount')->default(0.00);
             $table->string('status');
+            $table->integer('number')->unique();
+            $table->decimal('price')->default(0.00);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('raffle_id')->constrained()->onDelete('cascade');
             $table->timestamps();
