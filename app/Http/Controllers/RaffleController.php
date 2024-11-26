@@ -15,15 +15,26 @@ class RaffleController extends Controller
 
     private function getAvailableLotteries()
     {
-        $response = Http::get('https://api-resultadosloterias.com/api/lotteries');
+        try {
+            // Realiza la solicitud con un tiempo de espera de 10 segundos y 3 reintentos
+            $response = Http::retry(3, 100) // Reintenta 3 veces con 100ms de retraso
+            ->timeout(10)   // Tiempo de espera de 10 segundos
+            ->get('https://api-resultadosloterias.com/api/lotteries');
 
-        if ($response->successful() && isset($response['data'])) {
-            return collect($response['data'])->pluck('name');
+            // Verifica si la respuesta fue exitosa y contiene datos
+            if ($response->successful() && isset($response['data'])) {
+                return collect($response['data'])->pluck('name');
+            }
+
+            // Registra un error si la respuesta no es exitosa
+            \Log::warning('API response was not successful: ' . $response->body());
+            return [];
+        } catch (\Exception $e) {
+            // Captura cualquier error relacionado con la conexión o la solicitud
+            \Log::error('Error connecting to API: ' . $e->getMessage());
+            return [];
         }
-
-        return [];
     }
-
     public function index()
     {
         $raffles = Raffle::with(['entries'])->get();
@@ -32,8 +43,11 @@ class RaffleController extends Controller
 
     public function create()
     {
-        $availableLotteries = $this->getAvailableLotteries();
-        return view('Raffles.create', compact('availableLotteries'));
+        $availableLotteries = collect($this->getAvailableLotteries()); // Convertir a colección
+        $noLotteriesMessage = $availableLotteries->isEmpty()
+            ? 'No hay loterías disponibles en este momento.'
+            : null;
+        return view('Raffles.create', compact('availableLotteries','noLotteriesMessage'));
     }
 
     public function store(RequestRaffle $request)

@@ -6,6 +6,7 @@
 @section('subtitle')
     Acá podrás Crear una Rifa Nueva
 @endsection
+
 @section('content')
 
     <div class="card-body pt-9 pb-0">
@@ -45,15 +46,14 @@
                         </label>
                         <div class="col-lg-8">
                             <div class="row">
-                                <input class=" form-control form-control-lg form-control-solid mb-3 mb-lg-0 focus:outline-none @error('name') border-red-500 @enderror"
-                                id="name"
-                                type="text"
-                                name="name"
-                                value="{{ old('name') }}"
-                                required>
+                                <input class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 focus:outline-none @error('name') border-red-500 @enderror"
+                                       id="name"
+                                       type="text"
+                                       name="name"
+                                       value="{{ old('name') }}"
+                                       required>
                             </div>
                         </div>
-
                     </div>
 
                     {{-- Descripción --}}
@@ -62,10 +62,10 @@
                             Descripción
                         </label>
                         <textarea class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 @error('description') border-red-500 @enderror"
-                                id="description"
-                                name="description"
-                                rows="3"
-                                required>{{ old('description') }}</textarea>
+                                  id="description"
+                                  name="description"
+                                  rows="3"
+                                  required>{{ old('description') }}</textarea>
                     </div>
 
                     {{-- Selección de Lotería --}}
@@ -75,21 +75,29 @@
                         </label>
                         <div class="col-lg-8">
                             <div class="row">
-                                <select class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 @error('lottery') border-red-500 @enderror"
-                                        id="lottery"
-                                        name="lottery"
-                                        required>
-                                    <option value="">Seleccione una lotería</option>
-                                    @foreach($availableLotteries as $lottery)
-                                        <option value="{{ $lottery }}" {{ old('lottery') == $lottery ? 'selected' : '' }}>
-                                            {{ $lottery }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                @if ($availableLotteries->isEmpty())
+                                    <div class="alert alert-warning">
+                                        No hay loterías disponibles en este momento.
+                                    </div>
+                                    <select class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" disabled>
+                                        <option>No disponible</option>
+                                    </select>
+                                @else
+                                    <select class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 @error('lottery') border-red-500 @enderror"
+                                            id="lottery"
+                                            name="lottery"
+                                            required>
+                                        <option value="">Seleccione una lotería</option>
+                                        @foreach($availableLotteries as $lottery)
+                                            <option value="{{ $lottery }}" {{ old('lottery') == $lottery ? 'selected' : '' }}>
+                                                {{ $lottery }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                @endif
                             </div>
                         </div>
                     </div>
-
 
                     {{-- Tipo de Rifa --}}
                     <div class="row mb-7">
@@ -99,20 +107,20 @@
                         <div class="col-lg-8">
                             <label class="form-check-label">
                                 <input type="radio"
-                                    class="form-check-input"
-                                    name="type"
-                                    value="ticket"
-                                    {{ old('type') == 'ticket' ? 'checked' : '' }}
-                                    onchange="toggleTicketPrice()">
+                                       class="form-check-input"
+                                       name="type"
+                                       value="ticket"
+                                       {{ old('type') == 'ticket' ? 'checked' : '' }}
+                                       onchange="toggleTicketPrice()">
                                 <span class="ml-2">Ticket</span>
                             </label>
                             <label class="form-check-label">
                                 <input type="radio"
-                                    class="form-check-input"
-                                    name="type"
-                                    value="bet"
-                                    {{ old('type') == 'bet' ? 'checked' : '' }}
-                                    onchange="toggleTicketPrice()">
+                                       class="form-check-input"
+                                       name="type"
+                                       value="bet"
+                                       {{ old('type') == 'bet' ? 'checked' : '' }}
+                                       onchange="toggleTicketPrice()">
                                 <span class="ml-2">Apuesta</span>
                             </label>
                         </div>
@@ -126,14 +134,13 @@
                         <div class="col-lg-8">
                             <div class="row">
                                 <input class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 @error('raffle_date') border-red-500 @enderror"
-                            id="raffle_date"
-                            type="datetime-local"
-                            name="raffle_date"
-                            value="{{ old('raffle_date') }}"
-                            required>
+                                       id="raffle_date"
+                                       type="datetime-local"
+                                       name="raffle_date"
+                                       value="{{ old('raffle_date') }}"
+                                       required>
                             </div>
                         </div>
-
                     </div>
 
                     {{-- Número de Participantes --}}
@@ -145,21 +152,19 @@
                             <div class="row">
                                 <div class="col-lg-6 fv-row fv-plugins-icon-container">
                                     <input class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 @error('tickets_count') border-red-500 @enderror"
-                                    id="tickets_count"
-                                    type="number"
-                                    name="tickets_count"
-                                    min="1"
-                                    max="100"
-                                    value="{{ old('tickets_count') }}"
-                                    required>
+                                           id="tickets_count"
+                                           type="number"
+                                           name="tickets_count"
+                                           min="1"
+                                           max="100"
+                                           value="{{ old('tickets_count') }}"
+                                           required>
                                 </div>
                                 <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                                     <p class="text-600">Máximo 100 participantes</p>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
 
                     {{-- Precio del Ticket --}}
@@ -170,23 +175,23 @@
                         <div class="col-lg-8">
                             <div class="row">
                                 <input class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 @error('ticket_price') border-red-500 @enderror"
-                                id="ticket_price"
-                                type="number"
-                                step="0.01"
-                                name="ticket_price"
-                                value="{{ old('ticket_price') }}"
-                                {{ request()->input('type') == 'ticket' }}>
+                                       id="ticket_price"
+                                       type="number"
+                                       step="0.01"
+                                       name="ticket_price"
+                                       value="{{ old('ticket_price') }}"
+                                    {{ request()->input('type') == 'ticket' }}>
                             </div>
                         </div>
-                   </div>
+                    </div>
 
                     {{-- Estado Activo --}}
                     <div class="mb-6">
                         <label class="form-check form-check-custom form-check-solid me-10">
                             <input type="checkbox"
-                                class="form-check-input h-30px w-30px"
-                                name="active"
-                                value="1"
+                                   class="form-check-input h-30px w-30px"
+                                   name="active"
+                                   value="1"
                                 {{ old('active', true) ? 'checked' : '' }}>
                             <label class="form-check-label" for="flexCheckbox40">Rifa activa</label>
                         </label>
@@ -202,34 +207,4 @@
             </div>
         </div>
     </div>
-
-    @push('scripts')
-        <script>
-            function toggleTicketPrice() {
-                const ticketPriceSection = document.getElementById('ticket_price_section');
-                const selectedType = document.querySelector('input[name="type"]:checked')?.value;
-
-                if (selectedType === 'ticket') {
-                    ticketPriceSection.style.display = 'block';
-                    document.getElementById('ticket_price').required = true;
-                } else {
-                    ticketPriceSection.style.display = 'none';
-                    document.getElementById('ticket_price').required = false;
-                }
-            }
-
-            document.addEventListener('DOMContentLoaded', function() {
-                // Ejecutar la función al cargar la página para verificar el estado inicial
-                toggleTicketPrice();
-
-                // Agregar el evento a los inputs tipo radio
-                const typeInputs = document.querySelectorAll('input[name="type"]');
-                typeInputs.forEach(input => input.addEventListener('change', toggleTicketPrice));
-            });
-        </script>
-    @endpush
-@endsection
-
-@section('scripts')
-    <script src="{{ asset('assets/js/raffleModal.js') }}"></script>
 @endsection
