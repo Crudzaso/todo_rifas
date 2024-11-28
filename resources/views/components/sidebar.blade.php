@@ -49,6 +49,7 @@
                 </div>
                 <!--end:Menu item-->
 
+
                 <!--begin:Menu item-->
                 <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item py-2">
                     <!--begin:Menu link-->
@@ -98,6 +99,8 @@
                     <!--end:Menu sub-->
                 </div>
                 <!--end:Menu item-->
+
+
 
                 <!--begin:Menu item-->
                 <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item py-2">
@@ -157,21 +160,69 @@
 
 
 
+                {{--                Se organizador--}}
+                <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item py-2">
+                    <!--begin:Menu link-->
+                    <span class="menu-link menu-center">
+                        <span class="menu-icon me-0">
+                            <i class="ki-duotone ki-arrows-circle fs-1">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                    </span>
+                    {{--                Se organizador--}}
+
+                    <div class="menu-sub menu-sub-dropdown px-2 py-4 w-250px mh-75 overflow-auto" style="">
+                        <!--begin:Menu item-->
+
+                        <div class="menu-item">
+                            <!--begin:Menu content-->
+
+                            <div class="menu-content">
+                                <span class="menu-section fs-5 fw-bolder ps-1 py-1">Ser organizador</span>
+                            </div>
+                            <!--end:Menu content-->
+                        </div>
+                        <!--end:Menu item-->
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+
+                            <a class="menu-link" href="">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                                <span class="menu-icon">
+                                <i class="ki-duotone ki-document fs-1">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i>
+                            </span>
+                                <span class="menu-title">Procesar Solicitud</span>
+                            </a>
+
+                            <!--end:Menu link-->
+                        </div>
+                    </div>
+                </div>
+
+
                 <!--begin:Menu item-->
                 <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item py-2">
                     <!--begin:Menu link-->
                     <span class="menu-link menu-center">
                         <span class="menu-icon me-0">
-                            <i class="ki-duotone ki-lock-2 fs-1">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                                <span class="path3"></span>
-                                <span class="path4"></span>
-                                <span class="path5"></span>
-                            </i>
+                        <i class="ki-duotone ki-gear fs-1">
+
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
                         </span>
                     </span>
                     <!--end:Menu link-->
+
+
                     <!--begin:Menu sub-->
                     @auth()
                     @if(auth()->user()->hasRole('admin'))
@@ -197,6 +248,19 @@
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title">Gestión de roles</span>
+                            </a>
+                            <a class="menu-link" href="">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Gestión de Usuarios</span>
+                            </a>
+
+                            <a class="menu-link" href="">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Solicitudes</span>
                             </a>
 
 

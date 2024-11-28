@@ -25,7 +25,6 @@ class CreateNewUser implements CreatesNewUsers
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
-            'role' => ['nullable', 'in:client,organizer,admin'],
             'date_of_birth' => ['required', 'date'],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
@@ -36,8 +35,10 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Hash::make($input['password']),
             'date_of_birth' => $input['date_of_birth'],
         ]);
-        /* si el usuario no proporciona un rol se le asigna el de cliente*/
-        $user->assignRole($input['role'] ?? 'client');
+        /** Al usuario se le asigna el rol de cliente automaticamente en el sitema
+         * Luego si este quiere ser organizador debe hacer una solicitud
+         * */
+        $user->assignRole('client');
         return $user;
 
     }
