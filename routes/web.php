@@ -7,6 +7,7 @@ use App\Http\Controllers\RaffleController;
 use App\Http\Controllers\RaffleEntrieController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\RolerController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\winnerController;
 use Illuminate\Support\Facades\Route;
 
@@ -66,6 +67,11 @@ Route::prefix('payment')->group(function() {
 //Route::get('mercadopago/failed/{raffleEntry}', [PaymentController::class, 'failed'])->name('mercadopago.failed');
 
 
+/**
+ * RUTAS DE USUARIOS
+*/
+
+Route::get('/users', [UsersController::class, 'all-users']);
 
 Route::middleware([
     'auth:sanctum',
