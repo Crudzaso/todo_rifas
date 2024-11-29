@@ -9,6 +9,7 @@ use App\Http\Controllers\ResultController;
 use App\Http\Controllers\RolerController;
 use App\Http\Controllers\winnerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrganizerRequestController;
 
 
 /* rutas del admin*/
@@ -88,3 +89,16 @@ Route::get('/profile', function(){
 Route::get('/profile/settings',function(){
     return view('User.user-update'); //func to load user edit view
 })-> name('user-config');
+
+
+Route::get('/organizer-request', [OrganizerRequestController::class, 'create'])->name('organizer.request.create');
+Route::post('/organizer-request', [OrganizerRequestController::class, 'store'])->name('organizer.request.store');
+
+
+Route::get('/download-contrato', function () {
+    $filePath = public_path('assets/media/docs/Contrato_Rifas.pdf');
+    $fileName = 'Contrato_Rifas.pdf';
+
+    return response()->download($filePath, $fileName);
+})->name('download-contrato');
+
