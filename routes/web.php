@@ -71,7 +71,7 @@ Route::prefix('payment')->group(function() {
  * RUTAS DE USUARIOS
 */
 
-Route::get('/users', [UsersController::class, 'all-users']);
+Route::get('/users.list', [UsersController::class, 'index'])->name('users.list');
 
 Route::middleware([
     'auth:sanctum',

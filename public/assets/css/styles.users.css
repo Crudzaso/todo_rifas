@@ -1,0 +1,158 @@
+:root {
+    --primary-color: #2c3e50;       /* Deep Blue Gray */
+    --secondary-color: #34495e;     /* Soft Dark Blue */
+    --accent-color: #27ae60;        /* Fresh Green */
+    --background-color: #ecf0f1;    /* Light Gray Background */
+    --text-color: #2c3e50;          /* Dark Text */
+    --hover-color: #3498db;         /* Bright Blue */
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.users-table thead {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+
+.users-table thead tr {
+    background-color: var(--primary-color);
+}
+
+.users-table th, .users-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--secondary-color);
+}
+
+.users-table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.users-table tbody tr {
+    background-color: #ffffff;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.users-table tbody tr:nth-child(even) {
+    background-color: #f7f9fa;
+}
+
+.users-table tbody tr:hover {
+    background-color: var(--hover-color);
+    color: #ffffff;
+    transform: scale(1.01);
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.texto {
+    color: var(--primary-color);
+}
+
+.lead {
+    color: var(--secondary-color);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+    .users-table,
+    .users-table thead,
+    .users-table tbody,
+    .users-table th,
+    .users-table td,
+    .users-table tr {
+        display: block;
+    }
+
+    .users-table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .users-table tr {
+        border: 1px solid var(--secondary-color);
+        margin-bottom: 10px;
+    }
+
+    .users-table td {
+        border: none;
+        border-bottom: 1px solid var(--secondary-color);
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .users-table td:before {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        content: attr(data-label);
+        color: var(--accent-color);
+        font-weight: bold;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .btn-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-edit {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .btn-edit:hover {
+        background-color: #2980b9;
+        color: white;
+    }
+
+    .btn-delete {
+        background-color: #e74c3c;
+        color: white;
+    }
+
+    .btn-delete:hover {
+        background-color: #c0392b;
+        color: white;
+    }
+
+    /* Modal Styling for Confirmation */
+    .modal-content {
+        background-color: #f8f9fa;
+    }
+}
