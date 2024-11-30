@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -22,6 +23,7 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasRoles;
+    use SoftDeletes;
 
 
     /**
@@ -29,6 +31,8 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+
     protected $fillable = [
         'name',
         'email',
@@ -62,6 +66,7 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+
     /**
      * Get the attributes that should be cast.
      *
@@ -74,4 +79,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function raffles()
+    {
+        return $this->hasMany(Raffle::class);
+    }
+
 }

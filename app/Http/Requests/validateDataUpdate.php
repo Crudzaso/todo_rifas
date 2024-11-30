@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class validateDataUpdate extends FormRequest
 {
@@ -21,10 +22,29 @@ class validateDataUpdate extends FormRequest
      */
     public function rules(): array
     {
+        $userId = $this->route('id');
+
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,',
-            'password' => 'nullable|string|min:8|confirmed',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->ignore($userId)
+            ],
+            'date_of_birth' => 'required|date',
+//            'role' => 'required|exists:roles,name',
+            'password' => 'nullable|min:8|confirmed'
+
         ];
     }
+
+        public function messages(): array
+    {
+        return [
+            'email.unique' => 'El correo electrónico ya está registrado.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.confirmed' => 'Las contraseñas no coinciden.'
+        ];
+    }
+
 }

@@ -72,6 +72,9 @@ Route::prefix('payment')->group(function() {
 */
 
 Route::get('/users.list', [UsersController::class, 'index'])->name('users.list');
+Route::put('/users/{id}', [UsersController::class, 'update'])->name('users.update');
+Route::delete('/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
+
 
 Route::middleware([
     'auth:sanctum',
