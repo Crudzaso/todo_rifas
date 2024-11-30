@@ -41,6 +41,7 @@
 
         <div class="table-responsive">
             <table class="users-table">
+                <a href="{{route('users.archived')}}" class="btn btn-secondary mt-3">Usuarios Archivados</a>
                 <thead>
                 <tr>
                     <th>Nombres</th>
@@ -146,7 +147,9 @@
                     </div>
                 </form>
             </div>
+
         </div>
+
     </div>
 @endsection
 

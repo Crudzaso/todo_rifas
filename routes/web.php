@@ -74,6 +74,10 @@ Route::prefix('payment')->group(function() {
 Route::get('/users.list', [UsersController::class, 'index'])->name('users.list');
 Route::put('/users/{id}', [UsersController::class, 'update'])->name('users.update');
 Route::delete('/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
+Route::get('/users/archived', [UsersController::class, 'showArchivedUsers'])->name('users.archived');
+Route::post('/users/{id}/restore', [UsersController::class, 'restore'])->name('users.restore');
+
+
 
 
 Route::middleware([

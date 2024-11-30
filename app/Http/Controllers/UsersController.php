@@ -68,6 +68,8 @@ class UsersController extends Controller
 
     /**
      * Metodo para archivar un usuario
+     * Verificar si el usuario tiene rifas asociadas
+     * si tiene rifas activas no lo elimina
     */
 
     public function destroy($id)
@@ -78,9 +80,6 @@ class UsersController extends Controller
             return redirect()->route('users.list')->with('error', 'Usuario no encontrado.');
         }
 
-        /**
-         * Verificar si el usuario tiene rifas asociadas
-         */
         if ($user->raffles()->exists()) {
             return redirect()->route('users.list')->with('error', 'Este usuario tiene rifas asociadas y no puede ser eliminado.');
         }
@@ -91,6 +90,37 @@ class UsersController extends Controller
         } catch (\Exception $e) {
             \Log::error('Error al eliminar el usuario: ' . $e->getMessage());
             return redirect()->route('users.list')->with('error', 'No se pudo eliminar el usuario. Por favor, revisa los registros.');
+        }
+    }
+
+    /**
+     * metodo para obtener los usuarios archivados
+    */
+    public function showArchivedUsers()
+    {
+
+        $archivedUsers = User::onlyTrashed()->get();
+
+        return view('User.archived', compact('archivedUsers'));
+    }
+
+    /**
+     * resaurar un usuario
+     * busca un usuario por id
+     * y usa el metodo restore para restaurarlo a su estado
+     * es decir los usuarios con un valor no nulo en la columna deleted_at
+     *
+    */
+    public function restore($id)
+    {
+
+        $user = User::withTrashed()->find($id);
+
+        if ($user) {
+            $user->restore();
+            return redirect()->route('users.archived')->with('success', 'Usuario restaurado correctamente');
+        } else {
+            return redirect()->route('users.archived')->with('error', 'El usuario no se encuentra archivado.');
         }
     }
 
