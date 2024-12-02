@@ -6,24 +6,21 @@
 @endsection
 
 @section('content')
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="container">
         <h1 class="roles-header">Crear un nuevo Rol</h1>
 
-        @if(session('success'))
-            <div class="alert-success">
-                {{ session('success.blade.php') }}
-            </div>
-        @endif
-
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
 
         <form action="{{ route('admin.roles.store') }}" method="POST" class="roles-card">
             @csrf
