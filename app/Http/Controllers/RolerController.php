@@ -14,9 +14,9 @@ class RolerController extends Controller
      */
     public function index()
     {
-        $role = Role::all();
+        $roles = Role::all();
         $permissions = Permission::all();
-        return view('Roles.index',compact('role','permissions'));
+        return view('Roles.index',compact('roles','permissions'));
     }
 
     /**
@@ -47,7 +47,7 @@ class RolerController extends Controller
 
 
         return redirect()->route('admin.roles.index')
-            ->with('success.blade.php', 'Rol creado y permisos asignados correctamente.');
+            ->with('success', 'Rol creado y permisos asignados correctamente.');
 
     }
 
@@ -79,7 +79,7 @@ class RolerController extends Controller
             $role->revokePermissionTo($permissions);
         }
 
-        return redirect()->route('admin.roles.index')->with('success.blade.php', 'Permisos quitados correctamente');
+        return redirect()->route('admin.roles.index')->with('success', 'Permisos quitados correctamente');
     }
 
     public function addPermissions(Request $request, $roleId)
@@ -94,7 +94,7 @@ class RolerController extends Controller
         $permissions = Permission::whereIn('id', $validated['add_permissions'])->get();
         $role->givePermissionTo($permissions);
 
-        return redirect()->back()->with('success.blade.php', 'Permisos agregados correctamente al rol.');
+        return redirect()->back()->with('success', 'Permisos agregados correctamente al rol.');
     }
 
 
@@ -107,7 +107,7 @@ class RolerController extends Controller
     {
         $role->delete();
 
-        return redirect()->route('admin.roles.index')->with('success.blade.php', 'Rol eliminado correctamente');
+        return redirect()->route('admin.roles.index')->with('success', 'Rol eliminado correctamente');
     }
 
 }

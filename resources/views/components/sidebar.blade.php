@@ -249,7 +249,7 @@
                                 </span>
                                 <span class="menu-title">Gestión de roles</span>
                             </a>
-                            <a class="menu-link" href="">
+                            <a class="menu-link" href="{{route('users.list') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
