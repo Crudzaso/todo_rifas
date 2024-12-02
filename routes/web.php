@@ -7,6 +7,8 @@ use App\Http\Controllers\RaffleController;
 use App\Http\Controllers\RaffleEntrieController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\RolerController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\winnerController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -30,7 +32,7 @@ Route::resource('raffleEntries', RaffleEntrieController::class)->only([
 
 Route::get('raffleEntries/{raffleEntry}/payment-simulation', [RaffleEntrieController::class, 'showPaymentSimulation']);
 
-Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
+//Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
 
 
 Route::get('/', function () {
@@ -43,6 +45,9 @@ Route::get('/profile/overview', function () {
 
 Route::get('/login-google', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('/google-callback', [SocialAuthController::class, 'handleGoogleCallback']);
+
+Route::get('/lottery/winner', [winnerController::class, 'showWinner'])->name('lottery.winner');
+
 
 
 Route::prefix('payment')->group(function() {
@@ -60,6 +65,18 @@ Route::prefix('payment')->group(function() {
 //Route::get('raffle-entry/{raffleEntry}/pay', [PaymentController::class, 'pay'])->name('raffleEntry.pay');
 //Route::get('mercadopago/success.blade.php/{raffleEntry}', [PaymentController::class, 'success.blade.php'])->name('mercadopago.success.blade.php');
 //Route::get('mercadopago/failed/{raffleEntry}', [PaymentController::class, 'failed'])->name('mercadopago.failed');
+
+
+/**
+ * RUTAS DE USUARIOS
+*/
+
+Route::get('/users.list', [UsersController::class, 'index'])->name('users.list');
+Route::put('/users/{id}', [UsersController::class, 'update'])->name('users.update');
+Route::delete('/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
+Route::get('/users/archived', [UsersController::class, 'showArchivedUsers'])->name('users.archived');
+Route::post('/users/{id}/restore', [UsersController::class, 'restore'])->name('users.restore');
+
 
 
 

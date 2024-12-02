@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('raffle_entries', function (Blueprint $table) {
-            $table->integer('number')->unique();
-            $table->decimal('price')->default(0.00);
+        Schema::create('winner', function (Blueprint $table) {
+            $table->id();
+            $table->string('participant_name');
+            $table->string('lottery');
+            $table->string('winning_number');
+            $table->date('lottery_date');
+            $table->timestamps();
         });
     }
 
@@ -22,7 +26,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('raffle_entries', function (Blueprint $table) {
+        Schema::table('winner', function (Blueprint $table) {
             //
         });
     }

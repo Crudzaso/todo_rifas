@@ -16,3 +16,5 @@
 
     <!--end::custom scripts-->
 @endsection
+
+<!--test comment to check main branch rules before implementing pipeline-->
