@@ -9,7 +9,7 @@
 
 @section('styles')
     <link href="{{ asset('assets/css/raffle.index.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/css/styles.users.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/styles.admin.css') }}" rel="stylesheet" type="text/css" />
 
 @endsection
 

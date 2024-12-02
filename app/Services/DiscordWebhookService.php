@@ -45,7 +45,7 @@ class DiscordWebhookService
                 'username' => 'Todo Rifas',
                 'embeds' => [[
                     'description' => $this->formatMessage('Registro de usuario',$user),
-                    'color' => 3066993
+
                 ]]
             ];
 
@@ -53,6 +53,35 @@ class DiscordWebhookService
             $this->markUserNotified($user->id, 'registration');
         }
     }
+
+    public function logUserDeletion(User $user)
+    {
+        if ($this->shouldNotifyUser($user->id, 'deletion')) {
+            $message = [
+                'embeds' => [[
+                    'description' => $this->formatMessage('Usuario Eliminado', $user),
+
+                ]]
+            ];
+
+            $this->sendToDiscord($message);
+        }
+    }
+
+    public function logUserRestoration(User $user)
+    {
+        if ($this->shouldNotifyUser($user->id, 'restoration')) {
+            $message = [
+                'embeds' => [[
+                    'description' => $this->formatMessage('Usuario restaurado', $user),
+
+                ]]
+            ];
+
+            $this->sendToDiscord($message);
+        }
+    }
+
 
     private function formatMessage( string $eventType, User $user): string
     {

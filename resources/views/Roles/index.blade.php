@@ -1,23 +1,33 @@
 @extends('layouts.appTodoRifas')
 
 @section('styles')
-<link href="{{ asset('assets/css/raffle.index.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/raffle.index.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/styles.admin.css') }}" rel="stylesheet" type="text/css" />
 @endsection
+
 @section('content')
 
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
 
-    <div class="roles-container">
-        @if(session('success.blade.php'))
-            <div class="alert-success">
-                {{ session('success.blade.php') }}
-            </div>
-        @endif
+    @if(session('success'))
+        @php
+            dd(session('success.blade.php'));
+        @endphp
+    @endif
+
+    <div class="container py-5 contenido">
+        <div class="text-center mb-5 mt-5 pt-4">
+            <h1 class="display-4 texto fw-bold text-primary mb-3">Roles</h1>
+            <p class="lead text-muted">Información de Roles</p>
+        </div>
 
         <a class="btn-new-role" href="{{ route('admin.roles.create') }}">
             Nuevo Role
         </a>
-
-        <h1 class="roles-header">Roles</h1>
 
         <div class="roles-card">
             <table class="roles-table">
@@ -29,7 +39,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($role as $role)
+                @foreach($roles as $role)
                     <tr>
                         <td>{{ $role->id }}</td>
                         <td>{{ $role->name }}</td>

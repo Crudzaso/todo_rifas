@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AccountDeletion;
 use App\Http\Requests\validateDataUpdate;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -115,6 +116,7 @@ class UsersController extends Controller
     {
 
         $user = User::withTrashed()->find($id);
+//        AccountDeletion::dispatch($user);
 
         if ($user) {
             $user->restore();

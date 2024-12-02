@@ -1,108 +1,193 @@
 :root {
-    --primary-color: #1c4a2e;       /* Deep Forest Green */
-    --secondary-color: #2a6b3f;     /* Rich Emerald Green */
-    --accent-color: #34a85a;        /* Energetic Green */
-    --background-color: #e6f3e8;    /* Very Light Sage Green */
-    --text-color: #2f4f4f;          /* Dark Gray */
-    --hover-color: #4caf50;         /* Vibrant Green */
+    /* Primary Colors */
+    --color-primary-darkest: #2c3e50;    /* Deep Navy Blue */
+    --color-primary-dark: #34495e;       /* Muted Dark Gray */
+    --color-primary-base: #2980b9;       /* Vibrant Navy Blue */
+    --color-primary-light: #3498db;      /* Bright Blue */
+    --color-primary-lightest: #aed6f1;   /* Soft Light Blue */
+
+    /* Accent Colors */
+    --color-accent-darkest: #27ae60;     /* Deep Green */
+    --color-accent-dark: #2ecc71;        /* Bright Green */
+    --color-accent-base: #16a085;        /* Teal Green */
+    --color-accent-light: #1abc9c;       /* Soft Turquoise */
+    --color-accent-lightest: #a9dfbf;    /* Pale Green */
+
+    /* Neutral Colors */
+    --color-neutral-white: #ffffff;      /* Pure White */
+    --color-neutral-lightest: #f9f9f9;   /* Very Light Gray */
+    --color-neutral-light: #ecf0f1;      /* Light Gray */
+    --color-neutral-base: #bdc3c7;       /* Medium Gray */
+    --color-neutral-dark: #95a5a6;       /* Dark Gray */
+    --color-neutral-darkest: #7f8c8d;    /* Charcoal */
+
+    /* Alert Colors */
+    --color-alert-success: #2ecc71;      /* Success Green */
+    --color-alert-warning: #f39c12;      /* Warm Orange */
+    --color-alert-danger: #e74c3c;       /* Soft Red */
+    --color-alert-info: #3498db;         /* Informative Blue */
+
+    /* Text Colors */
+    --color-text-dark: #2c3e50;          /* Dark Text */
+    --color-text-base: #34495e;          /* Base Text */
+    --color-text-light: #7f8c8d;         /* Light Text */
+    --color-text-lighter: #d5d8dc;       /* Lighter Text */
+    --color-text-white: #ffffff;         /* White Text */
+
+    /* Background Colors */
+    --color-background-primary: #ecf0f1; /* Light Background */
+    --color-background-secondary: #f1f3f4; /* Softer Background */
+
+    /* New Variables for Users View */
+    --primary-color: #2980b9;
+    --secondary-color: #bdc3c7;
+    --accent-color: #16a085;
+    --hover-color: #1abc9c;
+    --background-color: #ecf0f1;
+    --text-color: #34495e;
 }
 
 body {
-    background-color: var(--background-color);
-    color: var(--text-color);
+    background-color: var(--color-background-primary);
+    color: var(--color-text-base);
+    font-family: Arial, sans-serif;
 }
 
+/* Shared Table Styles */
+.roles-table,
 .users-table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0;
+    border-spacing: 0 8px;
     margin-top: 20px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     border-radius: 8px;
     overflow: hidden;
 }
 
+.roles-table thead,
 .users-table thead {
-    background-color: var(--primary-color);
-    color: #ffffff;
+    background-color: var(--color-accent-base);
+    color: var(--color-text-white);
 }
 
-.users-table thead tr {
-    background-color: var(--primary-color);
-}
-
-.users-table th, .users-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid var(--secondary-color);
-}
-
-.users-table th {
+.roles-table thead th,
+.users-table thead th {
+    padding: 12px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
+.roles-table tbody tr,
 .users-table tbody tr {
-    background-color: #ffffff;
-    color: var(--text-color);
+    background-color: var(--color-neutral-white);
     transition: all 0.3s ease;
 }
 
+.roles-table tbody tr:nth-child(even),
 .users-table tbody tr:nth-child(even) {
-    background-color: #f7f9fa;
+    background-color: var(--color-neutral-lightest);
 }
 
+.roles-table tbody tr:hover,
 .users-table tbody tr:hover {
-    background-color: var(--hover-color);
-    color: #ffffff;
+    background-color: var(--color-accent-light);
     transform: scale(1.01);
 }
 
+.roles-table tbody td,
+.users-table tbody td {
+    padding: 12px;
+    color: var(--color-text-dark);
+    border-bottom: 1px solid var(--color-neutral-light);
+}
+
+/* Shared Container Styles */
 .container {
-    background-color: #ffffff;
+    background-color: var(--color-neutral-white);
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.texto {
-    color: var(--primary-color);
+/* Shared Button Styles */
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    text-decoration: none;
 }
 
-.lead {
-    color: var(--secondary-color);
+.btn-new-role{
+    display: inline-block;
+    background-color: var(--color-accent-dark);
+    color: var(--color-text-white);
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-bottom: 15px;
+    transition: background-color 0.3s ease;
 }
 
-/* Responsive adjustments */
+.btn-new-role:hover {
+    background-color: var(--color-accent-darkest);
+    color: var(--color-text-white);
+}
+
+.btn-edit
+{
+    background-color: var(--color-accent-base);
+    color: var(--color-text-white);
+}
+
+.btn-edit:hover {
+    background-color: var(--color-accent-dark);
+}
+
+.btn-delete {
+    background-color: var(--color-alert-danger);
+    color: var(--color-text-white);
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+}
+
+/* Responsive Adjustments */
 @media screen and (max-width: 600px) {
-    .users-table,
-    .users-table thead,
-    .users-table tbody,
-    .users-table th,
-    .users-table td,
-    .users-table tr {
+    .roles-table,
+    .users-table {
         display: block;
     }
 
-    .users-table thead tr {
+    .roles-table thead,
+    .users-table thead {
         position: absolute;
         top: -9999px;
         left: -9999px;
     }
 
+    .roles-table tr,
     .users-table tr {
-        border: 1px solid var(--secondary-color);
+        border: 1px solid var(--color-neutral-light);
         margin-bottom: 10px;
+        display: block;
     }
 
+    .roles-table td,
     .users-table td {
         border: none;
-        border-bottom: 1px solid var(--secondary-color);
+        border-bottom: 1px solid var(--color-neutral-light);
         position: relative;
         padding-left: 50%;
+        display: block;
     }
 
+    .roles-table td:before,
     .users-table td:before {
         position: absolute;
         top: 6px;
@@ -111,48 +196,33 @@ body {
         padding-right: 10px;
         white-space: nowrap;
         content: attr(data-label);
-        color: var(--accent-color);
+        color: var(--color-accent-base);
         font-weight: bold;
     }
+}
 
-    .action-buttons {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-    }
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-neutral-light);
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
 
-    .btn-action {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 6px 12px;
-        border-radius: 4px;
-        transition: all 0.3s ease;
-    }
+.form-label {
+    color: var(--color-text-dark);
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+.list-unstyled {
+    list-style: none;
+    padding: 0;
+}
 
-    .btn-edit {
-        background-color: #3498db;
-        color: white;
-    }
-
-    .btn-edit:hover {
-        background-color: #2980b9;
-        color: white;
-    }
-
-    .btn-delete {
-        background-color: #e74c3c;
-        color: white;
-    }
-
-    .btn-delete:hover {
-        background-color: #c0392b;
-        color: white;
-    }
-
-    /* Modal Styling for Confirmation */
-    .modal-content {
-        background-color: #f8f9fa;
-    }
+.alert-danger {
+    background-color: var(--color-alert-danger);
+    color: var(--color-text-white);
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
 }
