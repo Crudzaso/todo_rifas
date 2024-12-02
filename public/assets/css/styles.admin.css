@@ -1,10 +1,10 @@
 :root {
-    --primary-color: #2c3e50;       /* Deep Blue Gray */
-    --secondary-color: #34495e;     /* Soft Dark Blue */
-    --accent-color: #27ae60;        /* Fresh Green */
-    --background-color: #ecf0f1;    /* Light Gray Background */
-    --text-color: #2c3e50;          /* Dark Text */
-    --hover-color: #3498db;         /* Bright Blue */
+    --primary-color: #1c4a2e;       /* Deep Forest Green */
+    --secondary-color: #2a6b3f;     /* Rich Emerald Green */
+    --accent-color: #34a85a;        /* Energetic Green */
+    --background-color: #e6f3e8;    /* Very Light Sage Green */
+    --text-color: #2f4f4f;          /* Dark Gray */
+    --hover-color: #4caf50;         /* Vibrant Green */
 }
 
 body {
