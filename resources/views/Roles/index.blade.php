@@ -14,10 +14,12 @@
     @endif
 
     @if(session('success'))
-        @php
-            dd(session('success.blade.php'));
-        @endphp
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
     @endif
+
+
 
     <div class="container py-5 contenido">
         <div class="text-center mb-5 mt-5 pt-4">

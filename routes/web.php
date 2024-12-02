@@ -32,7 +32,7 @@ Route::resource('raffleEntries', RaffleEntrieController::class)->only([
 
 Route::get('raffleEntries/{raffleEntry}/payment-simulation', [RaffleEntrieController::class, 'showPaymentSimulation']);
 
-Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
+//Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
 
 
 Route::get('/', function () {
