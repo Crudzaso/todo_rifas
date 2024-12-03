@@ -77,7 +77,7 @@ class OrganizerRequestController extends Controller
         $requests = OrganizerRequest::with('user')->where('status', 'pending')->get();
 
         // Mostrar vista de solicitudes
-        return view('admin.organizer-requests.index', compact('requests'));
+        return view('admin.request-panel', compact('requests'));
     }
 
     /**
@@ -97,6 +97,8 @@ class OrganizerRequestController extends Controller
         // Redirigir con un mensaje de éxito
         return redirect()->route('admin.organizer.requests')
             ->with('success', 'Solicitud aprobada y rol asignado.');
+
+            
     }
 
     /**
