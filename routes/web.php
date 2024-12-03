@@ -102,3 +102,10 @@ Route::get('/download-contrato', function () {
     return response()->download($filePath, $fileName);
 })->name('download-contrato');
 
+Route::middleware(['auth', 'can:admin'])->group(function () {
+    Route::get('/admin/organizer-requests', [OrganizerRequestController::class, 'index'])->name('admin.organizer.requests');
+    Route::post('/admin/organizer-request/{request}/approve', [OrganizerRequestController::class, 'approve'])->name('admin.organizer.requests.approve');
+    Route::post('/admin/organizer-request/{request}/reject', [OrganizerRequestController::class, 'reject'])->name('admin.organizer.requests.reject');
+});
+
+

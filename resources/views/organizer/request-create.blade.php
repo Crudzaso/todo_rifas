@@ -1,14 +1,18 @@
 @extends('layouts.appTodoRifas')
+@section('styles')
+    <link href="{{ asset('assets/css/raffle.index.css') }}" rel="stylesheet" type="text/css" />
+@endsection
 
 @section('content')
-<div class="container" style="margin-top: 10rem;">
-    <h1>Solicitud para organizar una rifa</h1>
-    <p>
-    <strong>Requisitos:</strong> Completa el formulario, envía una foto de tu documento de identidad válido en Colombia y descarga, firma y envía el contrato.
-    Después de recibir estos documentos, los revisaremos y te responderemos lo más pronto posible.
-    </p>
 
-
+<div class="container py-5 contenido">
+    <div class="text-center mb-5 mt-5 pt-4">
+        <h1 class="display-4 texto fw-bold text-primary mb-3">Solicitud para organizar una rifa</h1>
+        <p class="lead text-muted">
+        <strong>Requisitos:</strong> Completa el formulario, envía una foto de tu documento de identidad válido en Colombia y descarga, firma y envía el contrato.
+        Después de recibir estos documentos, los revisaremos y te responderemos lo más pronto posible.
+        </p>
+    </div>
     <h3 class="mb-4">Formulario de solicitud</h3>
     
     <!-- Botón para descargar contrato -->
@@ -23,8 +27,8 @@
         @csrf
         <!-- Razón -->
         <div class="mb-3">
-            <label for="reason" class="form-label">Razón de la solicitud:</label>
-            <textarea id="reason" name="reason" class="form-control" rows="4" placeholder="Describe la razón de tu solicitud" required></textarea>
+            <label for="reason" class="form-label">Destalles de las rifas:</label>
+            <textarea id="reason" name="reason" class="form-control" rows="4" placeholder="Describe detalladamente las rifas que deseas realizar." required></textarea>
         </div>
 
         <!-- Número de documento -->
