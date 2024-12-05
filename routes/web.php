@@ -7,8 +7,10 @@ use App\Http\Controllers\RaffleController;
 use App\Http\Controllers\RaffleEntrieController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\RolerController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\winnerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrganizerRequestController;
 
 
 /* rutas del admin*/
@@ -31,7 +33,7 @@ Route::resource('raffleEntries', RaffleEntrieController::class)->only([
 
 Route::get('raffleEntries/{raffleEntry}/payment-simulation', [RaffleEntrieController::class, 'showPaymentSimulation']);
 
-Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
+//Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
 
 
 Route::get('/', function () {
@@ -66,6 +68,18 @@ Route::prefix('payment')->group(function() {
 //Route::get('mercadopago/failed/{raffleEntry}', [PaymentController::class, 'failed'])->name('mercadopago.failed');
 
 
+/**
+ * RUTAS DE USUARIOS
+*/
+
+Route::get('/users.list', [UsersController::class, 'index'])->name('users.list');
+Route::put('/users/{id}', [UsersController::class, 'update'])->name('users.update');
+Route::delete('/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
+Route::get('/users/archived', [UsersController::class, 'showArchivedUsers'])->name('users.archived');
+Route::post('/users/{id}/restore', [UsersController::class, 'restore'])->name('users.restore');
+
+
+
 
 Route::middleware([
     'auth:sanctum',
@@ -88,3 +102,23 @@ Route::get('/profile', function(){
 Route::get('/profile/settings',function(){
     return view('User.user-update'); //func to load user edit view
 })-> name('user-config');
+
+
+Route::get('/organizer-request', [OrganizerRequestController::class, 'create'])->name('organizer.request.create');
+Route::post('/organizer-request', [OrganizerRequestController::class, 'store'])->name('organizer.request.store');
+
+
+Route::get('/download-contrato', function () {
+    $filePath = public_path('assets/media/docs/Contrato_Rifas.pdf');
+    $fileName = 'Contrato_Rifas.pdf';
+
+    return response()->download($filePath, $fileName);
+})->name('download-contrato');
+
+Route::middleware(['auth', 'can:admin'])->group(function () {
+    Route::get('/admin/organizer-requests', [OrganizerRequestController::class, 'index'])->name('admin.organizer.requests');
+    Route::post('/admin/organizer-request/{request}/approve', [OrganizerRequestController::class, 'approve'])->name('admin.organizer.requests.approve');
+    Route::post('/admin/organizer-request/{request}/reject', [OrganizerRequestController::class, 'reject'])->name('admin.organizer.requests.reject');
+});
+
+
