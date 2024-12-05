@@ -10,6 +10,7 @@ use App\Http\Controllers\RolerController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\winnerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrganizerRequestController;
 
 
 /* rutas del admin*/
@@ -101,3 +102,23 @@ Route::get('/profile', function(){
 Route::get('/profile/settings',function(){
     return view('User.user-update'); //func to load user edit view
 })-> name('user-config');
+
+
+Route::get('/organizer-request', [OrganizerRequestController::class, 'create'])->name('organizer.request.create');
+Route::post('/organizer-request', [OrganizerRequestController::class, 'store'])->name('organizer.request.store');
+
+
+Route::get('/download-contrato', function () {
+    $filePath = public_path('assets/media/docs/Contrato_Rifas.pdf');
+    $fileName = 'Contrato_Rifas.pdf';
+
+    return response()->download($filePath, $fileName);
+})->name('download-contrato');
+
+Route::middleware(['auth', 'can:admin'])->group(function () {
+    Route::get('/admin/organizer-requests', [OrganizerRequestController::class, 'index'])->name('admin.organizer.requests');
+    Route::post('/admin/organizer-request/{request}/approve', [OrganizerRequestController::class, 'approve'])->name('admin.organizer.requests.approve');
+    Route::post('/admin/organizer-request/{request}/reject', [OrganizerRequestController::class, 'reject'])->name('admin.organizer.requests.reject');
+});
+
+
