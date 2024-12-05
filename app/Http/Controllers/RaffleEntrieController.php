@@ -38,7 +38,6 @@ class RaffleEntrieController extends Controller
                 'bet_amount' => $raffle->type === 'bet' ? 'required|numeric' : 'nullable',
             ]);
 
-            // Validación previa para evitar inserciones de tickets ya reservados o pagados
             $existingTicket = RaffleEntries::where('raffle_id', $raffle->id)
                 ->where('number', (int) $validated['id'])
                 ->whereIn('status', ['reserved', 'paid'])
@@ -92,7 +91,7 @@ class RaffleEntrieController extends Controller
 
             DB::commit();
 
-            return $this->show($entry);
+            return redirect()->route('raffleEntries.showPayment', $entry->id);
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -105,8 +104,9 @@ class RaffleEntrieController extends Controller
 
 
 
-    public function show(RaffleEntries $raffleEntry)
+    public function showPayment(RaffleEntries $raffleEntry)
     {
+
         // Verificar que la entrada esté pendiente de pago
         if ($raffleEntry->status !== 'reserved') {
             return redirect()->back()->with('error', 'Esta entrada no está disponible para pago.');
@@ -115,27 +115,20 @@ class RaffleEntrieController extends Controller
         // Obtener el precio basado en el tipo de entrada
         $price = $raffleEntry->type === 'ticket' ? $raffleEntry->price : $raffleEntry->bet_amount;
 
-        return view('raffleEntries.show', [
+        return view('raffleEntries.showPayment', [
             'raffleEntry' => $raffleEntry,
             'price' => $price,
             'user' => Auth::user()
         ]);
     }
 
-    public function redirectToPaymentGateway($entry)
-    {
-
-        return redirect()->route('payment.gateway', ['entry' => $entry]);
-    }
 
 
 
 
+    public function succes(Raffle $raffle){
 
 
-    public function index(Raffle $raffle){
-
-
-        return view('raffleEntries.index', compact('raffle',));
+        return view('payments.succes', compact('raffle'));
     }
 }

@@ -1,11 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\SocialAuthController;
-use App\Http\Controllers\MockPaymentController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RaffleController;
 use App\Http\Controllers\RaffleEntrieController;
-use App\Http\Controllers\ResultController;
+
 use App\Http\Controllers\RolerController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\winnerController;
@@ -18,21 +17,26 @@ Route::post('roles/{role}/remove-permissions', [RolerController::class, 'removeP
 Route::get('admin/roles/{roleId}/permissions', [RolerController::class, 'getRolePermissions'])->name('admin.roles.getPermissions');
 Route::post('/roles/{role}/add-permissions', [RolerController::class, 'addPermissions'])->name('admin.roles.addPermissions');
 
+/**
+ * RUTAS DE USUARIOS
+ */
+
+Route::get('/users.list', [UsersController::class, 'index'])->name('users.list');
+Route::put('/users/{id}', [UsersController::class, 'update'])->name('users.update');
+Route::delete('/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
+Route::get('/users/archived', [UsersController::class, 'showArchivedUsers'])->name('users.archived');
+Route::post('/users/{id}/restore', [UsersController::class, 'restore'])->name('users.restore');
+
 /* rout raffles
  * **/
-Route::resource('raffles', RaffleController::class);
+Route::resource('raffles', RaffleController::class)->except(['show', 'edit']);
 
-/* rout result lotery
- * **/
-Route::get('/results', [ResultController::class, 'index']);
+Route::get('/raffles/{raffle}', [RaffleController::class, 'showRaffleEntries'])->name('raffles.show-entries');
 
-Route::resource('raffleEntries', RaffleEntrieController::class)->only([
-    'store', 'show','index'
-]);
+Route::post('/raffleEntries', [RaffleEntrieController::class, 'store'])->name('raffleEntries.store');
+Route::get('/raffleEntries/{raffleEntry}', [RaffleEntrieController::class, 'succes'])->name('raffleEntries.succes');
+Route::get('/raffleEntries/{raffleEntry}', [RaffleEntrieController::class, 'showPayment'])->name('raffleEntries.showPayment');
 
-Route::get('raffleEntries/{raffleEntry}/payment-simulation', [RaffleEntrieController::class, 'showPaymentSimulation']);
-
-//Route::get('payment/gateway', [PaymentController::class, 'gateway'])->name('payment.gateway');
 
 
 Route::get('/', function () {
@@ -50,32 +54,12 @@ Route::get('/lottery/winner', [winnerController::class, 'showWinner'])->name('lo
 
 
 
-Route::prefix('payment')->group(function() {
-
-    Route::post('process-simulated-payment/{raffleEntry}', [MockPaymentController::class, 'processSimulatedPayment'])
-        ->name('payment.simulation.process');
-
-//     Ruta para mostrar el éxito de la simulación de pago
-    Route::get('simulation-success/{raffleEntry}', [MockPaymentController::class, 'simulationSuccess'])
-        ->name('payment.simulation.success');
-
-});
+Route::post('/payu/create-payment', [PaymentController::class, 'createPayment'])->name('payu.create-payment');
+Route::post('/payu/notification', [PaymentController::class, 'handleNotification'])->name('payu.notification');
+Route::get('/payment/success/{raffleEntry}', [PaymentController::class, 'handlePaymentSuccess'])
+    ->name('payment.success');
 
 
-//Route::get('raffle-entry/{raffleEntry}/pay', [PaymentController::class, 'pay'])->name('raffleEntry.pay');
-//Route::get('mercadopago/success.blade.php/{raffleEntry}', [PaymentController::class, 'success.blade.php'])->name('mercadopago.success.blade.php');
-//Route::get('mercadopago/failed/{raffleEntry}', [PaymentController::class, 'failed'])->name('mercadopago.failed');
-
-
-/**
- * RUTAS DE USUARIOS
-*/
-
-Route::get('/users.list', [UsersController::class, 'index'])->name('users.list');
-Route::put('/users/{id}', [UsersController::class, 'update'])->name('users.update');
-Route::delete('/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
-Route::get('/users/archived', [UsersController::class, 'showArchivedUsers'])->name('users.archived');
-Route::post('/users/{id}/restore', [UsersController::class, 'restore'])->name('users.restore');
 
 
 

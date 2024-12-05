@@ -117,11 +117,11 @@ class RaffleController extends Controller
         }
     }
 
-    public function show(Raffle $raffle)
+    public function showRaffleEntries(Raffle $raffle)
     {
 
 
-        return view('raffleEntries.index', compact('raffle'));
+        return view('raffleEntries.get-entries', compact('raffle'));
     }
 
 

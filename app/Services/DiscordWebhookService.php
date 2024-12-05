@@ -29,7 +29,7 @@ class DiscordWebhookService
                 $message = [
                     'embeds' => [[
                         'description' => $this->formatMessage('Inicio de sesion',$user),
-                        'color' => 3066993 //
+
                     ]]
                 ];
 

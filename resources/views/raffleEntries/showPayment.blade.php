@@ -99,26 +99,36 @@
                             <div class="flex justify-between items-center">
                                 <span class="text-[#2f4f4f]">Rifa:</span>
                                 <span class="value-tag px-4 py-2 rounded-lg">
-                                        #{{ $raffleEntry->raffle->id }}
-                                    </span>
+                                {{ $raffleEntry->raffle->name }}
+
+                                </span>
+                                <span class="text-[#2f4f4f]">N:</span>
+                                <span class="value-tag px-4 py-2 rounded-lg">
+                                 {{ $raffleEntry->raffle->id }}
+
+                                </span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-[#2f4f4f]">Número:</span>
+                                <span class="text-[#2f4f4f]">Número de la suerte:</span>
                                 <span class="value-tag px-4 py-2 rounded-lg">
-                                        {{ $raffleEntry->number }}
-                                    </span>
+                                    {{ $raffleEntry->number }}
+                                </span>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-[#2f4f4f]">Tipo:</span>
                                 <span class="value-tag px-4 py-2 rounded-lg">
-                                        {{ ucfirst($raffleEntry->type) }}
-                                    </span>
+                                    {{ ucfirst($raffleEntry->type) }}
+                                </span>
+                                <span class="text-[#2f4f4f]">N:</span>
+                                <span class="value-tag px-4 py-2 rounded-lg">
+                                    {{ ucfirst($raffleEntry->id) }}
+                                </span>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-[#2f4f4f]">Precio:</span>
                                 <span class="price-tag px-4 py-2 rounded-lg">
-                                        ${{ number_format($raffleEntry->type === 'ticket' ? $raffleEntry->price : $raffleEntry->bet_amount, 0, ',', '.') }}
-                                    </span>
+                                    ${{ number_format($raffleEntry->type === 'ticket' ? $raffleEntry->price : $raffleEntry->bet_amount, 0, ',', '.') }}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -134,56 +144,37 @@
                             <div class="flex justify-between items-center">
                                 <span class="text-[#2f4f4f]">Nombre:</span>
                                 <span class="value-tag px-4 py-2 rounded-lg">
-                                        {{ $user->name }}
-                                    </span>
+                                    {{ $user->name }}
+                                </span>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-[#2f4f4f]">Email:</span>
                                 <span class="value-tag px-4 py-2 rounded-lg">
-                                        {{ $user->email }}
-                                    </span>
+                                    {{ $user->email }}
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <form action="{{ route('payment.simulation.process', $raffleEntry) }}" method="POST">
+                <form action="{{ route('payu.create-payment', $raffleEntry) }}" method="POST">
                     @csrf
-                    <button type="submit"
-                            class="w-full bg-[#34a85a] hover:bg-[#2d9550]  font-bold py-4 px-6 rounded-xl transition-all duration-300 shine-button flex items-center justify-center text-lg shadow-lg">
-                        <i class="fas fa-lock mr-2"></i>
-                        Simular Pago Seguro
+                    <input type="hidden" name="amount" value="{{ $raffleEntry->type === 'ticket' ? $raffleEntry->price : $raffleEntry->bet_amount }}">
+                    <input type="hidden" name="name" value="{{ $user->name }}">
+                    <input type="hidden" name="email" value="{{ $user->email }}">
+
+
+                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg">
+                        Procesar Pago
                     </button>
                 </form>
 
-                <div class="mt-6 text-center">
-                    <p class="text-[#2f4f4f] text-sm flex items-center justify-center">
-                        <i class="fas fa-info-circle text-[#093e5e] mr-2"></i>
-                        Esta es una simulación de pago para propósitos de prueba
-                    </p>
+                <div class="mt-4 text-center text-sm text-gray-500">
+                    <p>Aplican terminos y condiciones</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const itemContainers = document.querySelectorAll('.custom-border');
-
-        itemContainers.forEach(container => {
-            container.addEventListener('mouseenter', function() {
-                this.style.borderColor = '#34a85a';
-                this.style.transform = 'translateY(-2px)';
-                this.style.transition = 'all 0.3s ease';
-            });
-
-            container.addEventListener('mouseleave', function() {
-                this.style.borderColor = 'rgba(52, 168, 90, 0.1)';
-                this.style.transform = 'translateY(0)';
-            });
-        });
-    });
-</script>
 </body>
 </html>

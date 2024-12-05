@@ -51,9 +51,14 @@ return [
         'webhook_url' => env('DISCORD_WEBHOOK_URL'),
     ],
 
-    'mercadopago' => [
-        'public_key' => env('MP_PUBLIC_KEY'),
-        'access_token' => env('MP_ACCESS_TOKEN'),
+    'payu' => [
+        'merchant_id' => env('PAYU_MERCHANT_ID'),
+        'account_id' => env('PAYU_ACCOUNT_ID'),
+        'api_key' => env('PAYU_API_KEY'),
+        'public_key' => env('PAYU_PUBLIC_KEY'),
+        'api_login' => env('PAYU_API_LOGIN'),
+        'payu_url'=>env('PAYU_URL'),
+        'is_test' => env('PAYU_IS_TEST', true),
     ],
 
 

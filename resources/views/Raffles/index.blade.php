@@ -124,7 +124,7 @@
 
                                     <!-- Columna derecha con los botones -->
                                     <div class="raffle-actions d-flex flex-column justify-content-between ms-3">
-                                        <a href="{{route('raffles.show', $raffle->id) }}"
+                                        <a href="{{route('raffles.show-entries', $raffle->id) }}"
                                            class="btn btn-play mb-2">
                                             <i class="ki-duotone ki-bill fs-1 text-gray-900">
                                                 <span class="path1"></span>
@@ -260,7 +260,7 @@
 
                                     <!-- Columna derecha con los botones -->
                                     <div class="raffle-actions d-flex flex-column justify-content-between ms-3">
-                                        <a href="{{ route('raffles.show', $raffle->id) }}"
+                                        <a href="{{ route('raffles.show-entries', $raffle->id) }}"
                                            class="btn btn-play mb-2">
                                            <i class="ki-duotone ki-bill fs-1 text-gray-900">
                                             <span class="path1"></span>
