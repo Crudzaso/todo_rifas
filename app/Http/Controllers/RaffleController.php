@@ -12,25 +12,26 @@ use Illuminate\Support\Facades\DB;
 class RaffleController extends Controller
 {
 
-
+/**
+ * Metodo para obtener las loterias
+ * haciendo una peticion a la api de loterias
+ * este metodo hace una peticion y maneja el hecho de que
+ * la api de loterias no este disponible
+*/
     private function getAvailableLotteries()
     {
         try {
-            // Realiza la solicitud con un tiempo de espera de 10 segundos y 3 reintentos
-            $response = Http::retry(3, 100) // Reintenta 3 veces con 100ms de retraso
-            ->timeout(10)   // Tiempo de espera de 10 segundos
+            $response = Http::retry(3, 100)
+            ->timeout(10)
             ->get('https://api-resultadosloterias.com/api/lotteries');
 
-            // Verifica si la respuesta fue exitosa y contiene datos
             if ($response->successful() && isset($response['data'])) {
                 return collect($response['data'])->pluck('name');
             }
 
-            // Registra un error si la respuesta no es exitosa
             \Log::warning('API response was not successful: ' . $response->body());
             return [];
         } catch (\Exception $e) {
-            // Captura cualquier error relacionado con la conexión o la solicitud
             \Log::error('Error connecting to API: ' . $e->getMessage());
             return [];
         }
@@ -41,9 +42,10 @@ class RaffleController extends Controller
         return view('Raffles.index', compact('raffles'));
     }
 
+
     public function create()
     {
-        $availableLotteries = collect($this->getAvailableLotteries()); // Convertir a colección
+        $availableLotteries = collect($this->getAvailableLotteries());
         $noLotteriesMessage = $availableLotteries->isEmpty()
             ? 'No hay loterías disponibles en este momento.'
             : null;

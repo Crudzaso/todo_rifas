@@ -46,11 +46,6 @@
                             <input class="flip-card__input" id="name" placeholder="Nombre" type="text" name="name" :value="old('name')" required autofocus autocomplete="name">
                             <input class="flip-card__input" id="email" name="email" placeholder="Email" type="email" :value="old('email')" required autocomplete="username">
                             <input class="flip-card__input" id="date_of_birth" type="date" name="date_of_birth" :value="old('date_of_birth')" placeholder="AAAA-MM-DD" required autocomplete="dateofbirth">
-                            <select class="flip-card__input" id="role" name="role"  class="block mt-1 w-full">
-                                <option value="">Selecciona el tipo de usuario</option>
-                                <option value="client">Cliente</option>
-                                <option value="organizer">Organizador</option>
-                            </select>
                             <input class="flip-card__input" id="password" name="password" placeholder="Contraseña" type="password" required autocomplete="new-password">
                             <input class="flip-card__input" id="password_confirmation" name="password_confirmation" placeholder="Confirmar contraseña" type="password" required autocomplete="new-password">
                             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())

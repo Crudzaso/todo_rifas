@@ -15,7 +15,6 @@ class MockPaymentController extends Controller
         try {
             DB::beginTransaction();
 
-            // Verificar que la entrada esté pendiente y pertenezca al usuario
             if ($raffleEntry->status !== 'reserved' || $raffleEntry->user_id !== Auth::id()) {
                 throw new \Exception('Entrada no válida para pago.');
             }
@@ -32,12 +31,10 @@ class MockPaymentController extends Controller
                 $raffle->decrement('tickets_count', 1);
             }
 
-            // Actualizar el estado de la entrada a 'paid'
             $raffleEntry->update([
-                'status' => 'paid', // Cambiar el estado a 'pagado'
+                'status' => 'paid',
             ]);
 
-            // Si tienes una tabla de transacciones, podrías registrar la transacción aquí
 
             DB::commit();
 

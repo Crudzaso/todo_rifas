@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\AccountDeletion;
+use App\Listeners\SendAccountDeletion;
 use App\Listeners\SendLoginNotification;
 use App\Listeners\sendMessegeRegisterNotification;
 use Illuminate\Auth\Events\Login;
@@ -27,6 +29,9 @@ class AppServiceProvider extends ServiceProvider
         ],
         Registered::class=> [
             sendMessegeRegisterNotification::class
+        ],
+        AccountDeletion::class =>[
+            SendAccountDeletion::class
         ]
     ];
     /**
