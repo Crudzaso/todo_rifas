@@ -12,56 +12,79 @@ use MercadoPago\Resources\Preference\Item;
 
 class MercadoPagoService
 {
-
-
-
-    // Paso 1: Autenticar al usuario con MercadoPago
-    protected function authenticate() {
-        $mpAccessToken = env(config('services.mercadopago.access-token'));
-        MercadoPagoConfig::setAccessToken($mpAccessToken);
-        MercadoPagoConfig::setRuntimeEnviroment(MercadoPagoConfig::LOCAL); // Opcional
+    public function __construct()
+    {
+        $this->authenticate();
     }
 
 
-    // Paso 2: Crear la preferencia de pago para la rifa (con ticket o bet)
-    public function createPaymentPreference(RaffleEntries $raffleEntry) {
+
+
+    protected function authenticate() {
         try {
-            // Determinar el precio basado en el tipo de entrada (ticket o bet)
+            $mpAccessToken = config('services.mercadopago.access-token');
+            var_dump(env('MP_ACCESS_TOKEN'));
+
+
+            \Log::info('Token MercadoPago: ' . $mpAccessToken);
+
+            if (empty($mpAccessToken)) {
+                throw new \Exception('Token de acceso vacío');
+            }
+
+            MercadoPagoConfig::setAccessToken($mpAccessToken);
+        } catch (\Exception $e) {
+
+            \Log::error('Error de autenticación MercadoPago: ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+
+    public function createPaymentPreference(RaffleEntries $raffleEntry,$payer) {
+        try {
+
             $price = $raffleEntry->type === 'ticket' ? $raffleEntry->price : $raffleEntry->bet_amount;
 
-            // Crear los datos de la rifa como un "producto virtual"
+
             $items = [
                 [
-                    "id" => $raffleEntry->id, // ID único de la rifa
-                    "title" => "Entrada Rifa ID {$raffleEntry->id}", // Nombre de la rifa
+                    "id" => $raffleEntry->id,
+                    "title" => "Entrada Rifa ID {$raffleEntry->id}",
                     "description" => "Participación en la rifa",
-                    "currency_id" => "COL", // Cambia la moneda si es necesario
+                    "currency_id" => "COP",
                     "quantity" => 1,
-                    "unit_price" => $price // El valor de la entrada (ticket o bet)
+                    "unit_price" => $price
                 ]
             ];
 
-            // Datos del comprador (usuario)
-            $payer = [
-                "name" => 'fernando',
-                "surname" => 'narc',
-                "email" => 'nando@gmail.co',
-            ];
 
-            // Configuración de los métodos de pago
+
+            // Datos del comprador (usuario)
+//            $payer = [
+//                "name" => 'fernando',
+//                "surname" => 'narc',
+//                "email" => 'nando@gmail.co',
+//            ];
+
+
             $paymentMethods = [
                 "excluded_payment_methods" => [],
-                "installments" => 1, // Pagos en cuotas, puedes ajustar esto
-                "default_installments" => 1, // Instalación por defecto
+                "installments" => 12,
+                "default_installments" => 1,
             ];
 
-            // URLs para redirigir después del pago
+
+
+
             $backUrls = [
-                'success.blade.php' => route('mercadopago.success.blade.php', ['raffleEntry' => $raffleEntry->id]),
-                'failure' => route('mercadopago.failed', ['raffleEntry' => $raffleEntry->id]),
+                'success' => route('mercadopago.success', ['raffleEntry' => $raffleEntry->id]),
+                'failure' => route('mercadopago.failure', ['raffleEntry' => $raffleEntry->id]),
+
             ];
 
-            // Crear la solicitud de preferencia
+
+
             $request = [
                 "items" => $items,
                 "payer" => $payer,
@@ -70,19 +93,20 @@ class MercadoPagoService
                 "statement_descriptor" => "Rifa Online",
                 "external_reference" => "raffle-entry-{$raffleEntry->id}",
                 "expires" => false,
-                "auto_return" => 'approved', // Regresa automáticamente si el pago es aprobado
+                "auto_return" => 'approved',
             ];
+            dd($request);
 
-            // Crear cliente de preferencia y crear la preferencia en MercadoPago
+
             $client = new PreferenceClient();
             $preference = $client->create($request);
 
-            // Retornar la URL del checkout
-            return $preference->init_point;
 
-        } catch (MPApiException $error) {
-            // Manejo de errores
-            return null;
+            return $preference;
+
+        }catch (MPApiException $error) {
+            \Log::error('Error al crear preferencia de pago: ' . $error->getMessage());
+            throw new \Exception('No se pudo crear la preferencia de pago: ' . $error->getMessage());
         }
     }
 

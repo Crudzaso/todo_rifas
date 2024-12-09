@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\SocialAuthController;
+use App\Http\Controllers\MercadoPagoController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RaffleController;
 use App\Http\Controllers\RaffleEntrieController;
@@ -52,12 +53,14 @@ Route::get('/google-callback', [SocialAuthController::class, 'handleGoogleCallba
 
 Route::get('/lottery/winner', [winnerController::class, 'showWinner'])->name('lottery.winner');
 
+Route::post( '/raffle/{raffleEntryId}/pay', [MercadoPagoController::class, 'createPaymentPreference'])->name('mercadopago.pay');
+Route::get('/mercadopago/success/{raffleEntryId}', [MercadoPagoController::class, 'handleSuccess'])->name('mercadopago.success');
+Route::get('/mercadopago/failure/{raffleEntryId}', [MercadoPagoController::class, 'handleFailure'])->name('mercadopago.failure');
 
-
-Route::post('/payu/create-payment', [PaymentController::class, 'createPayment'])->name('payu.create-payment');
-Route::post('/payu/notification', [PaymentController::class, 'handleNotification'])->name('payu.notification');
-Route::get('/payment/success/{raffleEntry}', [PaymentController::class, 'handlePaymentSuccess'])
-    ->name('payment.success');
+//Route::post('/payu/create-payment', [PaymentController::class, 'createPayment'])->name('payu.create-payment');
+//Route::post('/payu/notification', [PaymentController::class, 'handleNotification'])->name('payu.notification');
+//Route::get('/payment/success/{raffleEntry}', [PaymentController::class, 'handlePaymentSuccess'])
+//    ->name('payment.success');
 
 
 

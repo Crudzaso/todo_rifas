@@ -80,6 +80,18 @@
 <body class="bg-pattern min-h-screen py-12">
 <div class="container mx-auto px-4">
     <div class="max-w-xl mx-auto">
+
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="bg-white rounded-2xl card-shadow hover-scale">
             <div class="bg-gradient-to-r from-[#093e5e] to-[#1a1d23] p-6 rounded-t-2xl">
                 <h2 class="text-2xl font-bold text-center text-white flex items-center justify-center">
@@ -157,7 +169,7 @@
                     </div>
                 </div>
 
-                <form action="{{ route('payu.create-payment', $raffleEntry) }}" method="POST">
+                <form action="{{ route('mercadopago.pay', $raffleEntry) }}" method="POST">
                     @csrf
                     <input type="hidden" name="amount" value="{{ $raffleEntry->type === 'ticket' ? $raffleEntry->price : $raffleEntry->bet_amount }}">
                     <input type="hidden" name="name" value="{{ $user->name }}">
