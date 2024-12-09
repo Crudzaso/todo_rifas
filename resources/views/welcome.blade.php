@@ -31,7 +31,7 @@
     <!--begin::Header Section-->
     <div class="mb-0" id="home">
         <!--begin::Wrapper-->
-        <div class="bgi-no-repeat bgi-size-contain bgi-position-x-center bgi-position-y-bottom landing-dark-bg" style="background-image: url(assets/media/svg/illustrations/landing.svg)">
+        <div class="bgi-no-repeat bgi-size-contain bgi-position-x-center bgi-position-y-bottom landing-dark-bg" style="background-image: url(assets/media/svg/illustrations/landing.svg); height: 65vh;">
             <!--begin::Header-->
           <x-header_landing></x-header_landing>
           <x-hero_landing></x-hero_landing>
@@ -75,9 +75,8 @@
                         </div>
                         <!--end::Heading-->
                         <!--begin::Description-->
-                        <div class="fw-semibold fs-6 fs-lg-4 text-muted">Crea tucuenta con nosotros para empezar a
-                            <br />participar en nuestras rifas, recuerda que
-                            <br />¡la suerte está en tus manos!</div>
+                        <div class="fw-semibold fs-6 fs-lg-4 text-muted">Crea tu cuenta con nosotros para empezar a participar en nuestras rifas, recuerda que
+                        ¡la suerte está en tus manos!</div>
                         <!--end::Description-->
                     </div>
                     <!--end::Story-->
@@ -135,9 +134,12 @@
                     <!--end::Story-->
                 </div>
                 <!--end::Col-->
-
+                
             </div>
             <!--end::Row-->
+        <!--begin::Action-->
+        <a href="{{route('login')}}" class="btn btn-primary">Registrate aquí</a>
+        <!--end::Action-->
         </div>
         <!--end::Container-->
     </div>

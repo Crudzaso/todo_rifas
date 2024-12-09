@@ -37,7 +37,7 @@ Route::get('raffleEntries/{raffleEntry}/payment-simulation', [RaffleEntrieContro
 
 
 Route::get('/', function () {
-    return view('dashboard');
+    return view('welcome');
 });
 
 Route::get('/profile/overview', function () {
