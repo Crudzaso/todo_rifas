@@ -21,7 +21,7 @@ class OrganizerRequestController extends Controller
 
     /**
      * Almacena la solicitud de cambio de rol en la base de datos.
-     */ 
+     */
     public function store(Request $request)
     {
 
@@ -32,7 +32,7 @@ class OrganizerRequestController extends Controller
                 $documentPhoto = $request->file('document_photo');
                 $documentPhotoUpload = Cloudinary::upload($documentPhoto->getRealPath());
                 $documentPhotoUrl = $documentPhotoUpload->getSecurePath();  // Obtiene la URL segura del archivo
-                
+
             }
             // Subir el contrato a Cloudinary
             $contractUrl = null;
@@ -86,7 +86,7 @@ class OrganizerRequestController extends Controller
     $requests = OrganizerRequest::with('user')->get();
 
     // Mostrar vista de solicitudes
-    return view('admin.request-panel', compact('requests'));
+    return view('Admin.request-panel', compact('requests'));
 }
 
     /**
@@ -112,12 +112,12 @@ class OrganizerRequestController extends Controller
                 ->subject('Tu solicitud ha sido aprobada');
     });
 
-        
+
         // Redirigir con un mensaje de éxito
         return redirect()->route('admin.organizer.requests')
             ->with('success', 'Solicitud aprobada y rol asignado.');
 
-            
+
     }
 
     /**
