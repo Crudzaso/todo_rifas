@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Mail;
 
 class OrganizerRequestController extends Controller
 {
@@ -20,7 +21,7 @@ class OrganizerRequestController extends Controller
 
     /**
      * Almacena la solicitud de cambio de rol en la base de datos.
-     */ 
+     */
     public function store(Request $request)
     {
 
@@ -31,7 +32,7 @@ class OrganizerRequestController extends Controller
                 $documentPhoto = $request->file('document_photo');
                 $documentPhotoUpload = Cloudinary::upload($documentPhoto->getRealPath());
                 $documentPhotoUrl = $documentPhotoUpload->getSecurePath();  // Obtiene la URL segura del archivo
-                
+
             }
             // Subir el contrato a Cloudinary
             $contractUrl = null;
@@ -57,6 +58,14 @@ class OrganizerRequestController extends Controller
                 ]);
                 Log::info('Solicitud creada correctamente.');
 
+                Mail::send('emails.new-request', [
+                    'user' => Auth::user(),
+                    'reason' => $request->reason,
+                ], function ($message) {
+                    $message->to('todo.rifas@crudzaso.com')
+                            ->subject('Nueva Solicitud de Organizador');
+                });
+
                 return redirect()->route('organizer.request.create')->with('success', 'Tu solicitud ha sido enviada.');
             } else {
                 Log::error('No se pudieron subir ambos archivos. Solicitud no creada.');
@@ -72,13 +81,13 @@ class OrganizerRequestController extends Controller
      * Muestra la lista de solicitudes pendientes al administrador.
      */
     public function index()
-    {
-        // Obtener solicitudes pendientes con información del usuario
-        $requests = OrganizerRequest::with('user')->where('status', 'pending')->get();
+{
+    // Obtener todas las solicitudes con información del usuario
+    $requests = OrganizerRequest::with('user')->get();
 
-        // Mostrar vista de solicitudes
-        return view('admin.organizer-requests.index', compact('requests'));
-    }
+    // Mostrar vista de solicitudes
+    return view('Admin.request-panel', compact('requests'));
+}
 
     /**
      * Aprobar una solicitud y asignar el rol de "organizer" al usuario.
@@ -94,9 +103,21 @@ class OrganizerRequestController extends Controller
             $user->assignRole('organizer');
         }
 
+         // Enviar correo al usuario
+    Mail::send('emails.request-response', [
+        'user' => $user,
+        'status' => 'approved',
+    ], function ($message) use ($user) {
+        $message->to($user->email)
+                ->subject('Tu solicitud ha sido aprobada');
+    });
+
+
         // Redirigir con un mensaje de éxito
         return redirect()->route('admin.organizer.requests')
             ->with('success', 'Solicitud aprobada y rol asignado.');
+
+
     }
 
     /**
@@ -106,6 +127,17 @@ class OrganizerRequestController extends Controller
     {
         // Actualizar estado a 'rejected'
         $request->update(['status' => 'rejected']);
+
+
+         // Enviar correo al usuario
+    Mail::send('emails.request-response', [
+        'user' => $request->user,
+        'status' => 'rejected',
+    ], function ($message) use ($request) {
+        $message->to($request->user->email)
+                ->subject('Tu solicitud ha sido rechazada');
+    });
+
 
         // Redirigir con un mensaje de éxito
         return redirect()->route('admin.organizer.requests')

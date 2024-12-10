@@ -14,8 +14,8 @@
                 </button>
                 <!--end::Mobile menu toggle-->
                 <!--begin::Logo image-->
-                <a href="landing.html">
-                    <img alt="Logo" src="{{asset('assets/media/images/todo_rifas v2.png')}}" class="logo-default h-25px h-lg-30px" />
+                <a href="{{route('dashboard')}}">
+                    <img alt="Logo" src="{{asset('assets/media/images/todo_rifas v2.png')}}" class="logo-default h-25px h-lg-50px" style="height: 40px;" />
                     <img alt="Logo" src="{{asset('assets/media/images/todo_rifas_pet.png')}}" class="logo-sticky h-20px h-lg-25px" />
                 </a>
                 <!--end::Logo image-->
@@ -62,7 +62,7 @@
                         fill="currentColor"
                         ></path>
                     </svg>
-                    <span>Iniciar aplicación</span>
+                    <span>Iniciar sesión</span>
                     </button>
                 </a>
             </div>

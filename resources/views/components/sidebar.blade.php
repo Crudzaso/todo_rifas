@@ -256,7 +256,7 @@
                                 <span class="menu-title">Gestión de Usuarios</span>
                             </a>
 
-                            <a class="menu-link" href="">
+                            <a class="menu-link" href="{{ route('admin.organizer.requests') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
